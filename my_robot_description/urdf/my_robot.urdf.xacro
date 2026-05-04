@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot name="my_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Shared dimensional properties (must come first) -->
+  <xacro:include filename="$(find my_robot_description)/urdf/common/robot_properties.xacro"/>
+
+  <!-- Robot base, chassis, and caster wheels -->
+  <xacro:include filename="$(find my_robot_description)/urdf/base/base.xacro"/>
+  <xacro:include filename="$(find my_robot_description)/urdf/base/base.gazebo.xacro"/>
+  <xacro:include filename="$(find my_robot_description)/urdf/base/base.ros2_control.xacro"/>
+
+  <!-- Driven wheel macro -->
+  <xacro:include filename="$(find my_robot_description)/urdf/wheels/wheel.xacro"/>
+  <xacro:include filename="$(find my_robot_description)/urdf/wheels/wheel.gazebo.xacro"/>
+
+  <!-- Instantiate the two driven wheels (left = +Y, right = -Y) -->
+  <xacro:wheel prefix="left" side="1"/>
+  <xacro:wheel prefix="right" side="-1"/>
+
+  <!-- Sensors -->
+  <xacro:include filename="$(find my_robot_description)/urdf/sensors/lidar.xacro"/>
+  <xacro:include filename="$(find my_robot_description)/urdf/sensors/lidar.gazebo.xacro"/>
+  <xacro:include filename="$(find my_robot_description)/urdf/sensors/camera.xacro"/>
+  <xacro:include filename="$(find my_robot_description)/urdf/sensors/camera.gazebo.xacro"/>
+
+</robot>

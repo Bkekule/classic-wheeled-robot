@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="caster">
+
+  <!-- Caster macro: passive sphere that touches the ground -->
+  <xacro:macro name="caster" params="prefix x_offset">
+    <link name="${prefix}_caster">
+      <inertial>
+        <mass value="${caster_mass}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+            ixx="${2.0/5.0 * caster_mass * caster_radius**2}"
+            ixy="0"
+            ixz="0"
+            iyy="${2.0/5.0 * caster_mass * caster_radius**2}"
+            iyz="0"
+            izz="${2.0/5.0 * caster_mass * caster_radius**2}"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${caster_radius}"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.3 0.3 0.3 1.0"/>
+        </material>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${caster_radius}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!--
+      Caster z-offset from chassis frame:
+        chassis frame is at z = chassis_z (= wheel_radius + chassis_height/2) in world
+        caster center should be at z = caster_radius in world (so it touches the ground)
+        offset = caster_radius - chassis_z = -(chassis_height/2 + (wheel_radius - caster_radius))
+    -->
+    <joint name="chassis_to_${prefix}_caster_joint" type="fixed">
+      <origin xyz="${x_offset} 0 ${-(chassis_height/2 + (wheel_radius - caster_radius))}" rpy="0 0 0"/>
+      <parent link="chassis"/>
+      <child link="${prefix}_caster"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

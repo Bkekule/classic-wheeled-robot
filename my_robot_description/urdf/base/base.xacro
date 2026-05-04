@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="base">
+
+  <xacro:include filename="$(find my_robot_description)/urdf/wheels/caster.xacro"/>
+
+  <!-- Robot footprint: navigation reference frame at ground level -->
+  <link name="robot_footprint"/>
+
+  <!-- Lift chassis frame to wheel-axle height + half chassis -->
+  <joint name="robot_footprint_to_chassis_joint" type="fixed">
+    <origin xyz="0 0 ${chassis_z}" rpy="0 0 0"/>
+    <parent link="robot_footprint"/>
+    <child link="chassis"/>
+  </joint>
+
+  <!-- Chassis link: frame at the geometric center of the box -->
+  <link name="chassis">
+    <inertial>
+      <mass value="${chassis_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia
+          ixx="${chassis_mass * (chassis_width**2 + chassis_height**2) / 12}"
+          ixy="0"
+          ixz="0"
+          iyy="${chassis_mass * (chassis_length**2 + chassis_height**2) / 12}"
+          iyz="0"
+          izz="${chassis_mass * (chassis_length**2 + chassis_width**2) / 12}"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+      <material name="steel">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Front and back casters, placed inside the chassis footprint -->
+  <xacro:caster prefix="front" x_offset="${chassis_length/2 - caster_radius - caster_inset}"/>
+  <xacro:caster prefix="back" x_offset="${-(chassis_length/2 - caster_radius - caster_inset)}"/>
+
+</robot>

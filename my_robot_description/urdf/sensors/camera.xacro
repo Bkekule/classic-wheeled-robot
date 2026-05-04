@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="camera">
+
+  <!-- Camera link: frame at the box's geometric center -->
+  <link name="camera">
+    <inertial>
+      <mass value="${camera_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia
+          ixx="${camera_mass * (camera_size_y**2 + camera_size_z**2) / 12}"
+          ixy="0"
+          ixz="0"
+          iyy="${camera_mass * (camera_size_x**2 + camera_size_z**2) / 12}"
+          iyz="0"
+          izz="${camera_mass * (camera_size_x**2 + camera_size_y**2) / 12}"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${camera_size_x} ${camera_size_y} ${camera_size_z}"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.0 0.0 1.0 1.0"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${camera_size_x} ${camera_size_y} ${camera_size_z}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!--
+    Camera joint: mount flush against chassis front face.
+      x-offset = chassis_length/2 + camera_size_x/2
+      z-offset = 0 (vertically centered on chassis)
+  -->
+  <joint name="chassis_to_camera_joint" type="fixed">
+    <origin xyz="${chassis_length/2 + camera_size_x/2} 0 0" rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="camera"/>
+  </joint>
+
+  <!-- Camera optical frame: ROS convention (Z forward, X right, Y down) -->
+  <link name="camera_optical_frame"/>
+
+  <joint name="camera_to_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="camera"/>
+    <child link="camera_optical_frame"/>
+  </joint>
+
+
+</robot>

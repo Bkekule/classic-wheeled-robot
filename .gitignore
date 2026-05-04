@@ -1,0 +1,40 @@
+# ROS build artifacts
+robostack/
+build/
+install/
+devel/
+colcon-output/
+log/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+*.egg
+.pytest_cache/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+.#*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ROS runtime
+*.bag
+*.bag.active
+
+# Misc
+.env
+.env.local

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="base_gazebo">
+
+  <!-- Gazebo material for chassis -->
+  <gazebo reference="chassis">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <!-- Gazebo material for casters -->
+  <gazebo reference="front_caster">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <gazebo reference="back_caster">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <!-- ros2_control Gazebo plugin: bridges ros2_control to Gazebo joints -->
+  <gazebo>
+    <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system">
+      <parameters>$(find my_robot_description)/config/controllers.yaml</parameters>
+      <parameters>$(find my_robot_description)/config/joint_limits.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>

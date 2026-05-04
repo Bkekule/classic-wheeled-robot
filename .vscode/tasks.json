@@ -1,0 +1,51 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build and Launch Display",
+            "type": "shell",
+            "command": "cd robostack && pixi run -e jazzy rviz-launch",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Build and Launch Gazebo",
+            "type": "shell",
+            "command": "cd robostack && pixi run -e jazzy gz-server-launch",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Test Robot Description",
+            "type": "shell",
+            "command": "cd robostack && pixi run -e jazzy run-tests",
+            "group": "test",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Run Pre-commit",
+            "type": "shell",
+            "command": "cd robostack && pixi run -e jazzy pre-commit",
+            "group": "test",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$gcc"
+        }
+    ]
+}

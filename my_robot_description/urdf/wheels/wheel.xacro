@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="wheel">
+
+  <!--
+    Wheel macro: cylinder rotated so its axis lies along Y (rolling axis).
+    Parameters:
+      prefix: "left" or "right" (used in link/joint names)
+      side:   +1 (left) or -1 (right) (multiplies y-offset)
+  -->
+  <xacro:macro name="wheel" params="prefix side">
+
+    <!-- Wheel link: frame at the cylinder's geometric center -->
+    <link name="${prefix}_wheel">
+      <inertial>
+        <mass value="${wheel_mass}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+            ixx="${wheel_mass * wheel_radius**2 / 4 + wheel_mass * wheel_length**2 / 12}"
+            ixy="0"
+            ixz="0"
+            iyy="${wheel_mass * wheel_radius**2 / 2}"
+            iyz="0"
+            izz="${wheel_mass * wheel_radius**2 / 4 + wheel_mass * wheel_length**2 / 12}"/>
+      </inertial>
+
+      <visual>
+        <!-- rotate cylinder 90° about X so its axis is along Y -->
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!--
+      Wheel joint:
+        y-offset = chassis_width/2 + wheel_length/2
+          (wheel sits flush against chassis side, not embedded)
+        z-offset = -chassis_height/2
+          (wheel center at chassis bottom = wheel-axle level in world)
+    -->
+    <joint name="chassis_to_${prefix}_wheel_joint" type="continuous">
+      <origin xyz="0 ${side * (chassis_width/2 + wheel_length/2)} ${-chassis_height/2}" rpy="0 0 0"/>
+      <parent link="chassis"/>
+      <child link="${prefix}_wheel"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>
