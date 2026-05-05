@@ -10,62 +10,67 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description() -> LaunchDescription:
-    """Core robot bringup shared by display and gazebo launches.
+    """
+    Core robot bringup shared by display and gazebo launches.
 
     Expected arguments (callers must forward or declare them):
         hardware_plugin  — xacro hardware_plugin value
-        use_sim_time     — bool string, "true" or "false"
+        use_sim_time     — bool string, 'true' or 'false'
     """
-
-    pkg_description_dir = get_package_share_directory("my_robot_description")
-    pkg_bringup_dir = get_package_share_directory("my_robot_bringup")
+    pkg_description_dir = get_package_share_directory('my_robot_description')
+    pkg_bringup_dir = get_package_share_directory('my_robot_bringup')
 
     urdf_file = PathJoinSubstitution(
-        [pkg_description_dir, "urdf", "my_robot.urdf.xacro"]
+        [pkg_description_dir, 'urdf', 'my_robot.urdf.xacro']
     )
     controllers_yaml = PathJoinSubstitution(
-        [pkg_bringup_dir, "config", "controllers.yaml"]
+        [pkg_bringup_dir, 'config', 'controllers.yaml']
     )
 
     robot_description_content = ParameterValue(
-        Command(["xacro ", urdf_file, " hardware_plugin:=", LaunchConfiguration("hardware_plugin")]),
+        Command([
+            'xacro ',
+            urdf_file,
+            ' hardware_plugin:=',
+            LaunchConfiguration('hardware_plugin')
+        ]),
         value_type=str,
     )
 
     robot_state_publisher_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
         parameters=[
             {
-                "robot_description": robot_description_content,
-                "use_sim_time": LaunchConfiguration("use_sim_time"),
+                'robot_description': robot_description_content,
+                'use_sim_time': LaunchConfiguration('use_sim_time'),
             }
         ],
     )
 
     controller_manager_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
+        package='controller_manager',
+        executable='ros2_control_node',
         parameters=[
             {
-                "robot_description": robot_description_content,
-                "use_sim_time": LaunchConfiguration("use_sim_time"),
+                'robot_description': robot_description_content,
+                'use_sim_time': LaunchConfiguration('use_sim_time'),
             },
             controllers_yaml,
         ],
-        output="screen",
+        output='screen',
     )
 
     joint_state_broadcaster_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster"],
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster'],
     )
 
     diff_drive_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["diff_drive_controller"],
+        package='controller_manager',
+        executable='spawner',
+        arguments=['diff_drive_controller'],
     )
 
     spawn_controllers = RegisterEventHandler(

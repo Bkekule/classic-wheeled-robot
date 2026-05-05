@@ -10,31 +10,30 @@ from launch_ros.actions import Node
 
 def generate_launch_description() -> LaunchDescription:
     """Launch robot with mock hardware and RViz (no simulator)."""
-
-    pkg_bringup_dir = get_package_share_directory("my_robot_bringup")
+    pkg_bringup_dir = get_package_share_directory('my_robot_bringup')
 
     declare_use_sim_time = DeclareLaunchArgument(
-        "use_sim_time",
-        default_value="false",
-        description="Use simulation clock",
+        'use_sim_time',
+        default_value='false',
+        description='Use simulation clock',
     )
 
     core = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([pkg_bringup_dir, "launch", "robot_core.launch.py"])
+            PathJoinSubstitution([pkg_bringup_dir, 'launch', 'robot_core.launch.py'])
         ),
         launch_arguments=[
-            ("hardware_plugin", "mock_components/GenericSystem"),
-            ("use_sim_time", LaunchConfiguration("use_sim_time")),
+            ('hardware_plugin', 'mock_components/GenericSystem'),
+            ('use_sim_time', LaunchConfiguration('use_sim_time')),
         ],
     )
 
     rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        arguments=["-d", PathJoinSubstitution([pkg_bringup_dir, "launch", "display.rviz"])],
-        parameters=[{"use_sim_time": LaunchConfiguration("use_sim_time")}],
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', PathJoinSubstitution([pkg_bringup_dir, 'launch', 'display.rviz'])],
+        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
     )
 
     return LaunchDescription(
