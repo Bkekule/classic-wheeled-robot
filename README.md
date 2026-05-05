@@ -1,4 +1,4 @@
-# robot_description
+# classic_wheeled_robot
 
 A modular ROS 2 robot description for a differential-drive mobile robot with Lidar and camera sensors,
 driven through `ros2_control` so the same launch graph runs on mock hardware, in Gazebo Harmonic, or
