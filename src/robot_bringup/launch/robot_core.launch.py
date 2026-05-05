@@ -18,13 +18,12 @@ def generate_launch_description() -> LaunchDescription:
         use_sim_time     — bool string, 'true' or 'false'
     """
     pkg_description_dir = get_package_share_directory('robot_description')
-    pkg_bringup_dir = get_package_share_directory('robot_bringup')
 
     urdf_file = PathJoinSubstitution(
         [pkg_description_dir, 'urdf', 'my_robot.urdf.xacro']
     )
     controllers_yaml = PathJoinSubstitution(
-        [pkg_bringup_dir, 'config', 'controllers.yaml']
+        [pkg_description_dir, 'config', 'controllers.yaml']
     )
 
     robot_description_content = ParameterValue(

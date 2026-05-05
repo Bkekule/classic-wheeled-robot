@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build and Launch Rviz",
+            "label": "Build and Launch RViz",
             "type": "shell",
             "command": "cd robostack && pixi run -e jazzy rviz-launch",
             "group": {

@@ -2,10 +2,15 @@
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import EnvironmentVariable, LaunchConfiguration, PathJoinSubstitution
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch.substitutions import (
+  Command,
+  EnvironmentVariable,
+  LaunchConfiguration,
+  PathJoinSubstitution
+)
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 _GZ_NOISE_RE = (
@@ -17,8 +22,13 @@ _GZ_QUIET_PREFIX = f"zsh -c 'exec \"$@\" 2> >(grep -vE \"{_GZ_NOISE_RE}\" >&2)' 
 
 
 def generate_launch_description() -> LaunchDescription:
-    """Launch Gazebo Harmonic with the robot."""
-    pkg_bringup_dir = get_package_share_directory('robot_bringup')
+    """
+    Launch Gazebo Harmonic with the robot.
+
+    Controller manager is provided by GazeboSimROS2ControlPlugin loaded inside
+    Gazebo — no standalone ros2_control_node is started here.
+    """
+    pkg_description_dir = get_package_share_directory('robot_description')
 
     declare_world = DeclareLaunchArgument(
         'world',
@@ -30,14 +40,22 @@ def generate_launch_description() -> LaunchDescription:
         [EnvironmentVariable('GZ_SIM_WORLD_PATH'), [LaunchConfiguration('world'), '.sdf']]
     )
 
-    core = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([pkg_bringup_dir, 'launch', 'robot_core.launch.py'])
-        ),
-        launch_arguments=[
-            ('hardware_plugin', 'gz_ros2_control/GazeboSimSystem'),
-            ('use_sim_time', 'true'),
-        ],
+    robot_description_content = ParameterValue(
+        Command([
+            'xacro ',
+            PathJoinSubstitution([pkg_description_dir, 'urdf', 'my_robot.urdf.xacro']),
+            ' hardware_plugin:=gz_ros2_control/GazeboSimSystem',
+        ]),
+        value_type=str,
+    )
+
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        parameters=[{
+            'robot_description': robot_description_content,
+            'use_sim_time': True,
+        }],
     )
 
     gzserver_node = ExecuteProcess(
@@ -74,7 +92,7 @@ def generate_launch_description() -> LaunchDescription:
     return LaunchDescription(
         [
             declare_world,
-            core,
+            robot_state_publisher_node,
             gzserver_node,
             spawn_robot_service,
             ros_gz_bridge_node,

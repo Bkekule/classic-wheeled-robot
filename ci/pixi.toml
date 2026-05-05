@@ -5,7 +5,7 @@ channels = ["https://prefix.dev/conda-forge"]
 platforms = ["osx-arm64", "linux-64"]
 
 [target.unix.activation]
-env = { RMW_IMPLEMENTATION = "rmw_cyclonedds_cpp", ROS_SETUP_SOURCED = "1", CMAKE_GENERATOR = "Ninja" }
+env = { RMW_IMPLEMENTATION = "rmw_cyclonedds_cpp", ROS_SETUP_SOURCED = "1", CMAKE_GENERATOR = "Ninja", OGRE_PLUGIN_PATH = "$CONDA_PREFIX/lib/OGRE-Next", OGRE_RESOURCE_PATH = "$CONDA_PREFIX/lib/OGRE", OGRE2_RESOURCE_PATH = "$CONDA_PREFIX/lib/OGRE-Next", GZ_RENDER_PLUGIN_PATH = "$CONDA_PREFIX/lib/OGRE-Next" }
 
 # Dependencies used by all environments
 [dependencies]
@@ -18,8 +18,6 @@ pkg-config = "*"
 ninja = "*"
 # ROS specific tools
 colcon-common-extensions = "*"
-# Gazebo tools
-gz-sim = "*"
 
 [environments]
 jazzy = { features = ["jazzy"] }
@@ -40,7 +38,7 @@ ros-jazzy-xacro = "*"
 
 [feature.jazzy.tasks]
 pre-commit = "cd .. && pre-commit run --all-files"
-run-tests = "cd ../src && colcon build && colcon test && colcon test-result --verbose"
-rviz-launch = "cd ../src && colcon build && bash -c 'source install/setup.bash && ros2 launch robot_bringup display.launch.py'"
-gz-server-launch = "cd ../src && colcon build && bash -c 'source install/setup.bash && ros2 launch robot_bringup gazebo_server.launch.py'"
-rqt-graph-launch = "cd ../src && colcon build && bash -c 'source install/setup.bash && ros2 run rqt_graph rqt_graph'"
+run-tests = "cd ../src && colcon build --symlink-install && colcon test && colcon test-result --verbose"
+rviz-launch = "cd ../src && colcon build --symlink-install && bash -c 'source install/setup.bash && ros2 launch robot_bringup display.launch.py'"
+gz-server-launch = "cd ../src && colcon build --symlink-install && bash -c 'source install/setup.bash && ros2 launch robot_bringup gazebo_server.launch.py'"
+rqt-graph-launch = "cd ../src && colcon build --symlink-install && bash -c 'source install/setup.bash && ros2 run rqt_graph rqt_graph'"

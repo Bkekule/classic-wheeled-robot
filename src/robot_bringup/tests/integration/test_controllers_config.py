@@ -15,8 +15,8 @@ import yaml
 
 
 @pytest.fixture(scope='module')
-def controllers(bringup_dir: Path) -> dict:  # type: ignore
-    with open(bringup_dir / 'config' / 'controllers.yaml') as f:
+def controllers(description_dir: Path) -> dict:  # type: ignore
+    with open(description_dir / 'config' / 'controllers.yaml') as f:
         return cast(dict, yaml.safe_load(f))  # type: ignore
 
 
