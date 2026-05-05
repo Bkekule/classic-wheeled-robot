@@ -15,7 +15,7 @@ on real hardware.
 - Gazebo Harmonic
 - `ros2_control`, `ros2_controllers`, `gz_ros2_control`
 - `ros_gz_sim`, `ros_gz_bridge`
-- `xacro`, `robot_state_publisher`, `joint_state_publisher`, `rviz2`
+- `xacro`, `robot_state_publisher`, `rviz2`
 
 A reproducible dev environment is provided via [pixi](https://pixi.sh) + RoboStack — see
 [ci/pixi.toml](ci/pixi.toml). CI uses the same environment.
