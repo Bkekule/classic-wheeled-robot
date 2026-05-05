@@ -20,7 +20,7 @@ def description_dir(bringup_dir: Path) -> Path:
 
 @pytest.fixture(scope='session')
 def urdf_file(description_dir: Path) -> Path:
-    return description_dir / 'urdf' / 'my_robot.urdf.xacro'
+    return description_dir / 'urdf' / 'robot.urdf.xacro'
 
 
 @pytest.fixture(scope='session')

@@ -3,7 +3,7 @@
 <package format="3">
   <name>robot_bringup</name>
   <version>0.0.1</version>
-  <description>Launch files for my_robot (RViz visualization and Gazebo simulation)</description>
+  <description>Launch files for robot (RViz visualization and Gazebo simulation)</description>
   <maintainer email="borisatud@icloud.com">BKekule</maintainer>
   <license>Apache-2.0</license>
 

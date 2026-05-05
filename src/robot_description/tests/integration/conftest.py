@@ -15,7 +15,7 @@ def pkg_dir() -> Path:
 
 @pytest.fixture(scope='session')
 def urdf_file(pkg_dir: Path) -> Path:
-    return pkg_dir / 'urdf' / 'my_robot.urdf.xacro'
+    return pkg_dir / 'urdf' / 'robot.urdf.xacro'
 
 
 @pytest.fixture(scope='session')

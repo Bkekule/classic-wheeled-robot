@@ -43,7 +43,7 @@ def generate_launch_description() -> LaunchDescription:
     robot_description_content = ParameterValue(
         Command([
             'xacro ',
-            PathJoinSubstitution([pkg_description_dir, 'urdf', 'my_robot.urdf.xacro']),
+            PathJoinSubstitution([pkg_description_dir, 'urdf', 'robot.urdf.xacro']),
             ' hardware_plugin:=gz_ros2_control/GazeboSimSystem',
         ]),
         value_type=str,
@@ -71,7 +71,7 @@ def generate_launch_description() -> LaunchDescription:
     spawn_robot_service = Node(
         package='ros_gz_sim',
         executable='create',
-        arguments=['-topic', 'robot_description', '-name', 'my_robot'],
+        arguments=['-topic', 'robot_description', '-name', 'robot'],
         prefix=_GZ_QUIET_PREFIX,
         output='screen',
     )

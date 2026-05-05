@@ -3,7 +3,7 @@
 <package format="3">
   <name>robot_description</name>
   <version>0.0.1</version>
-  <description>URDF description, and configuration for my_robot (meshes to come later)</description>
+  <description>URDF description, and configuration for robot (meshes to come later)</description>
   <maintainer email="borisatud@icloud.com">BKekule</maintainer>
   <license>Apache-2.0</license>
 

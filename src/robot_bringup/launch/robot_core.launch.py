@@ -20,7 +20,7 @@ def generate_launch_description() -> LaunchDescription:
     pkg_description_dir = get_package_share_directory('robot_description')
 
     urdf_file = PathJoinSubstitution(
-        [pkg_description_dir, 'urdf', 'my_robot.urdf.xacro']
+        [pkg_description_dir, 'urdf', 'robot.urdf.xacro']
     )
     controllers_yaml = PathJoinSubstitution(
         [pkg_description_dir, 'config', 'controllers.yaml']

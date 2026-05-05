@@ -59,7 +59,7 @@ brings up `robot_state_publisher`, `controller_manager`, the `joint_state_broadc
 ```
 robot_description/
 ├── urdf/
-│   ├── my_robot.urdf.xacro             (top-level, includes everything)
+│   ├── robot.urdf.xacro             (top-level, includes everything)
 │   ├── common/
 │   │   └── robot_properties.xacro      (shared dimensions and masses)
 │   ├── base/

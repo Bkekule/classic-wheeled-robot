@@ -3,7 +3,7 @@
 
   <xacro:arg name="hardware_plugin" default="mock_components/GenericSystem"/>
 
-  <ros2_control name="my_robot_hardware_interface" type="system">
+  <ros2_control name="robot_hardware_interface" type="system">
     <hardware>
       <plugin>$(arg hardware_plugin)</plugin>
       <param name="calculate_dynamics">true</param>
