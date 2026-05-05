@@ -15,13 +15,12 @@ import yaml
 
 
 @pytest.fixture(scope='module')
-def controllers(pkg_dir: Path) -> dict:  # type: ignore
-    with open(pkg_dir / 'config' / 'controllers.yaml') as f:
+def controllers(bringup_dir: Path) -> dict:  # type: ignore
+    with open(bringup_dir / 'config' / 'controllers.yaml') as f:
         return cast(dict, yaml.safe_load(f))  # type: ignore
 
 
 def _wheel_radius_from_urdf(urdf_root: ET.Element) -> float:
-    """Extract wheel radius from the left wheel link's collision geometry."""
     link = urdf_root.find(".//link[@name='left_wheel']")
     assert link is not None, 'left_wheel link not found in URDF'
     cylinder = link.find('.//collision/geometry/cylinder')

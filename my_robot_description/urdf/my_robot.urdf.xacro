@@ -7,6 +7,8 @@
   <!-- Robot base, chassis, and caster wheels -->
   <xacro:include filename="$(find my_robot_description)/urdf/base/base.xacro"/>
   <xacro:include filename="$(find my_robot_description)/urdf/base/base.gazebo.xacro"/>
+
+  <!-- Robot Controls -->
   <xacro:include filename="$(find my_robot_description)/urdf/base/base.ros2_control.xacro"/>
 
   <!-- Driven wheel macro -->

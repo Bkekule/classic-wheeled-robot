@@ -28,9 +28,19 @@
             "problemMatcher": "$gcc"
         },
         {
-            "label": "Test Robot Description",
+            "label": "Test Robot",
             "type": "shell",
             "command": "cd robostack && pixi run -e jazzy run-tests",
+            "group": "test",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Generate Graph",
+            "type": "shell",
+            "command": "cd robostack && pixi run -e jazzy rqt-graph-launch",
             "group": "test",
             "presentation": {
                 "reveal": "always"

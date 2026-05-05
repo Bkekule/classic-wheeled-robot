@@ -34,17 +34,19 @@ channels = ["https://prefix.dev/robostack-jazzy"]
 
 [feature.jazzy.dependencies]
 ros-jazzy-desktop = "*"
-ros-jazzy-rmw-cyclonedds-cpp = ">=2.2.3,<3"
-ros-jazzy-ros-gz-bridge = "*"
-ros-jazzy-xacro = "*"
 ros-jazzy-gz-ros2-control = "*"
 ros-jazzy-joint-state-publisher = "*"
+ros-jazzy-rmw-cyclonedds-cpp = ">=2.2.3,<3"
 ros-jazzy-robot-state-publisher = "*"
-ros-jazzy-rviz-default-plugins = "*"
+ros-jazzy-ros2-control = "*"
+ros-jazzy-ros2-controllers = "*"
+ros-jazzy-ros-gz-bridge = "*"
 ros-jazzy-ros-gz-sim = "*"
-
+ros-jazzy-rviz-default-plugins = "*"
+ros-jazzy-xacro = "*"
 
 [feature.jazzy.tasks]
+pre-commit = "cd .. && pre-commit run --all-files"
 run-tests = "cd .. && colcon test --packages-select my_robot_description"
 rviz-launch = "cd .. && colcon build --packages-select my_robot_bringup my_robot_description && bash -c 'source install/setup.bash && ros2 launch my_robot_bringup display.launch.py'"
 gz-server-launch = "cd .. && colcon build --packages-select my_robot_bringup my_robot_description && bash -c 'source install/setup.bash && ros2 launch my_robot_bringup gazebo_server.launch.py'"

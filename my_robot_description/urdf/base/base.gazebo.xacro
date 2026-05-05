@@ -3,7 +3,7 @@
 
   <!-- Gazebo material for chassis -->
   <gazebo reference="chassis">
-    <material>Gazebo/Grey</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <!-- Gazebo material for casters -->
@@ -16,11 +16,9 @@
   </gazebo>
 
   <!-- ros2_control Gazebo plugin: bridges ros2_control to Gazebo joints -->
+  <!-- controller_manager is launched explicitly and owns controllers.yaml -->
   <gazebo>
-    <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system">
-      <parameters>$(find my_robot_description)/config/controllers.yaml</parameters>
-      <parameters>$(find my_robot_description)/config/joint_limits.yaml</parameters>
-    </plugin>
+    <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system"/>
   </gazebo>
 
 </robot>
