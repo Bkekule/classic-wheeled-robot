@@ -10,7 +10,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description() -> LaunchDescription:
     """Launch robot with mock hardware and RViz (no simulator)."""
-    pkg_bringup_dir = get_package_share_directory('my_robot_bringup')
+    pkg_bringup_dir = get_package_share_directory('robot_bringup')
 
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',

@@ -17,8 +17,8 @@ def generate_launch_description() -> LaunchDescription:
         hardware_plugin  — xacro hardware_plugin value
         use_sim_time     — bool string, 'true' or 'false'
     """
-    pkg_description_dir = get_package_share_directory('my_robot_description')
-    pkg_bringup_dir = get_package_share_directory('my_robot_bringup')
+    pkg_description_dir = get_package_share_directory('robot_description')
+    pkg_bringup_dir = get_package_share_directory('robot_bringup')
 
     urdf_file = PathJoinSubstitution(
         [pkg_description_dir, 'urdf', 'my_robot.urdf.xacro']

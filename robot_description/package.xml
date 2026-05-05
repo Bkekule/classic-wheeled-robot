@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>my_robot_description</name>
+  <name>robot_description</name>
   <version>0.0.1</version>
   <description>URDF description, and configuration for my_robot (meshes to come later)</description>
   <maintainer email="borisatud@icloud.com">BKekule</maintainer>

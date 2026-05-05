@@ -9,30 +9,26 @@ import pytest
 
 
 @pytest.fixture(scope='session')
-def bringup_dir() -> Path:
+def pkg_dir() -> Path:
     return Path(__file__).parent.parent.parent
 
 
 @pytest.fixture(scope='session')
-def description_dir(bringup_dir: Path) -> Path:
-    return bringup_dir.parent / 'my_robot_description'
+def urdf_file(pkg_dir: Path) -> Path:
+    return pkg_dir / 'urdf' / 'my_robot.urdf.xacro'
 
 
 @pytest.fixture(scope='session')
-def urdf_file(description_dir: Path) -> Path:
-    return description_dir / 'urdf' / 'my_robot.urdf.xacro'
-
-
-@pytest.fixture(scope='session')
-def ament_prefix(description_dir: Path, tmp_path_factory: pytest.TempPathFactory) -> Path:
-    """Create a minimal ament index so xacro can resolve $(find my_robot_description)."""
+def ament_prefix(pkg_dir: Path, tmp_path_factory: pytest.TempPathFactory) -> Path:
+    """Create a minimal ament index so xacro can resolve $(find robot_description)."""
     prefix = tmp_path_factory.mktemp('ament_prefix')
     marker = (
-        prefix / 'share' / 'ament_index' / 'resource_index' / 'packages' / 'my_robot_description'
+        prefix / 'share' / 'ament_index' / 'resource_index' / 'packages' / 'robot_description'
     )
     marker.parent.mkdir(parents=True)
     marker.touch()
-    (prefix / 'share' / 'my_robot_description').symlink_to(description_dir)
+    share_pkg = prefix / 'share' / 'robot_description'
+    share_pkg.symlink_to(pkg_dir)
     return prefix
 
 

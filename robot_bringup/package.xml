@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>my_robot_bringup</name>
+  <name>robot_bringup</name>
   <version>0.0.1</version>
   <description>Launch files for my_robot (RViz visualization and Gazebo simulation)</description>
   <maintainer email="borisatud@icloud.com">BKekule</maintainer>
@@ -15,7 +15,7 @@
   <exec_depend>launch_ros</exec_depend>
 
   <!-- Packages Referenced -->
-  <exec_depend>my_robot_description</exec_depend>
+  <exec_depend>robot_description</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>ros_gz_sim</exec_depend>

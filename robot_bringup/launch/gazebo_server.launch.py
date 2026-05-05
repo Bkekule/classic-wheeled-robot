@@ -18,7 +18,7 @@ _GZ_QUIET_PREFIX = f"zsh -c 'exec \"$@\" 2> >(grep -vE \"{_GZ_NOISE_RE}\" >&2)' 
 
 def generate_launch_description() -> LaunchDescription:
     """Launch Gazebo Harmonic with the robot."""
-    pkg_bringup_dir = get_package_share_directory('my_robot_bringup')
+    pkg_bringup_dir = get_package_share_directory('robot_bringup')
 
     declare_world = DeclareLaunchArgument(
         'world',

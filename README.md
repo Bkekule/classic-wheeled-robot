@@ -1,4 +1,4 @@
-# my_robot_description
+# robot_description
 
 A modular ROS 2 robot description for a differential-drive mobile robot with Lidar and camera sensors,
 driven through `ros2_control` so the same launch graph runs on mock hardware, in Gazebo Harmonic, or
@@ -6,8 +6,8 @@ on real hardware.
 
 ## Packages
 
-- **`my_robot_description`**: URDF xacro files, ros2_control hardware interface, and shared properties
-- **`my_robot_bringup`**: Launch files and controller configuration for RViz, Gazebo, and shared core bringup
+- **`robot_description`**: URDF xacro files, ros2_control hardware interface, and shared properties
+- **`robot_bringup`**: Launch files and controller configuration for RViz, Gazebo, and shared core bringup
 
 ## Requirements
 
@@ -24,7 +24,7 @@ A reproducible dev environment is provided via [pixi](https://pixi.sh) + RoboSta
 
 ```bash
 cd ~/workspace
-colcon build --packages-select my_robot_description my_robot_bringup
+colcon build --packages-select robot_description robot_bringup
 source install/setup.bash
 ```
 
@@ -36,7 +36,7 @@ Spins up `ros2_control` with `mock_components/GenericSystem` so `/cmd_vel` drive
 without a simulator.
 
 ```bash
-ros2 launch my_robot_bringup display.launch.py
+ros2 launch robot_bringup display.launch.py
 ```
 
 ### Simulate in Gazebo Harmonic
@@ -46,18 +46,18 @@ bridges sensor topics (`/scan`, `/camera/image_raw`) into ROS. `/cmd_vel` and `/
 ROS by `diff_drive_controller`.
 
 ```bash
-ros2 launch my_robot_bringup gazebo_server.launch.py
+ros2 launch robot_bringup gazebo_server.launch.py
 # optional: world:=<name> selects $GZ_SIM_WORLD_PATH/<name>.sdf (default: empty)
 ```
 
-Both launches include [robot_core.launch.py](my_robot_bringup/launch/robot_core.launch.py), which
+Both launches include [robot_core.launch.py](robot_bringup/launch/robot_core.launch.py), which
 brings up `robot_state_publisher`, `controller_manager`, the `joint_state_broadcaster`, and the
 `diff_drive_controller`.
 
 ## Layout
 
 ```
-my_robot_description/
+robot_description/
 ├── urdf/
 │   ├── my_robot.urdf.xacro             (top-level, includes everything)
 │   ├── common/
@@ -77,7 +77,7 @@ my_robot_description/
 │       └── camera.gazebo.xacro         (camera sensor plugin)
 └── config/
 
-my_robot_bringup/
+robot_bringup/
 ├── launch/
 │   ├── robot_core.launch.py            (shared: rsp + controller_manager + spawners)
 │   ├── display.launch.py               (mock hardware + RViz)
@@ -87,7 +87,7 @@ my_robot_bringup/
     └── controllers.yaml                (diff_drive + joint_state_broadcaster)
 ```
 
-The `hardware_plugin` xacro arg in [base.ros2_control.xacro](my_robot_description/urdf/base/base.ros2_control.xacro)
+The `hardware_plugin` xacro arg in [base.ros2_control.xacro](robot_description/urdf/base/base.ros2_control.xacro)
 is what lets the same URDF target mock hardware, Gazebo (`gz_ros2_control/GazeboSimSystem`), or a
 real-hardware plugin without forking the description.
 
@@ -99,17 +99,17 @@ real-hardware plugin without forking the description.
 - **Casters**: passive spheres (r = 0.05 m), fixed joints at the front and back of the chassis
 - **Sensors**: Lidar on top, camera on front (with `camera_optical_frame`)
 
-Dimensional values are centralised in [robot_properties.xacro](my_robot_description/urdf/common/robot_properties.xacro).
+Dimensional values are centralised in [robot_properties.xacro](robot_description/urdf/common/robot_properties.xacro).
 
 ## Testing
 
 Integration tests live in each package's `tests/integration/` folder:
 
-- `my_robot_description` — xacro expansion, required links/joints, joint types
-- `my_robot_bringup` — `controllers.yaml` geometry stays in sync with the URDF (wheel radius, separation)
+- `robot_description` — xacro expansion, required links/joints, joint types
+- `robot_bringup` — `controllers.yaml` geometry stays in sync with the URDF (wheel radius, separation)
 
 ```bash
-colcon test --packages-select my_robot_description my_robot_bringup
+colcon test --packages-select robot_description robot_bringup
 colcon test-result --verbose
 ```
 
