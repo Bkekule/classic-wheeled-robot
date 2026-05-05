@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build and Launch Display",
+            "label": "Build and Launch Rviz",
             "type": "shell",
             "command": "cd robostack && pixi run -e jazzy rviz-launch",
             "group": {
@@ -15,7 +15,7 @@
             "problemMatcher": "$gcc"
         },
         {
-            "label": "Build and Launch Gazebo",
+            "label": "Build and Launch Gazebo Server",
             "type": "shell",
             "command": "cd robostack && pixi run -e jazzy gz-server-launch",
             "group": {
@@ -28,7 +28,7 @@
             "problemMatcher": "$gcc"
         },
         {
-            "label": "Test Robot",
+            "label": "Run Robot Tests",
             "type": "shell",
             "command": "cd robostack && pixi run -e jazzy run-tests",
             "group": "test",
@@ -38,7 +38,7 @@
             "problemMatcher": "$gcc"
         },
         {
-            "label": "Generate Graph",
+            "label": "Generate Robot Stack Graph",
             "type": "shell",
             "command": "cd robostack && pixi run -e jazzy rqt-graph-launch",
             "group": "test",
@@ -55,7 +55,7 @@
             "presentation": {
                 "reveal": "always"
             },
-            "problemMatcher": "$gcc"
+            "problemMatcher": []
         }
     ]
 }
