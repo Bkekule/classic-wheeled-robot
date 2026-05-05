@@ -6,6 +6,7 @@
   <ros2_control name="my_robot_hardware_interface" type="system">
     <hardware>
       <plugin>$(arg hardware_plugin)</plugin>
+      <param name="calculate_dynamics">true</param>
     </hardware>
 
     <joint name="chassis_to_left_wheel_joint">
