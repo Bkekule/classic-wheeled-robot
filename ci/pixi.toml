@@ -47,6 +47,6 @@ ros-jazzy-xacro = "*"
 
 [feature.jazzy.tasks]
 pre-commit = "cd .. && pre-commit run --all-files"
-run-tests = "cd .. && colcon test --packages-select my_robot_description"
-rviz-launch = "cd .. && colcon build --packages-select my_robot_bringup my_robot_description && bash -c 'source install/setup.bash && ros2 launch my_robot_bringup display.launch.py'"
-gz-server-launch = "cd .. && colcon build --packages-select my_robot_bringup my_robot_description && bash -c 'source install/setup.bash && ros2 launch my_robot_bringup gazebo_server.launch.py'"
+run-tests = "cd .. && colcon test"
+rviz-launch = "cd .. && colcon build && bash -c 'source install/setup.bash && ros2 launch my_robot_bringup display.launch.py'"
+gz-server-launch = "cd .. && colcon build && bash -c 'source install/setup.bash && ros2 launch my_robot_bringup gazebo_server.launch.py'"

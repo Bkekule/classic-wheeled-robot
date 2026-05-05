@@ -37,7 +37,7 @@ jobs:
 
       - name: Run pre-commit hooks
         working-directory: robostack
-        run: pixi run -e jazzy bash -c "cd .. && pre-commit run --all-files"
+        run: pixi run -e jazzy pre-commit
 
   test:
     permissions:
@@ -97,4 +97,4 @@ jobs:
 
       - name: Run colcon build
         working-directory: robostack
-        run: pixi run -e jazzy bash -c "cd .. && colcon build --packages-select my_robot_bringup my_robot_description"
+        run: pixi run -e jazzy bash -c "cd .. && colcon build"
