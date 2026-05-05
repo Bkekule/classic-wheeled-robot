@@ -38,7 +38,7 @@ ros-jazzy-xacro = "*"
 
 [feature.jazzy.tasks]
 pre-commit = "cd .. && pre-commit run --all-files"
-run-tests = "cd ../src && colcon build --symlink-install && colcon test && colcon test-result --verbose"
-rviz-launch = "cd ../src && colcon build --symlink-install && bash -c 'source install/setup.bash && ros2 launch robot_bringup display.launch.py'"
-gz-server-launch = "cd ../src && colcon build --symlink-install && bash -c 'source install/setup.bash && ros2 launch robot_bringup gazebo_server.launch.py'"
-rqt-graph-launch = "cd ../src && colcon build --symlink-install && bash -c 'source install/setup.bash && ros2 run rqt_graph rqt_graph'"
+run-tests = "cd ../src && rm -rf build/ install/ && colcon build --symlink-install && colcon test && colcon test-result --verbose"
+rviz-launch = "cd ../src && rm -rf build/ install/ && colcon build --symlink-install && bash -c 'source install/setup.bash && ros2 launch robot_bringup display.launch.py'"
+gz-server-launch = "cd ../src && rm -rf build/ install/ && colcon build --symlink-install && bash -c 'source install/setup.bash && ros2 launch robot_bringup gazebo_server.launch.py'"
+rqt-graph-launch = "cd ../src && rm -rf build/ install/ && colcon build --symlink-install && bash -c 'source install/setup.bash && ros2 run rqt_graph rqt_graph'"
