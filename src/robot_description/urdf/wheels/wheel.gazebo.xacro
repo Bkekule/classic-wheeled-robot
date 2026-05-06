@@ -3,13 +3,13 @@
 
   <!-- Wheel material and friction -->
   <gazebo reference="left_wheel">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Green</material>
     <mu1>0.8</mu1>
     <mu2>0.8</mu2>
   </gazebo>
 
   <gazebo reference="right_wheel">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Green</material>
     <mu1>0.8</mu1>
     <mu2>0.8</mu2>
   </gazebo>

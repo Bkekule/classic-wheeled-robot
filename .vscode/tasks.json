@@ -15,7 +15,7 @@
             "problemMatcher": "$gcc"
         },
         {
-            "label": "Build and Launch Gazebo Server",
+            "label": "Build and Launch Gazebo",
             "type": "shell",
             "command": "cd robostack && pixi run -e jazzy gz-server-launch",
             "group": {

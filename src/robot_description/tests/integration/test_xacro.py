@@ -18,7 +18,7 @@ def test_wheel_macro_instantiation(urdf_root: ET.Element) -> None:
 
 def test_sensor_xacros_expand(urdf_root: ET.Element) -> None:
     """Test that sensor xacro files are included."""
-    for name in ('lidar', 'camera'):
+    for name in ('hokuyo_lidar', 'camera'):
         link = urdf_root.find(f".//link[@name='{name}']")
         assert link is not None, f'{name} link not found'
 

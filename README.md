@@ -46,7 +46,7 @@ bridges sensor topics (`/scan`, `/camera/image_raw`) into ROS. `/cmd_vel` and `/
 ROS by `diff_drive_controller`.
 
 ```bash
-ros2 launch robot_bringup gazebo_server.launch.py
+ros2 launch robot_bringup gazebo.launch.py
 # optional: world:=<name> selects $GZ_SIM_WORLD_PATH/<name>.sdf (default: empty)
 ```
 
@@ -75,16 +75,18 @@ robot_description/
 │       ├── lidar.gazebo.xacro          (gpu_lidar plugin)
 │       ├── camera.xacro                (link + optical frame)
 │       └── camera.gazebo.xacro         (camera sensor plugin)
-└── config/
+├── config/
+│   └── controllers.yaml                (diff_drive + joint_state_broadcaster)
+└── tests/
 
 robot_bringup/
 ├── launch/
 │   ├── robot_core.launch.py            (shared: rsp + controller_manager + spawners)
 │   ├── display.launch.py               (mock hardware + RViz)
-│   ├── gazebo_server.launch.py         (gz sim + spawn + sensor bridge)
+│   ├── gazebo.launch.py         (gz sim + spawn + sensor bridge)
 │   └── display.rviz
-└── config/
-    └── controllers.yaml                (diff_drive + joint_state_broadcaster)
+└── tests/
+
 ```
 
 The `hardware_plugin` xacro arg in [base.ros2_control.xacro](robot_description/urdf/base/base.ros2_control.xacro)

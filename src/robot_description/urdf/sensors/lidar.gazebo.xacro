@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lidar_gazebo">
 
-  <gazebo reference="lidar">
+  <gazebo reference="hokuyo_lidar">
     <sensor name="gpu_lidar" type="gpu_lidar">
       <pose>0 0 0 0 0 0</pose>
       <topic>/scan</topic>
@@ -27,8 +27,6 @@
         </noise>
       </lidar>
     </sensor>
-
-    <material>Gazebo/Red</material>
   </gazebo>
 
 </robot>

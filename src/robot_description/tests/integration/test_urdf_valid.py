@@ -19,7 +19,7 @@ def test_urdf_has_required_links(urdf_root: ET.Element) -> None:
         'right_wheel',
         'front_caster',
         'back_caster',
-        'lidar',
+        'hokuyo_lidar',
         'camera',
         'camera_optical_frame',
     }
@@ -38,7 +38,7 @@ def test_urdf_has_required_joints(urdf_root: ET.Element) -> None:
         'chassis_to_right_wheel_joint',
         'chassis_to_front_caster_joint',
         'chassis_to_back_caster_joint',
-        'chassis_to_lidar_joint',
+        'chassis_to_hokuyo_lidar_joint',
         'chassis_to_camera_joint',
         'camera_to_optical_joint',
     }
@@ -61,7 +61,7 @@ def test_fixed_joints_are_fixed(urdf_root: ET.Element) -> None:
         'robot_footprint_to_chassis_joint',
         'chassis_to_front_caster_joint',
         'chassis_to_back_caster_joint',
-        'chassis_to_lidar_joint',
+        'chassis_to_hokuyo_lidar_joint',
         'chassis_to_camera_joint',
         'camera_to_optical_joint',
     }

@@ -68,6 +68,11 @@ def generate_launch_description() -> LaunchDescription:
         output='screen',
     )
 
+    gzgui_node = ExecuteProcess(
+        cmd=['zsh', '-c', 'exec gz sim -g -v4 '],
+        output='screen',
+    )
+
     spawn_robot_service = Node(
         package='ros_gz_sim',
         executable='create',
@@ -94,6 +99,7 @@ def generate_launch_description() -> LaunchDescription:
             declare_world,
             robot_state_publisher_node,
             gzserver_node,
+            gzgui_node,
             spawn_robot_service,
             ros_gz_bridge_node,
         ]
