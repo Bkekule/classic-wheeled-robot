@@ -62,7 +62,7 @@ Visualization Manager:
           - /chassis1
           - /left_wheel1
           - /right_wheel1
-          - /lidar1
+          - /hokuyo_lidar1
           - /camera1
         Link 'back_caster':
           Alpha: 1
@@ -94,7 +94,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        Link 'lidar':
+        Link 'hokuyo_lidar':
           Alpha: 1
           Show Axes: false
           Show Trail: false
