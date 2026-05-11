@@ -20,9 +20,7 @@
       <geometry>
         <box size="${camera_size_x} ${camera_size_y} ${camera_size_z}"/>
       </geometry>
-      <material name="red">
-        <color rgba="1.0 0.0 0.0 1.0"/>
-      </material>
+      <material name="red" />
     </visual>
 
     <collision>

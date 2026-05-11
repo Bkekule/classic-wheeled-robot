@@ -4,10 +4,10 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.substitutions import (
-  Command,
-  EnvironmentVariable,
-  LaunchConfiguration,
-  PathJoinSubstitution
+    Command,
+    EnvironmentVariable,
+    LaunchConfiguration,
+    PathJoinSubstitution,
 )
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
@@ -18,7 +18,7 @@ _GZ_NOISE_RE = (
     r'|DynamicFactory\(\)'
     r'|absl::InitializeLog'
 )
-_GZ_QUIET_PREFIX = f"zsh -c 'exec \"$@\" 2> >(grep -vE \"{_GZ_NOISE_RE}\" >&2)' --"
+_GZ_QUIET_PREFIX = f'zsh -c \'exec "$@" 2> >(grep -vE "{_GZ_NOISE_RE}" >&2)\' --'
 
 
 def generate_launch_description() -> LaunchDescription:
@@ -41,26 +41,33 @@ def generate_launch_description() -> LaunchDescription:
     )
 
     robot_description_content = ParameterValue(
-        Command([
-            'xacro ',
-            PathJoinSubstitution([pkg_description_dir, 'urdf', 'robot.urdf.xacro']),
-            ' hardware_plugin:=gz_ros2_control/GazeboSimSystem',
-        ]),
+        Command(
+            [
+                'xacro ',
+                PathJoinSubstitution([pkg_description_dir, 'urdf', 'robot.urdf.xacro']),
+                ' hardware_plugin:=gz_ros2_control/GazeboSimSystem',
+            ]
+        ),
         value_type=str,
     )
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        parameters=[{
-            'robot_description': robot_description_content,
-            'use_sim_time': True,
-        }],
+        parameters=[
+            {
+                'robot_description': robot_description_content,
+                'use_sim_time': True,
+            }
+        ],
     )
 
     gzserver_node = ExecuteProcess(
-        cmd=['zsh', '-c',
-             ['exec gz sim -s -v4 ', world_sdf_path, f" 2> >(grep -vE '{_GZ_NOISE_RE}' >&2)"]],
+        cmd=[
+            'zsh',
+            '-c',
+            ['exec gz sim -s -v4 ', world_sdf_path, f" 2> >(grep -vE '{_GZ_NOISE_RE}' >&2)"],
+        ],
         additional_env={
             'GZ_SIM_SYSTEM_PLUGIN_PATH': '',
             'GZ_SIM_RESOURCE_PATH': '',

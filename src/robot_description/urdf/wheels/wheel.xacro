@@ -29,9 +29,7 @@
         <geometry>
           <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
         </geometry>
-        <material name="black">
-          <color rgba="0.1 0.1 0.1 1.0"/>
-        </material>
+        <material name="black" />
       </visual>
 
       <collision>
@@ -54,6 +52,8 @@
       <parent link="chassis"/>
       <child link="${prefix}_wheel"/>
       <axis xyz="0 1 0"/>
+      <limit effort="10.0" velocity="10.0"/>   <!-- Nm and rad/s — used by ros2_control -->
+      <dynamics damping="0.1" friction="0.1"/> <!-- optional; used by sim and fake hardware -->
     </joint>
 
   </xacro:macro>

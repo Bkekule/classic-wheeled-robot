@@ -17,7 +17,7 @@
         {
             "label": "Build and Launch Gazebo",
             "type": "shell",
-            "command": "cd robostack && pixi run -e jazzy gz-server-launch",
+            "command": "cd robostack && pixi run -e jazzy gz-launch",
             "group": {
                 "kind": "build",
                 "isDefault": false

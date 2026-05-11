@@ -22,9 +22,7 @@ def urdf_file(pkg_dir: Path) -> Path:
 def ament_prefix(pkg_dir: Path, tmp_path_factory: pytest.TempPathFactory) -> Path:
     """Create a minimal ament index so xacro can resolve $(find robot_description)."""
     prefix = tmp_path_factory.mktemp('ament_prefix')
-    marker = (
-        prefix / 'share' / 'ament_index' / 'resource_index' / 'packages' / 'robot_description'
-    )
+    marker = prefix / 'share' / 'ament_index' / 'resource_index' / 'packages' / 'robot_description'
     marker.parent.mkdir(parents=True)
     marker.touch()
     share_pkg = prefix / 'share' / 'robot_description'

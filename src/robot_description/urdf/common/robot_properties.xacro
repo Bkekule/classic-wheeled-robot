@@ -27,4 +27,18 @@
   <!-- chassis frame sits at wheel-axle level, so wheels mount at chassis bottom -->
   <xacro:property name="chassis_z" value="${wheel_radius + chassis_height/2}"/>
 
+  <!-- RViz Colors -->
+  <material name="blue">
+    <color rgba="0.0 0.0 1.0 1.0"/>
+  </material>
+  <material name="red">
+    <color rgba="1.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="black">
+    <color rgba="0.1 0.1 0.1 1.0"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+
 </robot>

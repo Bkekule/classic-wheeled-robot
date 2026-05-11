@@ -16,7 +16,7 @@ import yaml
 
 @pytest.fixture(scope='module')
 def controllers(description_dir: Path) -> dict:  # type: ignore
-    with open(description_dir / 'config' / 'controllers.yaml') as f:
+    with open(description_dir / 'config' / 'diff_drive_controller.yaml') as f:
         return cast(dict, yaml.safe_load(f))  # type: ignore
 
 
@@ -44,20 +44,21 @@ def _wheel_separation_from_urdf(urdf_root: ET.Element) -> float:
 
 
 def test_wheel_radius_matches_urdf(
-    urdf_root: ET.Element, controllers: dict  # type: ignore
+    urdf_root: ET.Element,
+    controllers: dict,  # type: ignore
 ) -> None:
     """Wheel radius in controllers.yaml must match the URDF geometry."""
     ddc_params = controllers['diff_drive_controller']['ros__parameters']  # type: ignore
     yaml_radius = ddc_params['wheel_radius']  # type: ignore
     urdf_radius = _wheel_radius_from_urdf(urdf_root)
     assert yaml_radius == pytest.approx(urdf_radius), (  # type: ignore
-        f'controllers.yaml wheel_radius ({yaml_radius}) != '
-        f'URDF wheel radius ({urdf_radius})'
+        f'controllers.yaml wheel_radius ({yaml_radius}) != URDF wheel radius ({urdf_radius})'
     )
 
 
 def test_wheel_separation_matches_urdf(
-    urdf_root: ET.Element, controllers: dict  # type: ignore
+    urdf_root: ET.Element,
+    controllers: dict,  # type: ignore
 ) -> None:
     """Wheel separation in controllers.yaml must match URDF joint placement."""
     ddc_params = controllers['diff_drive_controller']['ros__parameters']  # type: ignore

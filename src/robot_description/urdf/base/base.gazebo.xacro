@@ -16,9 +16,8 @@
   </gazebo>
 
   <!-- ros2_control Gazebo plugin: bridges ros2_control to Gazebo joints -->
-  <!-- controller_manager is launched explicitly and owns controllers.yaml -->
   <gazebo>
-    <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system">
+    <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="gz_ros2_control-system">
       <parameters>$(find robot_description)/config/controllers.yaml</parameters>
     </plugin>
   </gazebo>
