@@ -23,6 +23,15 @@ repos:
     hooks:
       - id: zizmor
 
+  - repo: local
+    hooks:
+      - id: check-launch-deps-robot-bringup
+        name: "robot_bringup: launch imports vs package.xml"
+        entry: python3 ci/check_launch_deps.py src/robot_bringup
+        language: python
+        files: ^src/robot_bringup/(launch/.*\.launch\.py|package\.xml)$
+        pass_filenames: false
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.9
     hooks:
