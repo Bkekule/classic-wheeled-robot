@@ -27,7 +27,6 @@ channels = ["https://prefix.dev/robostack-jazzy"]
 
 [feature.jazzy.dependencies]
 ros-jazzy-desktop = "*"
-ros-jazzy-gz-ros2-control = "*"
 ros-jazzy-gz-ros2-control-demos = "*"
 ros-jazzy-robot-state-publisher = "*"
 ros-jazzy-ros2-control = "*"
