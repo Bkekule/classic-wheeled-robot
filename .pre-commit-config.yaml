@@ -27,9 +27,15 @@ repos:
     hooks:
       - id: check-launch-deps-robot-bringup
         name: "robot_bringup: launch imports vs package.xml"
-        entry: python3 ci/check_launch_deps.py src/robot_bringup
+        entry: python3 ci/check_imported_deps.py src/robot_bringup --mode launch
         language: python
         files: ^src/robot_bringup/(launch/.*\.launch\.py|package\.xml)$
+        pass_filenames: false
+      - id: check-test-deps-robot-description
+        name: "robot_description: test imports vs package.xml"
+        entry: python3 ci/check_imported_deps.py src/robot_description --mode test
+        language: python
+        files: ^src/robot_description/(tests/.*\.py|package\.xml)$
         pass_filenames: false
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
