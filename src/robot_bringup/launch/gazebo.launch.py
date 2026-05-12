@@ -11,22 +11,15 @@ from launch.substitutions import (
 )
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
-
-
-_GZ_NOISE_RE = (
-    r'descriptor(_database)?\.cc'
-    r'|DynamicFactory\(\)'
-    r'|absl::InitializeLog'
-)
-_GZ_QUIET_PREFIX = f'zsh -c \'exec "$@" 2> >(grep -vE "{_GZ_NOISE_RE}" >&2)\' --'
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description() -> LaunchDescription:
     """
-    Launch Gazebo Harmonic with the robot.
+    Launch Gazebo Harmonic with the robot using native Gazebo plugins.
 
-    Controller manager is provided by GazeboSimROS2ControlPlugin loaded inside
-    Gazebo — no standalone ros2_control_node is started here.
+    Drives the robot via gz-sim-diff-drive and publishes joint states via
+    gz-sim-joint-state-publisher, avoiding gz_ros2_control entirely.
     """
     pkg_description_dir = get_package_share_directory('robot_description')
 
@@ -40,12 +33,21 @@ def generate_launch_description() -> LaunchDescription:
         [EnvironmentVariable('GZ_SIM_WORLD_PATH'), [LaunchConfiguration('world'), '.sdf']]
     )
 
+    gazebo_server = ExecuteProcess(
+        cmd=['gz', 'sim', '-s', '-r', '-v', '3', world_sdf_path],
+        output='screen',
+    )
+
+    gazebo_gui = ExecuteProcess(
+        cmd=['gz', 'sim', '-g', '-v', '3'],
+        output='screen',
+    )
+
     robot_description_content = ParameterValue(
         Command(
             [
                 'xacro ',
-                PathJoinSubstitution([pkg_description_dir, 'urdf', 'robot.urdf.xacro']),
-                ' hardware_plugin:=gz_ros2_control/GazeboSimSystem',
+                PathJoinSubstitution([pkg_description_dir, 'urdf', 'robot.gazebo.urdf.xacro']),
             ]
         ),
         value_type=str,
@@ -62,52 +64,51 @@ def generate_launch_description() -> LaunchDescription:
         ],
     )
 
-    gzserver_node = ExecuteProcess(
-        cmd=[
-            'zsh',
-            '-c',
-            ['exec gz sim -s -v4 ', world_sdf_path, f" 2> >(grep -vE '{_GZ_NOISE_RE}' >&2)"],
-        ],
-        additional_env={
-            'GZ_SIM_SYSTEM_PLUGIN_PATH': '',
-            'GZ_SIM_RESOURCE_PATH': '',
-        },
-        output='screen',
-    )
-
-    gzgui_node = ExecuteProcess(
-        cmd=['zsh', '-c', 'exec gz sim -g -v4 '],
-        output='screen',
-    )
-
-    spawn_robot_service = Node(
+    gz_spawn_entity = Node(
         package='ros_gz_sim',
         executable='create',
         arguments=['-topic', 'robot_description', '-name', 'robot'],
-        prefix=_GZ_QUIET_PREFIX,
         output='screen',
     )
 
-    # ROS-Gazebo bridge for sensors only.
-    # /cmd_vel and /odom are handled by diff_drive_controller in ROS space.
     ros_gz_bridge_node = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
+            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+            '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+            '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
         ],
-        prefix=_GZ_QUIET_PREFIX,
         output='screen',
+    )
+
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        arguments=[
+            '-d',
+            PathJoinSubstitution(
+                [
+                    FindPackageShare('robot_bringup'),
+                    'launch',
+                    'display.rviz',
+                ]
+            ),
+        ],
+        parameters=[{'use_sim_time': True}],
     )
 
     return LaunchDescription(
         [
             declare_world,
+            gazebo_server,
+            gazebo_gui,
             robot_state_publisher_node,
-            gzserver_node,
-            gzgui_node,
-            spawn_robot_service,
+            gz_spawn_entity,
             ros_gz_bridge_node,
+            rviz_node,
         ]
     )
