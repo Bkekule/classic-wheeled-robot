@@ -44,7 +44,7 @@ run-tests = { cmd = "cd ../src && colcon test && colcon test-result --verbose", 
 rviz-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 launch robot_bringup display.launch.py'", depends-on = [
   "build",
 ] }
-gz-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 launch robot_bringup gazebo.launch.py gui:={{ gui }}'", depends-on = [
+gz-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 launch robot_bringup gazebo.launch.py'", depends-on = [
   "build",
 ] }
 rqt-graph-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 run rqt_graph rqt_graph'", depends-on = [
