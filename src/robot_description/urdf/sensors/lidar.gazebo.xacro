@@ -4,6 +4,7 @@
   <gazebo reference="hokuyo_lidar">
     <sensor name="gpu_lidar" type="gpu_lidar">
       <pose>0 0 0 0 0 0</pose>
+      <gz_frame_id>hokuyo_lidar</gz_frame_id>
       <topic>/scan</topic>
       <update_rate>20</update_rate>
       <lidar>

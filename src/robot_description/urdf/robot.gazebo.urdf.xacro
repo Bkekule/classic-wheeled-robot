@@ -32,6 +32,13 @@
   <xacro:include filename="$(find robot_description)/urdf/sensors/camera.xacro"/>
   <xacro:include filename="$(find robot_description)/urdf/sensors/camera.gazebo.xacro"/>
 
+  <!-- Sensor pipeline -->
+  <gazebo>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+  </gazebo>
+
   <!-- Gazebo native diff-drive plugin -->
   <gazebo>
     <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">

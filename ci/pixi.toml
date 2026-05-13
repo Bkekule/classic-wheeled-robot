@@ -2,10 +2,10 @@
 name = "robostack"
 description = "RoboStack ROS 2 Jazzy environment"
 channels = ["https://prefix.dev/conda-forge"]
-platforms = ["osx-arm64", "linux-64"]
+platforms = ["osx-arm64", "linux-64", "linux-aarch64"]
 
 [target.unix.activation]
-env = { RMW_IMPLEMENTATION = "rmw_cyclonedds_cpp", ROS_SETUP_SOURCED = "1", CMAKE_GENERATOR = "Ninja", OGRE_PLUGIN_PATH = "$CONDA_PREFIX/lib/OGRE-Next", OGRE_RESOURCE_PATH = "$CONDA_PREFIX/lib/OGRE", OGRE2_RESOURCE_PATH = "$CONDA_PREFIX/lib/OGRE-Next", GZ_RENDER_PLUGIN_PATH = "$CONDA_PREFIX/lib/OGRE-Next", GZ_SIM_RESOURCE_PATH = "$AMENT_PREFIX_PATH:$GZ_SIM_RESOURCE_PATH:$PIXI_PROJECT_ROOT/../src/install/robot_description/share", GZ_SIM_SYSTEM_PLUGIN_PATH = "$CONDA_PREFIX/lib:$GZ_SIM_SYSTEM_PLUGIN_PATH" }
+env = { RMW_IMPLEMENTATION = "rmw_cyclonedds_cpp", ROS_SETUP_SOURCED = "1", CMAKE_GENERATOR = "Ninja", OGRE2_RESOURCE_PATH = "$CONDA_PREFIX/lib/OGRE-Next", GZ_RENDERING_RESOURCE_PATH = "$CONDA_PREFIX/share/gz/gz-rendering8/ogre2/media", GZ_RENDER_PLUGIN_PATH = "$CONDA_PREFIX/lib/gz-rendering-8/engine-plugins", GZ_SIM_RENDER_ENGINE_PATH = "$CONDA_PREFIX/lib/gz-rendering-8/engine-plugins", GZ_SIM_RESOURCE_PATH = "$AMENT_PREFIX_PATH:$GZ_SIM_RESOURCE_PATH:$PIXI_PROJECT_ROOT/../src/install/robot_description/share", GZ_SIM_SYSTEM_PLUGIN_PATH = "$CONDA_PREFIX/lib:$GZ_SIM_SYSTEM_PLUGIN_PATH" }
 
 # Dependencies used by all environments
 [dependencies]
@@ -36,6 +36,7 @@ ros-jazzy-xacro = "*"
 
 [feature.jazzy.tasks]
 pre-commit = "cd .. && pre-commit install && pre-commit run --all-files"
+robo-bug-patch = "mkdir -p $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src && ln -sfn $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src/media"
 build = "cd ../src && rm -rf build/ install/ && colcon build --symlink-install"
 run-tests = { cmd = "cd ../src && colcon test && colcon test-result --verbose", depends-on = [
   "build",
@@ -44,6 +45,7 @@ rviz-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 l
   "build",
 ] }
 gz-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 launch robot_bringup gazebo.launch.py'", depends-on = [
+  "robo-bug-patch",
   "build",
 ] }
 rqt-graph-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 run rqt_graph rqt_graph'", depends-on = [

@@ -5,7 +5,6 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.substitutions import (
     Command,
-    EnvironmentVariable,
     LaunchConfiguration,
     PathJoinSubstitution,
 )
@@ -25,16 +24,12 @@ def generate_launch_description() -> LaunchDescription:
 
     declare_world = DeclareLaunchArgument(
         'world',
-        default_value='empty',
-        description='World SDF filename (without .sdf) inside $GZ_SIM_WORLD_PATH/',
-    )
-
-    world_sdf_path = PathJoinSubstitution(
-        [EnvironmentVariable('GZ_SIM_WORLD_PATH'), [LaunchConfiguration('world'), '.sdf']]
+        default_value='empty.sdf',
+        description='World SDF filename, resolved via GZ_SIM_RESOURCE_PATH',
     )
 
     gazebo_server = ExecuteProcess(
-        cmd=['gz', 'sim', '-s', '-r', '-v', '3', world_sdf_path],
+        cmd=['gz', 'sim', '-s', '-v', '3', LaunchConfiguration('world')],
         output='screen',
     )
 
@@ -80,6 +75,7 @@ def generate_launch_description() -> LaunchDescription:
             '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
             '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
         ],
         output='screen',
