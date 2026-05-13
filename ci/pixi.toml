@@ -35,7 +35,7 @@ ros-jazzy-ros-gz = "*"
 ros-jazzy-xacro = "*"
 
 [feature.jazzy.tasks]
-pre-commit = "cd .. && pre-commit install && pre-commit run --all-files"
+pre-commit = "cd .. && pre-commit run --all-files"
 robo-bug-patch = "mkdir -p $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src && ln -sfn $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src/media"
 build = "cd ../src && rm -rf build/ install/ && colcon build --symlink-install"
 run-tests = { cmd = "cd ../src && colcon test && colcon test-result --verbose", depends-on = [
