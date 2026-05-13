@@ -6,7 +6,7 @@
   gz_ros2_control, avoiding the parameter-file forwarding bug in
   gz_ros2_control 1.2.17 (ros-controls/gz_ros2_control#512).
 
-  Not used for display or real-hardware launches — those use robot.urdf.xacro
+  Not used for display only or real-hardware launches — those use robot.urdf.xacro
   with mock_components/GenericSystem or the real hardware plugin.
 -->
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">

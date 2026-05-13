@@ -1,0 +1,150 @@
+<sdf version='1.10'>
+  <world name='default'>
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+    <gravity>0 0 -9.8000000000000007</gravity>
+    <magnetic_field>5.5644999999999998e-06 2.2875799999999999e-05 -4.2388400000000002e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.400000006 0.400000006 0.400000006 1</ambient>
+      <background>0.699999988 0.699999988 0.699999988 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <include>
+      <uri>models://building</uri>
+      <name>building</name>
+      <pose>-5 0 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>models://kitchen_island</uri>
+      <name>kitchen_island</name>
+      <pose>-1.6607910394668579 1.6000000238418579 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>models://kitchen_counter</uri>
+      <name>kitchen_counter</name>
+      <pose>-3.1484346389770508 2.25 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>models://dining_table</uri>
+      <name>dining_table</name>
+      <pose>1.3739067316055298 2.7999999523162842 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>models://couch</uri>
+      <name>couch</name>
+      <pose>4.8018341064453125 1.1000000238418579 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>models://bed</uri>
+      <name>bed_1</name>
+      <pose>5.1946086883544922 5.0373001098632812 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>models://bed</uri>
+      <name>bed_2</name>
+      <pose>-3.2723948955535889 5 0 0 0 0</pose>
+    </include>
+    <model name='ground_plane'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>65535</collide_bitmask>
+            </contact>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+            </friction>
+            <bounce/>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <pose>0 0 0 0 0 0</pose>
+      <self_collide>false</self_collide>
+    </model>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/standard toilet</uri>
+      <name>Toilet</name>
+      <pose>1.7756825685501099 6.8634438514709473 0 0 0 -1.5227099794252583</pose>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/tvstand</uri>
+      <name>TVStand</name>
+      <pose>4.5130492855019675 3.4508048164629517 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/dining chair</uri>
+      <name>DiningChair_2</name>
+      <pose>1.8059922456741333 2.8039956092834473 0 0 0 -1.5688099455228064</pose>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/dining chair</uri>
+      <name>DiningChair_1</name>
+      <pose>0.80759608745574951 2.8082864284515381 0 0 0 1.5279399871637525</pose>
+    </include>
+    <light name='sun' type='directional'>
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <intensity>1</intensity>
+      <direction>-0.5 0.10000000000000001 -0.90000000000000002</direction>
+      <diffuse>0.800000012 0.800000012 0.800000012 1</diffuse>
+      <specular>0.200000003 0.200000003 0.200000003 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.01</linear>
+        <constant>0.90000000000000002</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+  </world>
+</sdf>

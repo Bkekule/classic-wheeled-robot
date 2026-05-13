@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <model name="dining_table">
+    <static>true</static>
+
+    <!-- Table top: 1.0 × 1.0 × 0.04 m, surface at z=0.76 -->
+    <link name="top">
+      <pose>0 0 0.74 0 0 0</pose>
+      <collision name="collision">
+        <geometry><box><size>1.00 1.00 0.04</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <geometry><box><size>1.00 1.00 0.04</size></box></geometry>
+        <material>
+          <ambient>0.42 0.28 0.18 1</ambient>
+          <diffuse>0.42 0.28 0.18 1</diffuse>
+          <specular>0.15 0.10 0.05 1</specular>
+        </material>
+      </visual>
+    </link>
+
+    <!-- Central pedestal: 0.12 × 0.12 × 0.72 m -->
+    <link name="pedestal">
+      <pose>0 0 0.36 0 0 0</pose>
+      <collision name="collision">
+        <geometry><box><size>0.12 0.12 0.72</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <geometry><box><size>0.12 0.12 0.72</size></box></geometry>
+        <material>
+          <ambient>0.35 0.22 0.14 1</ambient>
+          <diffuse>0.35 0.22 0.14 1</diffuse>
+          <specular>0.10 0.07 0.04 1</specular>
+        </material>
+      </visual>
+    </link>
+
+    <!-- Base cross-feet: two thin bars at z=0.04 -->
+    <link name="foot_ns">
+      <pose>0 0 0.025 0 0 0</pose>
+      <collision name="collision">
+        <geometry><box><size>0.08 0.70 0.05</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <geometry><box><size>0.08 0.70 0.05</size></box></geometry>
+        <material>
+          <ambient>0.35 0.22 0.14 1</ambient>
+          <diffuse>0.35 0.22 0.14 1</diffuse>
+          <specular>0.10 0.07 0.04 1</specular>
+        </material>
+      </visual>
+    </link>
+
+    <link name="foot_ew">
+      <pose>0 0 0.025 0 0 1.5708</pose>
+      <collision name="collision">
+        <geometry><box><size>0.08 0.70 0.05</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <geometry><box><size>0.08 0.70 0.05</size></box></geometry>
+        <material>
+          <ambient>0.35 0.22 0.14 1</ambient>
+          <diffuse>0.35 0.22 0.14 1</diffuse>
+          <specular>0.10 0.07 0.04 1</specular>
+        </material>
+      </visual>
+    </link>
+
+  </model>
+</sdf>

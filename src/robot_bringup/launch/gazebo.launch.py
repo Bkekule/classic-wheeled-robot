@@ -24,12 +24,12 @@ def generate_launch_description() -> LaunchDescription:
 
     declare_world = DeclareLaunchArgument(
         'world',
-        default_value='empty.sdf',
+        default_value='my-apartment.sdf',
         description='World SDF filename, resolved via GZ_SIM_RESOURCE_PATH',
     )
 
     gazebo_server = ExecuteProcess(
-        cmd=['gz', 'sim', '-s', '-v', '3', LaunchConfiguration('world')],
+        cmd=['gz', 'sim', '-s', '-r', '-v', '3', LaunchConfiguration('world')],
         output='screen',
     )
 
