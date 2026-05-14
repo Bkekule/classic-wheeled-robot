@@ -28,13 +28,13 @@ ament_target_dependencies(drive_bot_node
   custom_interfaces
 )
 
-# --- drive_bot executable ---
-add_executable(drive_bot
+# --- drive_bot_main executable ---
+add_executable(drive_bot_main
   src/servers/ball_chaser/drive_bot_main.cpp
 )
-target_link_libraries(drive_bot drive_bot_node)
+target_link_libraries(drive_bot_main drive_bot_node)
 
-install(TARGETS drive_bot
+install(TARGETS drive_bot_main
   DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY include/

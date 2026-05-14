@@ -116,14 +116,14 @@ $(function(){initNavTree('drive__bot__node_8hpp_source.html',''); initResizable(
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="namespacerobot__control.html">    7</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacerobot__control_1_1ball__chaser.html">robot_control::ball_chaser</a> {</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="foldopen" id="foldopen00009" data-start="{" data-end="};">
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html">    9</a></span><span class="keyword">class </span><a class="code hl_function" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html#a03d4a859bddec2fc187fb4730a699997">DriveBot</a> : <span class="keyword">public</span> rclcpp::Node {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html">    9</a></span><span class="keyword">class </span><a class="code hl_function" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html#aa8cd0573a67d9c911b857d0d81027b2c">DriveBot</a> : <span class="keyword">public</span> rclcpp::Node {</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>  <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html#a03d4a859bddec2fc187fb4730a699997">DriveBot</a>(<span class="keyword">const</span> rclcpp::NodeOptions &amp;p_options = rclcpp::NodeOptions());</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <a class="code hl_function" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html#aa8cd0573a67d9c911b857d0d81027b2c">DriveBot</a>();</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keywordtype">void</span> handleDriveRequest(</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keyword">const</span> std::shared_ptr&lt;custom_interfaces::srv::DriveToTarget::Request&gt; &amp;p_req,</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keyword">const</span> std::shared_ptr&lt;custom_interfaces::srv::DriveToTarget::Response&gt; &amp;p_res</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        custom_interfaces::srv::DriveToTarget::Request::SharedPtr p_req,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        custom_interfaces::srv::DriveToTarget::Response::SharedPtr p_res</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    );</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    rclcpp::Publisher&lt;geometry_msgs::msg::Twist&gt;::SharedPtr m_cmdVelPub;</div>
@@ -133,7 +133,7 @@ $(function(){initNavTree('drive__bot__node_8hpp_source.html',''); initResizable(
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>} <span class="comment">// namespace robot_control::ball_chaser</span></div>
 </div>
-<div class="ttc" id="aclassrobot__control_1_1ball__chaser_1_1_drive_bot_html_a03d4a859bddec2fc187fb4730a699997"><div class="ttname"><a href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html#a03d4a859bddec2fc187fb4730a699997">robot_control::ball_chaser::DriveBot::DriveBot</a></div><div class="ttdeci">DriveBot(const rclcpp::NodeOptions &amp;p_options=rclcpp::NodeOptions())</div><div class="ttdef"><b>Definition</b> drive_bot_node.cpp:6</div></div>
+<div class="ttc" id="aclassrobot__control_1_1ball__chaser_1_1_drive_bot_html_aa8cd0573a67d9c911b857d0d81027b2c"><div class="ttname"><a href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html#aa8cd0573a67d9c911b857d0d81027b2c">robot_control::ball_chaser::DriveBot::DriveBot</a></div><div class="ttdeci">DriveBot()</div><div class="ttdef"><b>Definition</b> drive_bot_node.cpp:6</div></div>
 <div class="ttc" id="anamespacerobot__control_1_1ball__chaser_html"><div class="ttname"><a href="namespacerobot__control_1_1ball__chaser.html">robot_control::ball_chaser</a></div><div class="ttdef"><b>Definition</b> drive_bot_node.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

@@ -28,7 +28,7 @@
             "problemMatcher": "$gcc"
         },
         {
-            "label": "Run Robot Tests",
+            "label": "Run Tests",
             "type": "shell",
             "command": "cd robostack && pixi run -e jazzy run-tests",
             "group": "test",

@@ -11,9 +11,7 @@ using Twist = geometry_msgs::msg::Twist;
 class DriveBotTest : public ::testing::Test {
   protected:
     void SetUp() override {
-        rclcpp::NodeOptions l_opts;
-        l_opts.automatically_declare_parameters_from_overrides(true);
-        m_server = std::make_shared<robot_control::ball_chaser::DriveBot>(l_opts);
+        m_server = std::make_shared<robot_control::ball_chaser::DriveBot>();
 
         m_client = rclcpp::Node::make_shared("test_client");
         m_requester = m_client->create_client<DriveToTarget>("/ball_chaser/command_robot");
@@ -68,9 +66,11 @@ TEST_F(DriveBotTest, StopCommandPublishesZeroVelocity) {
     ASSERT_TRUE(m_requester->wait_for_service(std::chrono::seconds(1)));
 
     std::optional<Twist> l_received;
-    auto l_sub = m_client->create_subscription<Twist>("/cmd_vel", 10, [&](const Twist::SharedPtr &p_msg) {
-        l_received = *p_msg;
-    });
+    auto l_sub = m_client->create_subscription<Twist>(
+        "/cmd_vel", 10, [&](const Twist::SharedPtr p_msg) { // NOLINT(performance-unnecessary-value-param)
+            l_received = *p_msg;
+        }
+    );
 
     auto l_req = std::make_shared<DriveToTarget::Request>();
     l_req->linear_x = 0.0;

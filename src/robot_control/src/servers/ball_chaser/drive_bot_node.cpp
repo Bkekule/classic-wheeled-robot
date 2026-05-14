@@ -2,22 +2,23 @@
 
 namespace robot_control::ball_chaser {
 
-// NOLINTBEGIN(readability-function-cognitive-complexity)
-DriveBot::DriveBot(const rclcpp::NodeOptions &p_options) : Node("drive_bot", p_options) {
+// NOLINTBEGIN(readability-function-cognitive-complexity, performance-unnecessary-value-param)
+DriveBot::DriveBot() : Node("drive_bot") {
     m_cmdVelPub = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
     m_driveService = this->create_service<custom_interfaces::srv::DriveToTarget>(
-        "/ball_chaser/command_robot", [this](auto &&PH1, auto &&PH2) {
-            handleDriveRequest(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2));
-        }
+        "/ball_chaser/command_robot", [this](
+                                          custom_interfaces::srv::DriveToTarget::Request::SharedPtr p_req,
+                                          custom_interfaces::srv::DriveToTarget::Response::SharedPtr p_res
+                                      ) { handleDriveRequest(p_req, p_res); }
     );
     RCLCPP_INFO(this->get_logger(), "DriveBot node started, service ready on /ball_chaser/command_robot");
 }
-// NOLINTEND(readability-function-cognitive-complexity)
+// NOLINTEND(readability-function-cognitive-complexity, performance-unnecessary-value-param)
 
-// NOLINTBEGIN(readability-function-cognitive-complexity)
+// NOLINTBEGIN(readability-function-cognitive-complexity, performance-unnecessary-value-param)
 void DriveBot::handleDriveRequest(
-    const std::shared_ptr<custom_interfaces::srv::DriveToTarget::Request> & p_req,
-    const std::shared_ptr<custom_interfaces::srv::DriveToTarget::Response> & p_res
+    const custom_interfaces::srv::DriveToTarget::Request::SharedPtr p_req,
+    const custom_interfaces::srv::DriveToTarget::Response::SharedPtr p_res
 ) {
     geometry_msgs::msg::Twist l_cmd;
     l_cmd.linear.x = p_req->linear_x;
@@ -29,5 +30,5 @@ void DriveBot::handleDriveRequest(
 
     RCLCPP_INFO(this->get_logger(), "Published: %s", p_res->msg_feedback.c_str());
 }
-// NOLINTEND(readability-function-cognitive-complexity)
+// NOLINTEND(readability-function-cognitive-complexity, performance-unnecessary-value-param)
 } // namespace robot_control::ball_chaser
