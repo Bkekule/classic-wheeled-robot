@@ -38,17 +38,17 @@ ros-jazzy-xacro = "*"
 [feature.jazzy.tasks]
 pre-commit = "cd .. && pre-commit run --all-files"
 robo-bug-patch = "mkdir -p $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src && ln -sfn $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src/media"
-build = "cd .. && colcon build --symlink-install"
-run-tests = { cmd = "cd .. && colcon test-result --verbose", depends-on = [
+build = "cd .. && rm -rf build/ install/ logs/ && colcon build --symlink-install && bash -c 'source install/setup.bash'"
+run-tests = { cmd = "colcon test && colcon test-result --verbose", depends-on = [
   "build",
 ] }
-rviz-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 launch robot_bringup display.launch.py'", depends-on = [
+rviz-launch = { cmd = "ros2 launch robot_bringup display.launch.py'", depends-on = [
   "build",
 ] }
-gz-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 launch robot_bringup gazebo.launch.py'", depends-on = [
+gz-launch = { cmd = "ros2 launch robot_bringup gazebo.launch.py'", depends-on = [
   "robo-bug-patch",
   "build",
 ] }
-rqt-graph-launch = { cmd = "cd ../src && bash -c 'source install/setup.bash && ros2 run rqt_graph rqt_graph'", depends-on = [
+rqt-graph-launch = { cmd = "ros2 run rqt_graph rqt_graph'", depends-on = [
   "build",
 ] }
