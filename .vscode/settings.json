@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "*.rviz": "yaml",
-    "*.sdf": "xml"
+    "*.sdf": "xml",
+    "*.srv": "yaml"
   }
 }
