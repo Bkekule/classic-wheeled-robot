@@ -3,5 +3,19 @@
     "*.rviz": "yaml",
     "*.sdf": "xml",
     "*.srv": "yaml"
+  },
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--completion-style=detailed",
+    "--header-insertion=iwyu"
+  ],
+  "editor.tabSize": 4,
+  "editor.formatOnSave": true,
+  "files.autoSave": "onFocusChange",
+  "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+  "[cpp]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
   }
 }

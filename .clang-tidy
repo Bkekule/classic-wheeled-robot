@@ -1,0 +1,13 @@
+Checks: >
+  bugprone-*,
+  modernize-*,
+  readability-*,
+  performance-*,
+  -modernize-use-trailing-return-type,
+  -readability-braces-around-statements,
+  -readability-magic-numbers,
+  llvm-include-order
+
+WarningsAsErrors: "*"
+
+HeaderFilterRegex: ".*/include/.*"

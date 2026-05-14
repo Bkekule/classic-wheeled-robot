@@ -3,7 +3,9 @@ repos:
     rev: 'v6.0.0'
     hooks:
       - id: trailing-whitespace
+        exclude: 'docs/doxygen/.*'
       - id: end-of-file-fixer
+        exclude: 'docs/doxygen/.*'
       - id: sort-simple-yaml
       - id: mixed-line-ending
       - id: check-yaml
@@ -22,6 +24,12 @@ repos:
     rev: v1.24.1
     hooks:
       - id: zizmor
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
 
   - repo: local
     hooks:
@@ -37,10 +45,9 @@ repos:
         language: python
         files: ^src/robot_description/(tests/.*\.py|package\.xml)$
         pass_filenames: false
-
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.9
-    hooks:
-      - id: ruff
-        args: [--fix]
-      - id: ruff-format
+      - id: docs
+        name: Docs (Doxygen)
+        language: system
+        entry: ci/docs.sh
+        pass_filenames: false
+        always_run: true
