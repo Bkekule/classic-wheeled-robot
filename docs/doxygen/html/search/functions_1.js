@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main_0',['main',['../process__image__main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;process_image_main.cpp'],['../drive__bot__main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;drive_bot_main.cpp'],['../test__drive__bot_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;test_drive_bot.cpp']]]
+  ['findballregion_0',['findBallRegion',['../namespacerobot__control_1_1ball__chaser.html#aaa59420c96bf6f4452b63ae0c9e1d260',1,'robot_control::ball_chaser']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['process_5fimage_5fmain_2ecpp_0',['process_image_main.cpp',['../process__image__main_8cpp.html',1,'']]],
-  ['process_5fimage_5fnode_2ecpp_1',['process_image_node.cpp',['../process__image__node_8cpp.html',1,'']]],
-  ['process_5fimage_5fnode_2ehpp_2',['process_image_node.hpp',['../process__image__node_8hpp.html',1,'']]]
+  ['image_5futils_2ecpp_0',['image_utils.cpp',['../image__utils_8cpp.html',1,'']]],
+  ['image_5futils_2ehpp_1',['image_utils.hpp',['../image__utils_8hpp.html',1,'']]]
 ];

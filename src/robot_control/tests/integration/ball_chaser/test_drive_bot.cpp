@@ -1,4 +1,4 @@
-#include "servers/ball_chaser/drive_bot_node.hpp"
+#include "drive_bot_node.hpp"
 
 #include <gtest/gtest.h>
 #include <custom_interfaces/srv/drive_to_target.hpp>
@@ -8,6 +8,7 @@
 using DriveToTarget = custom_interfaces::srv::DriveToTarget;
 using Twist = geometry_msgs::msg::Twist;
 
+// What questions do these tests answer?
 class DriveBotTest : public ::testing::Test {
   protected:
     void SetUp() override {

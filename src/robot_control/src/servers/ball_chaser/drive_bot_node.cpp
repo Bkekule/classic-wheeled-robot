@@ -1,4 +1,4 @@
-#include "servers/ball_chaser/drive_bot_node.hpp"
+#include "drive_bot_node.hpp"
 
 #include <utility>
 

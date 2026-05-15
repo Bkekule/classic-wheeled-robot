@@ -15,13 +15,22 @@ find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(custom_interfaces REQUIRED)
 
+# --- ball_chaser_utils: pure domain logic, no ROS dependency ---
+add_library(ball_chaser_utils STATIC
+  src/ball_chaser/image_utils.cpp
+)
+target_include_directories(ball_chaser_utils PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/ball_chaser>
+  $<INSTALL_INTERFACE:include/ball_chaser>
+)
+
 # --- drive_bot node library (linked by both executable and tests) ---
-add_library(drive_bot_node STATIC
+add_library(drive_bot_node OBJECT
   src/servers/ball_chaser/drive_bot_node.cpp
 )
 target_include_directories(drive_bot_node PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/servers/ball_chaser>
+  $<INSTALL_INTERFACE:include/servers/ball_chaser>
 )
 ament_target_dependencies(drive_bot_node
   rclcpp
@@ -30,13 +39,14 @@ ament_target_dependencies(drive_bot_node
 )
 
 # --- process_image node library ---
-add_library(process_image_node STATIC
+add_library(process_image_node OBJECT
   src/clients/ball_chaser/process_image_node.cpp
 )
 target_include_directories(process_image_node PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/clients/ball_chaser>
+  $<INSTALL_INTERFACE:include/clients/ball_chaser>
 )
+target_link_libraries(process_image_node ball_chaser_utils)
 ament_target_dependencies(process_image_node
   rclcpp
   sensor_msgs
@@ -76,7 +86,7 @@ if(BUILD_TESTING)
 
   find_package(ament_cmake_gtest REQUIRED)
   ament_add_gtest(test_drive_bot
-    test/ball_chaser/test_drive_bot.cpp
+    tests/integration/ball_chaser/test_drive_bot.cpp
   )
   target_link_libraries(test_drive_bot drive_bot_node)
 endif()

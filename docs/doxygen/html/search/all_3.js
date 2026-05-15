@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['robot_5fcontrol_0',['robot_control',['../namespacerobot__control.html',1,'']]],
-  ['robot_5fcontrol_3a_3aball_5fchaser_1',['ball_chaser',['../namespacerobot__control_1_1ball__chaser.html',1,'robot_control']]]
+  ['findballregion_0',['findBallRegion',['../namespacerobot__control_1_1ball__chaser.html#aaa59420c96bf6f4452b63ae0c9e1d260',1,'robot_control::ball_chaser']]]
 ];

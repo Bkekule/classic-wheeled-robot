@@ -1,4 +1,5 @@
-#include "clients/ball_chaser/process_image_node.hpp"
+#include "process_image_node.hpp"
+#include "image_utils.hpp"
 
 #include <unordered_map>
 #include <utility>
@@ -11,9 +12,9 @@ ProcessImage::ProcessImage() : Node("process_image"), m_wasMoving(false) {
     m_velocity.angular = this->declare_parameter<double>("angular_speed", 0.3);
 
     // Per-channel lower bounds for white detection. Default 255 = pure white only.
-    m_whiteThreshold.r = static_cast<uint8_t>(this->declare_parameter<int>("white_threshold_r", 255));
-    m_whiteThreshold.g = static_cast<uint8_t>(this->declare_parameter<int>("white_threshold_g", 255));
-    m_whiteThreshold.b = static_cast<uint8_t>(this->declare_parameter<int>("white_threshold_b", 255));
+    m_whiteBallThreshold.r = static_cast<uint8_t>(this->declare_parameter<int>("white_threshold_r", 255));
+    m_whiteBallThreshold.g = static_cast<uint8_t>(this->declare_parameter<int>("white_threshold_g", 255));
+    m_whiteBallThreshold.b = static_cast<uint8_t>(this->declare_parameter<int>("white_threshold_b", 255));
 
     m_driveClient = this->create_client<custom_interfaces::srv::DriveToTarget>("/ball_chaser/command_robot");
 
@@ -45,29 +46,10 @@ void ProcessImage::imageCallback(const sensor_msgs::msg::Image::SharedPtr msg) {
 // NOLINTEND(readability-function-cognitive-complexity)
 
 void ProcessImage::processRgb8(const sensor_msgs::msg::Image::SharedPtr &msg) {
-    const uint32_t width_ = msg->width;
-    const uint32_t height_ = msg->height;
-    const uint32_t step_ = msg->step;
-    constexpr uint8_t bpp_ = 3;
+    const BallRegion region_ =
+        findBallRegion(msg->data.data(), {msg->width, msg->height, msg->step}, m_whiteBallThreshold);
 
-    int ballXSum_ = 0;
-    int ballCount_ = 0;
-
-    for (uint32_t row_ = 0; row_ < height_; ++row_) {
-        for (uint32_t col_ = 0; col_ < width_; ++col_) {
-            const size_t idx_ = (row_ * step_) + (col_ * bpp_);
-            const uint8_t red_ = msg->data[idx_];
-            const uint8_t green_ = msg->data[idx_ + 1];
-            const uint8_t blue_ = msg->data[idx_ + 2];
-
-            if (red_ >= m_whiteThreshold.r && green_ >= m_whiteThreshold.g && blue_ >= m_whiteThreshold.b) {
-                ballXSum_ += static_cast<int>(col_);
-                ++ballCount_;
-            }
-        }
-    }
-
-    if (ballCount_ == 0) {
+    if (region_ == BallRegion::NotFound) {
         if (m_wasMoving) {
             driveRobot({0.0, 0.0});
             m_wasMoving = false;
@@ -75,13 +57,9 @@ void ProcessImage::processRgb8(const sensor_msgs::msg::Image::SharedPtr &msg) {
         return;
     }
 
-    const int ballCol_ = ballXSum_ / ballCount_;
-    const int leftBound_ = static_cast<int>(width_) / 3;
-    const int rightBound_ = static_cast<int>(width_) * 2 / 3;
-
-    if (ballCol_ < leftBound_) {
+    if (region_ == BallRegion::Left) {
         driveRobot({0.0, m_velocity.angular});
-    } else if (ballCol_ > rightBound_) {
+    } else if (region_ == BallRegion::Right) {
         driveRobot({0.0, -m_velocity.angular});
     } else {
         driveRobot({m_velocity.linear, 0.0});
