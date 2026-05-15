@@ -132,9 +132,9 @@ $(function(){initNavTree('process__image__node_8hpp_source.html',''); initResiza
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        uint8_t b;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    };</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">void</span> imageCallback(sensor_msgs::msg::Image::SharedPtr p_msg);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> processRgb8(<span class="keyword">const</span> sensor_msgs::msg::Image::SharedPtr&amp; p_msg);</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">void</span> driveRobot(<span class="keyword">const</span> VelocityParams&amp; p_velocity);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">void</span> imageCallback(sensor_msgs::msg::Image::SharedPtr msg);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> processRgb8(<span class="keyword">const</span> sensor_msgs::msg::Image::SharedPtr &amp;msg);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">void</span> driveRobot(<span class="keyword">const</span> VelocityParams &amp;velocity);</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    rclcpp::Subscription&lt;sensor_msgs::msg::Image&gt;::SharedPtr m_imageSub;</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    rclcpp::Client&lt;custom_interfaces::srv::DriveToTarget&gt;::SharedPtr m_driveClient;</div>

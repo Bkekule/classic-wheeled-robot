@@ -123,9 +123,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:aeb5311b0fe042813f754c3719addb3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedf7191c9dab8b1a9946a462351a1c82" id="r_aedf7191c9dab8b1a9946a462351a1c82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedf7191c9dab8b1a9946a462351a1c82">TearDown</a> () override</td></tr>
 <tr class="separator:aedf7191c9dab8b1a9946a462351a1c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68dd7b872e0d8a1a515cde92599077fb" id="r_a68dd7b872e0d8a1a515cde92599077fb"><td class="memTemplParams" colspan="2">template&lt;typename FutureT&gt; </td></tr>
-<tr class="memitem:a68dd7b872e0d8a1a515cde92599077fb"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a68dd7b872e0d8a1a515cde92599077fb">spinUntilComplete</a> (FutureT &amp;p_future, std::chrono::seconds p_timeout=std::chrono::seconds(2))</td></tr>
-<tr class="separator:a68dd7b872e0d8a1a515cde92599077fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8abc5c48e7e41c821ed92d455e0a4f5c" id="r_a8abc5c48e7e41c821ed92d455e0a4f5c"><td class="memTemplParams" colspan="2">template&lt;typename FutureT&gt; </td></tr>
+<tr class="memitem:a8abc5c48e7e41c821ed92d455e0a4f5c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8abc5c48e7e41c821ed92d455e0a4f5c">spinUntilComplete</a> (FutureT &amp;future, std::chrono::seconds timeout=std::chrono::seconds(2))</td></tr>
+<tr class="separator:a8abc5c48e7e41c821ed92d455e0a4f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -164,8 +164,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a68dd7b872e0d8a1a515cde92599077fb" name="a68dd7b872e0d8a1a515cde92599077fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68dd7b872e0d8a1a515cde92599077fb">&#9670;&#160;</a></span>spinUntilComplete()</h2>
+<a id="a8abc5c48e7e41c821ed92d455e0a4f5c" name="a8abc5c48e7e41c821ed92d455e0a4f5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8abc5c48e7e41c821ed92d455e0a4f5c">&#9670;&#160;</a></span>spinUntilComplete()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -178,12 +178,12 @@ template&lt;typename FutureT&gt; </div>
         <tr>
           <td class="memname">bool DriveBotTest::spinUntilComplete </td>
           <td>(</td>
-          <td class="paramtype">FutureT &amp;</td>          <td class="paramname"><span class="paramname"><em>p_future</em></span>, </td>
+          <td class="paramtype">FutureT &amp;</td>          <td class="paramname"><span class="paramname"><em>future</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::chrono::seconds</td>          <td class="paramname"><span class="paramname"><em>p_timeout</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::seconds(2)</span>&#160;)</td>
+          <td class="paramtype">std::chrono::seconds</td>          <td class="paramname"><span class="paramname"><em>timeout</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::seconds(2)</span>&#160;)</td>
         </tr>
       </table>
   </td>

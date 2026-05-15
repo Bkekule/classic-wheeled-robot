@@ -22,9 +22,9 @@ class ProcessImage : public rclcpp::Node {
         uint8_t b;
     };
 
-    void imageCallback(sensor_msgs::msg::Image::SharedPtr p_msg);
-    void processRgb8(const sensor_msgs::msg::Image::SharedPtr& p_msg);
-    void driveRobot(const VelocityParams& p_velocity);
+    void imageCallback(sensor_msgs::msg::Image::SharedPtr msg);
+    void processRgb8(const sensor_msgs::msg::Image::SharedPtr &msg);
+    void driveRobot(const VelocityParams &velocity);
 
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr m_imageSub;
     rclcpp::Client<custom_interfaces::srv::DriveToTarget>::SharedPtr m_driveClient;

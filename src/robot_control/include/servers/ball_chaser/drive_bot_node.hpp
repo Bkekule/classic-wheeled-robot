@@ -12,8 +12,8 @@ class DriveBot : public rclcpp::Node {
 
   private:
     void handleDriveRequest(
-        custom_interfaces::srv::DriveToTarget::Request::SharedPtr p_req,
-        custom_interfaces::srv::DriveToTarget::Response::SharedPtr p_res
+        custom_interfaces::srv::DriveToTarget::Request::SharedPtr req,
+        custom_interfaces::srv::DriveToTarget::Response::SharedPtr res
     );
 
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr m_cmdVelPub;

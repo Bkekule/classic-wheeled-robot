@@ -9,27 +9,26 @@ DriveBot::DriveBot() : Node("drive_bot") {
     m_cmdVelPub = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
     m_driveService = this->create_service<custom_interfaces::srv::DriveToTarget>(
         "/ball_chaser/command_robot", [this](
-                                          custom_interfaces::srv::DriveToTarget::Request::SharedPtr p_req,
-                                          custom_interfaces::srv::DriveToTarget::Response::SharedPtr p_res
-                                      ) { handleDriveRequest(std::move(p_req), std::move(p_res)); }
+                                          custom_interfaces::srv::DriveToTarget::Request::SharedPtr req,
+                                          custom_interfaces::srv::DriveToTarget::Response::SharedPtr res
+                                      ) { handleDriveRequest(std::move(req), std::move(res)); }
     );
     RCLCPP_INFO(this->get_logger(), "DriveBot node started, service ready on /ball_chaser/command_robot");
 }
 
 // NOLINTBEGIN(performance-unnecessary-value-param)
 void DriveBot::handleDriveRequest(
-    const custom_interfaces::srv::DriveToTarget::Request::SharedPtr p_req,
-    const custom_interfaces::srv::DriveToTarget::Response::SharedPtr p_res
+    const custom_interfaces::srv::DriveToTarget::Request::SharedPtr req,
+    const custom_interfaces::srv::DriveToTarget::Response::SharedPtr res
 ) {
-    geometry_msgs::msg::Twist l_cmd;
-    l_cmd.linear.x = p_req->linear_x;
-    l_cmd.angular.z = p_req->angular_z;
-    m_cmdVelPub->publish(l_cmd);
+    geometry_msgs::msg::Twist cmd_;
+    cmd_.linear.x = req->linear_x;
+    cmd_.angular.z = req->angular_z;
+    m_cmdVelPub->publish(cmd_);
 
-    p_res->msg_feedback =
-        "linear_x: " + std::to_string(p_req->linear_x) + " angular_z: " + std::to_string(p_req->angular_z);
+    res->msg_feedback = "linear_x: " + std::to_string(req->linear_x) + " angular_z: " + std::to_string(req->angular_z);
 
-    RCLCPP_INFO(this->get_logger(), "Published: %s", p_res->msg_feedback.c_str());
+    RCLCPP_INFO(this->get_logger(), "Published: %s", res->msg_feedback.c_str());
 }
 // NOLINTEND(performance-unnecessary-value-param)
 // NOLINTEND(readability-function-cognitive-complexity)

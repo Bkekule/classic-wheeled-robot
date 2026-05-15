@@ -18,57 +18,56 @@ ProcessImage::ProcessImage() : Node("process_image"), m_wasMoving(false) {
     m_driveClient = this->create_client<custom_interfaces::srv::DriveToTarget>("/ball_chaser/command_robot");
 
     m_imageSub = this->create_subscription<sensor_msgs::msg::Image>(
-        "/camera/rgb/image_raw", 10,
-        [this](sensor_msgs::msg::Image::SharedPtr p_msg) { imageCallback(std::move(p_msg)); }
+        "/camera/rgb/image_raw", 10, [this](sensor_msgs::msg::Image::SharedPtr msg) { imageCallback(std::move(msg)); }
     );
 
     RCLCPP_INFO(this->get_logger(), "ProcessImage node started");
 }
 
 // NOLINTBEGIN(performance-unnecessary-value-param)
-void ProcessImage::imageCallback(const sensor_msgs::msg::Image::SharedPtr p_msg) {
+void ProcessImage::imageCallback(const sensor_msgs::msg::Image::SharedPtr msg) {
     using Handler = void (ProcessImage::*)(const sensor_msgs::msg::Image::SharedPtr &);
 
     static const std::unordered_map<std::string, Handler> k_handlers = {
         {"rgb8", &ProcessImage::processRgb8},
     };
 
-    auto handler = k_handlers.find(p_msg->encoding);
+    auto handler = k_handlers.find(msg->encoding);
     if (handler == k_handlers.end()) {
         RCLCPP_WARN_ONCE(
-            this->get_logger(), "Unsupported encoding '%s' — no handler registered", p_msg->encoding.c_str()
+            this->get_logger(), "Unsupported encoding '%s' — no handler registered", msg->encoding.c_str()
         );
         return;
     }
-    (this->*(handler->second))(p_msg);
+    (this->*(handler->second))(msg);
 }
 // NOLINTEND(performance-unnecessary-value-param)
 // NOLINTEND(readability-function-cognitive-complexity)
 
-void ProcessImage::processRgb8(const sensor_msgs::msg::Image::SharedPtr &p_msg) {
-    const uint32_t l_width = p_msg->width;
-    const uint32_t l_height = p_msg->height;
-    const uint32_t l_step = p_msg->step;
-    constexpr uint8_t l_bpp = 3;
+void ProcessImage::processRgb8(const sensor_msgs::msg::Image::SharedPtr &msg) {
+    const uint32_t width_ = msg->width;
+    const uint32_t height_ = msg->height;
+    const uint32_t step_ = msg->step;
+    constexpr uint8_t bpp_ = 3;
 
-    int l_ballXSum = 0;
-    int l_ballCount = 0;
+    int ballXSum_ = 0;
+    int ballCount_ = 0;
 
-    for (uint32_t l_row = 0; l_row < l_height; ++l_row) {
-        for (uint32_t l_col = 0; l_col < l_width; ++l_col) {
-            const size_t l_idx = (l_row * l_step) + (l_col * l_bpp);
-            const uint8_t l_red = p_msg->data[l_idx];
-            const uint8_t l_green = p_msg->data[l_idx + 1];
-            const uint8_t l_blue = p_msg->data[l_idx + 2];
+    for (uint32_t row_ = 0; row_ < height_; ++row_) {
+        for (uint32_t col_ = 0; col_ < width_; ++col_) {
+            const size_t idx_ = (row_ * step_) + (col_ * bpp_);
+            const uint8_t red_ = msg->data[idx_];
+            const uint8_t green_ = msg->data[idx_ + 1];
+            const uint8_t blue_ = msg->data[idx_ + 2];
 
-            if (l_red >= m_whiteThreshold.r && l_green >= m_whiteThreshold.g && l_blue >= m_whiteThreshold.b) {
-                l_ballXSum += static_cast<int>(l_col);
-                ++l_ballCount;
+            if (red_ >= m_whiteThreshold.r && green_ >= m_whiteThreshold.g && blue_ >= m_whiteThreshold.b) {
+                ballXSum_ += static_cast<int>(col_);
+                ++ballCount_;
             }
         }
     }
 
-    if (l_ballCount == 0) {
+    if (ballCount_ == 0) {
         if (m_wasMoving) {
             driveRobot({0.0, 0.0});
             m_wasMoving = false;
@@ -76,13 +75,13 @@ void ProcessImage::processRgb8(const sensor_msgs::msg::Image::SharedPtr &p_msg) 
         return;
     }
 
-    const int l_ballCol = l_ballXSum / l_ballCount;
-    const int l_leftBound = static_cast<int>(l_width) / 3;
-    const int l_rightBound = static_cast<int>(l_width) * 2 / 3;
+    const int ballCol_ = ballXSum_ / ballCount_;
+    const int leftBound_ = static_cast<int>(width_) / 3;
+    const int rightBound_ = static_cast<int>(width_) * 2 / 3;
 
-    if (l_ballCol < l_leftBound) {
+    if (ballCol_ < leftBound_) {
         driveRobot({0.0, m_velocity.angular});
-    } else if (l_ballCol > l_rightBound) {
+    } else if (ballCol_ > rightBound_) {
         driveRobot({0.0, -m_velocity.angular});
     } else {
         driveRobot({m_velocity.linear, 0.0});
@@ -92,21 +91,21 @@ void ProcessImage::processRgb8(const sensor_msgs::msg::Image::SharedPtr &p_msg) 
 }
 
 // NOLINTBEGIN(readability-function-cognitive-complexity)
-void ProcessImage::driveRobot(const VelocityParams &p_velocity) {
+void ProcessImage::driveRobot(const VelocityParams &velocity) {
     if (!m_driveClient->wait_for_service(std::chrono::milliseconds(100))) {
         RCLCPP_WARN(this->get_logger(), "DriveToTarget service not available");
         return;
     }
 
-    auto l_request = std::make_shared<custom_interfaces::srv::DriveToTarget::Request>();
-    l_request->linear_x = p_velocity.linear;
-    l_request->angular_z = p_velocity.angular;
+    auto request_ = std::make_shared<custom_interfaces::srv::DriveToTarget::Request>();
+    request_->linear_x = velocity.linear;
+    request_->angular_z = velocity.angular;
 
     m_driveClient->async_send_request(
-        l_request, [this](
-                       rclcpp::Client<custom_interfaces::srv::DriveToTarget>::SharedFuture
-                           l_future // NOLINT(performance-unnecessary-value-param)
-                   ) { RCLCPP_DEBUG(this->get_logger(), "Drive response: %s", l_future.get()->msg_feedback.c_str()); }
+        request_, [this](
+                      rclcpp::Client<custom_interfaces::srv::DriveToTarget>::SharedFuture
+                          future_ // NOLINT(performance-unnecessary-value-param)
+                  ) { RCLCPP_DEBUG(this->get_logger(), "Drive response: %s", future_.get()->msg_feedback.c_str()); }
     );
 }
 // NOLINTEND(readability-function-cognitive-complexity)
