@@ -42,7 +42,7 @@ ros2 launch robot_bringup display.launch.py
 ### Simulate in Gazebo Harmonic
 
 Spawns the robot in a Gazebo world, wires `gz_ros2_control` into the same controller graph, and
-bridges sensor topics (`/scan`, `/camera/image_raw`) into ROS. `/cmd_vel` and `/odom` are handled in
+bridges sensor topics (`/scan`, `/camera/rgb/image_raw`) into ROS. `/cmd_vel` and `/odom` are handled in
 ROS by `diff_drive_controller`.
 
 ```bash

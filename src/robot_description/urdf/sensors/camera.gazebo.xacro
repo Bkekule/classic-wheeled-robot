@@ -5,7 +5,7 @@
     <sensor name="rgb_camera" type="camera">
       <pose>0 0 0 0 0 0</pose>
       <gz_frame_id>camera_optical_frame</gz_frame_id>
-      <topic>/camera/image_raw</topic>
+      <topic>/camera/rgb/image_raw</topic>
       <update_rate>30</update_rate>
       <camera>
         <image>
