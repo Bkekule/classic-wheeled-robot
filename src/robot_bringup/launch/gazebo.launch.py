@@ -87,6 +87,12 @@ def generate_launch_description() -> LaunchDescription:
         output='screen',
     )
 
+    process_image_node = Node(
+        package='robot_control',
+        executable='process_image_main',
+        output='screen',
+    )
+
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -112,6 +118,7 @@ def generate_launch_description() -> LaunchDescription:
             gz_spawn_entity,
             ros_gz_bridge_node,
             drive_bot_node,
+            process_image_node,
             rviz_node,
         ]
     )

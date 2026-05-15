@@ -12,6 +12,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(custom_interfaces REQUIRED)
 
 # --- drive_bot node library (linked by both executable and tests) ---
@@ -26,6 +27,30 @@ ament_target_dependencies(drive_bot_node
   rclcpp
   geometry_msgs
   custom_interfaces
+)
+
+# --- process_image node library ---
+add_library(process_image_node STATIC
+  src/clients/ball_chaser/process_image_node.cpp
+)
+target_include_directories(process_image_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+ament_target_dependencies(process_image_node
+  rclcpp
+  sensor_msgs
+  custom_interfaces
+)
+
+# --- process_image_main executable ---
+add_executable(process_image_main
+  src/clients/ball_chaser/process_image_main.cpp
+)
+target_link_libraries(process_image_main process_image_node)
+
+install(TARGETS process_image_main
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 # --- drive_bot_main executable ---

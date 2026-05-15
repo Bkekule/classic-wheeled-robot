@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['setup_0',['SetUp',['../class_drive_bot_test.html#aeb5311b0fe042813f754c3719addb3e6',1,'DriveBotTest']]],
-  ['spinuntilcomplete_1',['spinUntilComplete',['../class_drive_bot_test.html#a68dd7b872e0d8a1a515cde92599077fb',1,'DriveBotTest']]]
+  ['robot_5fcontrol_0',['robot_control',['../namespacerobot__control.html',1,'']]],
+  ['robot_5fcontrol_3a_3aball_5fchaser_1',['ball_chaser',['../namespacerobot__control_1_1ball__chaser.html',1,'robot_control']]]
 ];

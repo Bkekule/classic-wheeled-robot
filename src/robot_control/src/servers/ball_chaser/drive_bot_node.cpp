@@ -1,21 +1,22 @@
 #include "servers/ball_chaser/drive_bot_node.hpp"
 
+#include <utility>
+
 namespace robot_control::ball_chaser {
 
-// NOLINTBEGIN(readability-function-cognitive-complexity, performance-unnecessary-value-param)
+// NOLINTBEGIN(readability-function-cognitive-complexity)
 DriveBot::DriveBot() : Node("drive_bot") {
     m_cmdVelPub = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
     m_driveService = this->create_service<custom_interfaces::srv::DriveToTarget>(
         "/ball_chaser/command_robot", [this](
                                           custom_interfaces::srv::DriveToTarget::Request::SharedPtr p_req,
                                           custom_interfaces::srv::DriveToTarget::Response::SharedPtr p_res
-                                      ) { handleDriveRequest(p_req, p_res); }
+                                      ) { handleDriveRequest(std::move(p_req), std::move(p_res)); }
     );
     RCLCPP_INFO(this->get_logger(), "DriveBot node started, service ready on /ball_chaser/command_robot");
 }
-// NOLINTEND(readability-function-cognitive-complexity, performance-unnecessary-value-param)
 
-// NOLINTBEGIN(readability-function-cognitive-complexity, performance-unnecessary-value-param)
+// NOLINTBEGIN(performance-unnecessary-value-param)
 void DriveBot::handleDriveRequest(
     const custom_interfaces::srv::DriveToTarget::Request::SharedPtr p_req,
     const custom_interfaces::srv::DriveToTarget::Response::SharedPtr p_res
@@ -30,5 +31,6 @@ void DriveBot::handleDriveRequest(
 
     RCLCPP_INFO(this->get_logger(), "Published: %s", p_res->msg_feedback.c_str());
 }
-// NOLINTEND(readability-function-cognitive-complexity, performance-unnecessary-value-param)
+// NOLINTEND(performance-unnecessary-value-param)
+// NOLINTEND(readability-function-cognitive-complexity)
 } // namespace robot_control::ball_chaser
