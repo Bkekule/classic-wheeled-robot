@@ -8,9 +8,22 @@
 using DriveToTarget = custom_interfaces::srv::DriveToTarget;
 using Twist = geometry_msgs::msg::Twist;
 
-// What questions do these tests answer?
+/**
+ * @brief Integration tests for the DriveBot ROS 2 service node.
+ *
+ * Tests verify that the DriveBot service:
+ * - Is properly advertised and discoverable
+ * - Echoes requested velocities in the response
+ * - Publishes velocity commands to /cmd_vel topic
+ */
 class DriveBotTest : public ::testing::Test {
   protected:
+    /**
+     * @brief Sets up the test environment with DriveBot server and test client.
+     *
+     * Initializes the DriveBot node, a test client node, creates the service requester,
+     * and registers both nodes with the executor.
+     */
     void SetUp() override {
         m_server = std::make_shared<robot_control::ball_chaser::DriveBot>();
 
@@ -21,12 +34,24 @@ class DriveBotTest : public ::testing::Test {
         m_executor.add_node(m_client);
     }
 
+    /**
+     * @brief Tears down the test environment.
+     *
+     * Removes both the server and client nodes from the executor for cleanup.
+     */
     void TearDown() override {
         m_executor.remove_node(m_server);
         m_executor.remove_node(m_client);
     }
 
-    // Spin until the future resolves or timeout elapses.
+    /**
+     * @brief Spins the executor until a future resolves or timeout elapses.
+     *
+     * @tparam FutureT Type of the future (deduced).
+     * @param future Future to wait for completion.
+     * @param timeout Maximum time to wait (default 2 seconds).
+     * @return True if the future completed, false if timeout elapsed.
+     */
     template <typename FutureT>
     bool spinUntilComplete(FutureT &future, std::chrono::seconds timeout = std::chrono::seconds(2)) {
         auto deadline_ = std::chrono::steady_clock::now() + timeout;
@@ -39,10 +64,10 @@ class DriveBotTest : public ::testing::Test {
         return true;
     }
 
-    std::shared_ptr<robot_control::ball_chaser::DriveBot> m_server;
-    std::shared_ptr<rclcpp::Node> m_client;
-    rclcpp::Client<DriveToTarget>::SharedPtr m_requester;
-    rclcpp::executors::SingleThreadedExecutor m_executor;
+    std::shared_ptr<robot_control::ball_chaser::DriveBot> m_server;       ///< DriveBot service node being tested.
+    std::shared_ptr<rclcpp::Node> m_client;                               ///< Test client node.
+    rclcpp::Client<DriveToTarget>::SharedPtr m_requester;                 ///< Client to call the DriveToTarget service.
+    rclcpp::executors::SingleThreadedExecutor m_executor;                 ///< Executor to spin nodes during tests.
 };
 
 TEST_F(DriveBotTest, ServiceIsAdvertised) { EXPECT_TRUE(m_requester->wait_for_service(std::chrono::seconds(1))); }

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Apartment Navigation: robot_control::ball_chaser::ProcessImage Class Reference</title>
+<title>Apartment Navigation By Classic Wheeled Robot: robot_control::ball_chaser::ProcessImage Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,9 +32,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Apartment Navigation
+   <div id="projectname">Apartment Navigation By Classic Wheeled Robot
    </div>
-   <div id="projectbrief">Gazebo Sim plugin for apartment robot navigation</div>
+   <div id="projectbrief">Comprehensive Production Grade Repository For Apartment Navigation Project (Inspired By Udacity Course)</div>
   </td>
     <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -110,6 +110,9 @@ $(function(){initNavTree('classrobot__control_1_1ball__chaser_1_1_process_image.
 </div><!--header-->
 <div class="contents">
 
+<p>ROS 2 client node that processes camera images to detect and chase a white ball.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="process__image__node_8hpp_source.html">process_image_node.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for robot_control::ball_chaser::ProcessImage:</div>
@@ -121,9 +124,13 @@ Inheritance diagram for robot_control::ball_chaser::ProcessImage:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a66bff99e025d9334135f54dd6324ef96" id="r_a66bff99e025d9334135f54dd6324ef96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66bff99e025d9334135f54dd6324ef96">ProcessImage</a> ()</td></tr>
+<tr class="memdesc:a66bff99e025d9334135f54dd6324ef96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs and initializes the <a class="el" href="classrobot__control_1_1ball__chaser_1_1_process_image.html" title="ROS 2 client node that processes camera images to detect and chase a white ball.">ProcessImage</a> node.  <br /></td></tr>
 <tr class="separator:a66bff99e025d9334135f54dd6324ef96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>ROS 2 client node that processes camera images to detect and chase a white ball. </p>
+<p>Subscribes to camera images, detects the white ball using configurable RGB thresholds, and commands the robot to drive toward it. Stops the robot when the ball is not detected. Linear and angular speeds are configurable via ROS parameters. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a66bff99e025d9334135f54dd6324ef96" name="a66bff99e025d9334135f54dd6324ef96"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a66bff99e025d9334135f54dd6324ef96">&#9670;&#160;</a></span>ProcessImage()</h2>
 
@@ -139,18 +146,21 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructs and initializes the <a class="el" href="classrobot__control_1_1ball__chaser_1_1_process_image.html" title="ROS 2 client node that processes camera images to detect and chase a white ball.">ProcessImage</a> node. </p>
+<p>Initializes camera subscription, drive client, and loads configuration parameters for ball detection thresholds and velocity limits. </p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/robot_control/include/clients/ball_chaser/<a class="el" href="process__image__node_8hpp_source.html">process_image_node.hpp</a></li>
-<li>src/robot_control/src/clients/ball_chaser/<a class="el" href="process__image__node_8cpp.html">process_image_node.cpp</a></li>
+<li>src/robot_control/src/clients/ball_chaser/<b>process_image_node.cpp</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacerobot__control.html">robot_control</a></li><li class="navelem"><a class="el" href="namespacerobot__control_1_1ball__chaser.html">ball_chaser</a></li><li class="navelem"><a class="el" href="classrobot__control_1_1ball__chaser_1_1_process_image.html">ProcessImage</a></li>
+    <li class="navelem"><b>robot_control</b></li><li class="navelem"><b>ball_chaser</b></li><li class="navelem"><a class="el" href="classrobot__control_1_1ball__chaser_1_1_process_image.html">ProcessImage</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

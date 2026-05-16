@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['center_0',['Center',['../namespacerobot__control_1_1ball__chaser.html#abaa07b61ee66ff6b5e3f9412b751bad4a4f1f6016fc9f3f2353c0cc7c67b292bd',1,'robot_control::ball_chaser']]]
+  ['drivebot_0',['DriveBot',['../classrobot__control_1_1ball__chaser_1_1_drive_bot.html',1,'robot_control::ball_chaser::DriveBot'],['../classrobot__control_1_1ball__chaser_1_1_drive_bot.html#aa8cd0573a67d9c911b857d0d81027b2c',1,'robot_control::ball_chaser::DriveBot::DriveBot()']]],
+  ['drivebottest_1',['DriveBotTest',['../class_drive_bot_test.html',1,'']]]
 ];

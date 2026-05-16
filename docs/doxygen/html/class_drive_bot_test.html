@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Apartment Navigation: DriveBotTest Class Reference</title>
+<title>Apartment Navigation By Classic Wheeled Robot: DriveBotTest Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,9 +32,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Apartment Navigation
+   <div id="projectname">Apartment Navigation By Classic Wheeled Robot
    </div>
-   <div id="projectbrief">Gazebo Sim plugin for apartment robot navigation</div>
+   <div id="projectbrief">Comprehensive Production Grade Repository For Apartment Navigation Project (Inspired By Udacity Course)</div>
   </td>
     <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -110,6 +110,9 @@ $(function(){initNavTree('class_drive_bot_test.html',''); initResizable(true); }
   <div class="headertitle"><div class="title">DriveBotTest Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Integration tests for the DriveBot ROS 2 service node.  
+ <a href="#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for DriveBotTest:</div>
 <div class="dyncontent">
@@ -120,25 +123,43 @@ Inheritance diagram for DriveBotTest:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:aeb5311b0fe042813f754c3719addb3e6" id="r_aeb5311b0fe042813f754c3719addb3e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb5311b0fe042813f754c3719addb3e6">SetUp</a> () override</td></tr>
+<tr class="memdesc:aeb5311b0fe042813f754c3719addb3e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up the test environment with DriveBot server and test client.  <br /></td></tr>
 <tr class="separator:aeb5311b0fe042813f754c3719addb3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedf7191c9dab8b1a9946a462351a1c82" id="r_aedf7191c9dab8b1a9946a462351a1c82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedf7191c9dab8b1a9946a462351a1c82">TearDown</a> () override</td></tr>
+<tr class="memdesc:aedf7191c9dab8b1a9946a462351a1c82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tears down the test environment.  <br /></td></tr>
 <tr class="separator:aedf7191c9dab8b1a9946a462351a1c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8abc5c48e7e41c821ed92d455e0a4f5c" id="r_a8abc5c48e7e41c821ed92d455e0a4f5c"><td class="memTemplParams" colspan="2">template&lt;typename FutureT&gt; </td></tr>
 <tr class="memitem:a8abc5c48e7e41c821ed92d455e0a4f5c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8abc5c48e7e41c821ed92d455e0a4f5c">spinUntilComplete</a> (FutureT &amp;future, std::chrono::seconds timeout=std::chrono::seconds(2))</td></tr>
+<tr class="memdesc:a8abc5c48e7e41c821ed92d455e0a4f5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spins the executor until a future resolves or timeout elapses.  <br /></td></tr>
 <tr class="separator:a8abc5c48e7e41c821ed92d455e0a4f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a46da8499721f7d5968949a76e9b31a31" id="r_a46da8499721f7d5968949a76e9b31a31"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html">robot_control::ball_chaser::DriveBot</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46da8499721f7d5968949a76e9b31a31">m_server</a></td></tr>
+<tr class="memitem:a46da8499721f7d5968949a76e9b31a31" id="r_a46da8499721f7d5968949a76e9b31a31"><td class="memItemLeft" align="right" valign="top"><a id="a46da8499721f7d5968949a76e9b31a31" name="a46da8499721f7d5968949a76e9b31a31"></a>
+std::shared_ptr&lt; <a class="el" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html">robot_control::ball_chaser::DriveBot</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_server</b></td></tr>
+<tr class="memdesc:a46da8499721f7d5968949a76e9b31a31"><td class="mdescLeft">&#160;</td><td class="mdescRight">DriveBot service node being tested. <br /></td></tr>
 <tr class="separator:a46da8499721f7d5968949a76e9b31a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a700642a9377f32a177e1d1e63c671870" id="r_a700642a9377f32a177e1d1e63c671870"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; rclcpp::Node &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a700642a9377f32a177e1d1e63c671870">m_client</a></td></tr>
+<tr class="memitem:a700642a9377f32a177e1d1e63c671870" id="r_a700642a9377f32a177e1d1e63c671870"><td class="memItemLeft" align="right" valign="top"><a id="a700642a9377f32a177e1d1e63c671870" name="a700642a9377f32a177e1d1e63c671870"></a>
+std::shared_ptr&lt; rclcpp::Node &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_client</b></td></tr>
+<tr class="memdesc:a700642a9377f32a177e1d1e63c671870"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test client node. <br /></td></tr>
 <tr class="separator:a700642a9377f32a177e1d1e63c671870"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d44e488b592558ee2dfe60092215318" id="r_a5d44e488b592558ee2dfe60092215318"><td class="memItemLeft" align="right" valign="top">rclcpp::Client&lt; <a class="el" href="test__drive__bot_8cpp.html#a49b2a02d666b511529e9db6d774cee52">DriveToTarget</a> &gt;::SharedPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d44e488b592558ee2dfe60092215318">m_requester</a></td></tr>
+<tr class="memitem:a5d44e488b592558ee2dfe60092215318" id="r_a5d44e488b592558ee2dfe60092215318"><td class="memItemLeft" align="right" valign="top"><a id="a5d44e488b592558ee2dfe60092215318" name="a5d44e488b592558ee2dfe60092215318"></a>
+rclcpp::Client&lt; DriveToTarget &gt;::SharedPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_requester</b></td></tr>
+<tr class="memdesc:a5d44e488b592558ee2dfe60092215318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Client to call the DriveToTarget service. <br /></td></tr>
 <tr class="separator:a5d44e488b592558ee2dfe60092215318"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af65d50d5660f35d3fcfd6011ba44bc57" id="r_af65d50d5660f35d3fcfd6011ba44bc57"><td class="memItemLeft" align="right" valign="top">rclcpp::executors::SingleThreadedExecutor&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af65d50d5660f35d3fcfd6011ba44bc57">m_executor</a></td></tr>
+<tr class="memitem:af65d50d5660f35d3fcfd6011ba44bc57" id="r_af65d50d5660f35d3fcfd6011ba44bc57"><td class="memItemLeft" align="right" valign="top"><a id="af65d50d5660f35d3fcfd6011ba44bc57" name="af65d50d5660f35d3fcfd6011ba44bc57"></a>
+rclcpp::executors::SingleThreadedExecutor&#160;</td><td class="memItemRight" valign="bottom"><b>m_executor</b></td></tr>
+<tr class="memdesc:af65d50d5660f35d3fcfd6011ba44bc57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executor to spin nodes during tests. <br /></td></tr>
 <tr class="separator:af65d50d5660f35d3fcfd6011ba44bc57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Integration tests for the DriveBot ROS 2 service node. </p>
+<p>Tests verify that the DriveBot service:</p><ul>
+<li>Is properly advertised and discoverable</li>
+<li>Echoes requested velocities in the response</li>
+<li>Publishes velocity commands to /cmd_vel topic </li>
+</ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aeb5311b0fe042813f754c3719addb3e6" name="aeb5311b0fe042813f754c3719addb3e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeb5311b0fe042813f754c3719addb3e6">&#9670;&#160;</a></span>SetUp()</h2>
 
@@ -161,6 +182,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Sets up the test environment with DriveBot server and test client. </p>
+<p>Initializes the DriveBot node, a test client node, creates the service requester, and registers both nodes with the executor. </p>
 
 </div>
 </div>
@@ -193,6 +217,22 @@ template&lt;typename FutureT&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Spins the executor until a future resolves or timeout elapses. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">FutureT</td><td>Type of the future (deduced). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">future</td><td>Future to wait for completion. </td></tr>
+    <tr><td class="paramname">timeout</td><td>Maximum time to wait (default 2 seconds). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the future completed, false if timeout elapsed. </dd></dl>
+
 </div>
 </div>
 <a id="aedf7191c9dab8b1a9946a462351a1c82" name="aedf7191c9dab8b1a9946a462351a1c82"></a>
@@ -218,99 +258,13 @@ template&lt;typename FutureT&gt; </div>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a700642a9377f32a177e1d1e63c671870" name="a700642a9377f32a177e1d1e63c671870"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a700642a9377f32a177e1d1e63c671870">&#9670;&#160;</a></span>m_client</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;rclcpp::Node&gt; DriveBotTest::m_client</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af65d50d5660f35d3fcfd6011ba44bc57" name="af65d50d5660f35d3fcfd6011ba44bc57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af65d50d5660f35d3fcfd6011ba44bc57">&#9670;&#160;</a></span>m_executor</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">rclcpp::executors::SingleThreadedExecutor DriveBotTest::m_executor</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5d44e488b592558ee2dfe60092215318" name="a5d44e488b592558ee2dfe60092215318"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d44e488b592558ee2dfe60092215318">&#9670;&#160;</a></span>m_requester</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">rclcpp::Client&lt;<a class="el" href="test__drive__bot_8cpp.html#a49b2a02d666b511529e9db6d774cee52">DriveToTarget</a>&gt;::SharedPtr DriveBotTest::m_requester</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a46da8499721f7d5968949a76e9b31a31" name="a46da8499721f7d5968949a76e9b31a31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46da8499721f7d5968949a76e9b31a31">&#9670;&#160;</a></span>m_server</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html">robot_control::ball_chaser::DriveBot</a>&gt; DriveBotTest::m_server</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Tears down the test environment. </p>
+<p>Removes both the server and client nodes from the executor for cleanup. </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/robot_control/tests/integration/ball_chaser/<a class="el" href="test__drive__bot_8cpp.html">test_drive_bot.cpp</a></li>
+<li>src/robot_control/tests/integration/ball_chaser/<b>test_drive_bot.cpp</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

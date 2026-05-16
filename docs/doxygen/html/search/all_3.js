@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['findballregion_0',['findBallRegion',['../namespacerobot__control_1_1ball__chaser.html#aaa59420c96bf6f4452b63ae0c9e1d260',1,'robot_control::ball_chaser']]]
+  ['g_0',['g',['../structrobot__control_1_1ball__chaser_1_1_rgb_threshold.html#a19f8ee450ba410aa96e0cb4fb4e06478',1,'robot_control::ball_chaser::RgbThreshold']]]
 ];

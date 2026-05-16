@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['image_5futils_2ecpp_0',['image_utils.cpp',['../image__utils_8cpp.html',1,'']]],
-  ['image_5futils_2ehpp_1',['image_utils.hpp',['../image__utils_8hpp.html',1,'']]],
-  ['imagedimensions_2',['ImageDimensions',['../structrobot__control_1_1ball__chaser_1_1_image_dimensions.html',1,'robot_control::ball_chaser']]]
+  ['m_5fclient_0',['m_client',['../class_drive_bot_test.html#a700642a9377f32a177e1d1e63c671870',1,'DriveBotTest']]],
+  ['m_5fdims_1',['m_dims',['../class_find_ball_region_test.html#a8568a13f286c345fd00f1621f40275fb',1,'FindBallRegionTest']]],
+  ['m_5fexecutor_2',['m_executor',['../class_drive_bot_test.html#af65d50d5660f35d3fcfd6011ba44bc57',1,'DriveBotTest']]],
+  ['m_5frequester_3',['m_requester',['../class_drive_bot_test.html#a5d44e488b592558ee2dfe60092215318',1,'DriveBotTest']]],
+  ['m_5fserver_4',['m_server',['../class_drive_bot_test.html#a46da8499721f7d5968949a76e9b31a31',1,'DriveBotTest']]],
+  ['m_5fthreshold_5',['m_threshold',['../class_find_ball_region_test.html#a62aa97ef982d289833c6a25bd4263f8a',1,'FindBallRegionTest']]]
 ];

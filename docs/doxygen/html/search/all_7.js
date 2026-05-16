@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['left_0',['Left',['../namespacerobot__control_1_1ball__chaser.html#abaa07b61ee66ff6b5e3f9412b751bad4a945d5e233cf7d6240f6b783b36a374ff',1,'robot_control::ball_chaser']]]
+  ['processimage_0',['ProcessImage',['../classrobot__control_1_1ball__chaser_1_1_process_image.html',1,'robot_control::ball_chaser::ProcessImage'],['../classrobot__control_1_1ball__chaser_1_1_process_image.html#a66bff99e025d9334135f54dd6324ef96',1,'robot_control::ball_chaser::ProcessImage::ProcessImage()']]]
 ];
