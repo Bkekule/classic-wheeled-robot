@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+@brief Gazebo Harmonic simulation launch using native Gazebo plugins.
+
+Starts the Gazebo server and GUI, spawns the robot, bridges ROS-Gz topics,
+and launches the ball chasing nodes and RViz.
+"""
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -15,10 +21,12 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description() -> LaunchDescription:
     """
-    Launch Gazebo Harmonic with the robot using native Gazebo plugins.
+    @brief Launch Gazebo Harmonic with the robot using native Gazebo plugins.
 
     Drives the robot via gz-sim-diff-drive and publishes joint states via
     gz-sim-joint-state-publisher, avoiding gz_ros2_control entirely.
+
+    @return LaunchDescription with Gazebo server, GUI, robot nodes, ROS-Gz bridge, and RViz.
     """
     pkg_description_dir = get_package_share_directory('robot_description')
 

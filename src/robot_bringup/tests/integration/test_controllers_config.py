@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Validates that hardcoded geometry values in controllers.yaml match the URDF.
+@brief Validates that hardcoded geometry values in controllers.yaml match the URDF.
 
 wheel_radius and wheel_separation cannot use xacro expressions in YAML,
 so they must be kept in sync manually. These tests catch drift.
@@ -16,11 +16,23 @@ import yaml
 
 @pytest.fixture(scope='module')
 def controllers(description_dir: Path) -> dict:  # type: ignore
+    """
+    @brief Load and return the diff_drive_controller configuration from YAML.
+
+    @param description_dir Path to the robot_description package root.
+    @return Parsed YAML configuration as a dictionary.
+    """
     with open(description_dir / 'config' / 'diff_drive_controller.yaml') as f:
         return cast(dict, yaml.safe_load(f))  # type: ignore
 
 
 def _wheel_radius_from_urdf(urdf_root: ET.Element) -> float:
+    """
+    @brief Extract the wheel radius from the left_wheel link geometry in the URDF.
+
+    @param urdf_root Parsed root XML element of the expanded URDF.
+    @return Wheel radius in metres.
+    """
     link = urdf_root.find(".//link[@name='left_wheel']")
     assert link is not None, 'left_wheel link not found in URDF'
     cylinder = link.find('.//collision/geometry/cylinder')

@@ -110,62 +110,44 @@ $(function(){initNavTree('namespacerobot__control_1_1ball__chaser.html',''); ini
   <div class="headertitle"><div class="title">robot_control::ball_chaser Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Ball detection and chasing logic.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html">DriveBot</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ROS 2 service node that relays velocity commands to the robot.  <a href="classrobot__control_1_1ball__chaser_1_1_drive_bot.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrobot__control_1_1ball__chaser_1_1_image_dimensions.html">ImageDimensions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Image dimensions and stride information.  <a href="structrobot__control_1_1ball__chaser_1_1_image_dimensions.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrobot__control_1_1ball__chaser_1_1_process_image.html">ProcessImage</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ROS 2 client node that processes camera images to detect and chase a white ball.  <a href="classrobot__control_1_1ball__chaser_1_1_process_image.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrobot__control_1_1ball__chaser_1_1_rgb_threshold.html">RgbThreshold</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">RGB color threshold values for ball detection.  <a href="structrobot__control_1_1ball__chaser_1_1_rgb_threshold.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:abaa07b61ee66ff6b5e3f9412b751bad4" id="r_abaa07b61ee66ff6b5e3f9412b751bad4"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abaa07b61ee66ff6b5e3f9412b751bad4">BallRegion</a> : std::uint8_t { <a class="el" href="#abaa07b61ee66ff6b5e3f9412b751bad4a945d5e233cf7d6240f6b783b36a374ff">Left</a>
-, <a class="el" href="#abaa07b61ee66ff6b5e3f9412b751bad4a4f1f6016fc9f3f2353c0cc7c67b292bd">Center</a>
-, <a class="el" href="#abaa07b61ee66ff6b5e3f9412b751bad4a92b09c7c48c520c3c55e497875da437c">Right</a>
-, <a class="el" href="#abaa07b61ee66ff6b5e3f9412b751bad4a38c300f4fc9ce8a77aad4a30de05cad8">NotFound</a>
+<tr class="memitem:abaa07b61ee66ff6b5e3f9412b751bad4" id="r_abaa07b61ee66ff6b5e3f9412b751bad4"><td class="memItemLeft" align="right" valign="top"><a id="abaa07b61ee66ff6b5e3f9412b751bad4" name="abaa07b61ee66ff6b5e3f9412b751bad4"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abaa07b61ee66ff6b5e3f9412b751bad4">BallRegion</a> : std::uint8_t { <b>Left</b>
+, <b>Center</b>
+, <b>Right</b>
+, <b>NotFound</b>
  }</td></tr>
+<tr class="memdesc:abaa07b61ee66ff6b5e3f9412b751bad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detected ball region in the image. <br /></td></tr>
 <tr class="separator:abaa07b61ee66ff6b5e3f9412b751bad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aaa59420c96bf6f4452b63ae0c9e1d260" id="r_aaa59420c96bf6f4452b63ae0c9e1d260"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#abaa07b61ee66ff6b5e3f9412b751bad4">BallRegion</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa59420c96bf6f4452b63ae0c9e1d260">findBallRegion</a> (const uint8_t *data, <a class="el" href="structrobot__control_1_1ball__chaser_1_1_image_dimensions.html">ImageDimensions</a> dims, <a class="el" href="structrobot__control_1_1ball__chaser_1_1_rgb_threshold.html">RgbThreshold</a> threshold)</td></tr>
+<tr class="memdesc:aaa59420c96bf6f4452b63ae0c9e1d260"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detects the ball region within an image based on RGB thresholds.  <br /></td></tr>
 <tr class="separator:aaa59420c96bf6f4452b63ae0c9e1d260"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="abaa07b61ee66ff6b5e3f9412b751bad4" name="abaa07b61ee66ff6b5e3f9412b751bad4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abaa07b61ee66ff6b5e3f9412b751bad4">&#9670;&#160;</a></span>BallRegion</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#abaa07b61ee66ff6b5e3f9412b751bad4">robot_control::ball_chaser::BallRegion</a> : std::uint8_t</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="abaa07b61ee66ff6b5e3f9412b751bad4a945d5e233cf7d6240f6b783b36a374ff" name="abaa07b61ee66ff6b5e3f9412b751bad4a945d5e233cf7d6240f6b783b36a374ff"></a>Left&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="abaa07b61ee66ff6b5e3f9412b751bad4a4f1f6016fc9f3f2353c0cc7c67b292bd" name="abaa07b61ee66ff6b5e3f9412b751bad4a4f1f6016fc9f3f2353c0cc7c67b292bd"></a>Center&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="abaa07b61ee66ff6b5e3f9412b751bad4a92b09c7c48c520c3c55e497875da437c" name="abaa07b61ee66ff6b5e3f9412b751bad4a92b09c7c48c520c3c55e497875da437c"></a>Right&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="abaa07b61ee66ff6b5e3f9412b751bad4a38c300f4fc9ce8a77aad4a30de05cad8" name="abaa07b61ee66ff6b5e3f9412b751bad4a38c300f4fc9ce8a77aad4a30de05cad8"></a>NotFound&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Ball detection and chasing logic. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="aaa59420c96bf6f4452b63ae0c9e1d260" name="aaa59420c96bf6f4452b63ae0c9e1d260"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaa59420c96bf6f4452b63ae0c9e1d260">&#9670;&#160;</a></span>findBallRegion()</h2>
 
@@ -189,6 +171,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Detects the ball region within an image based on RGB thresholds. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Pointer to raw image data (RGB format). </td></tr>
+    <tr><td class="paramname">dims</td><td>Image dimensions and stride. </td></tr>
+    <tr><td class="paramname">threshold</td><td>RGB color threshold for ball detection. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="#abaa07b61ee66ff6b5e3f9412b751bad4" title="Detected ball region in the image.">BallRegion</a> indicating where the ball was detected, or NotFound if not detected. </dd></dl>
 
 </div>
 </div>

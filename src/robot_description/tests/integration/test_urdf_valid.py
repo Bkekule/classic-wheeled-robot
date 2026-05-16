@@ -1,15 +1,25 @@
 #!/usr/bin/env python3
+"""
+@brief Integration tests that validate the expanded robot URDF structure.
+
+Verifies that xacro expansion succeeds and that the resulting URDF contains
+the expected links, joints, joint types, and ros2_control configuration.
+"""
 
 import xml.etree.ElementTree as ET
 
 
 def test_xacro_expansion(urdf_root: ET.Element) -> None:
-    """Test that xacro expansion produces a non-empty robot element."""
+    """
+    @brief Test that xacro expansion produces a non-empty robot element.
+    """
     assert urdf_root.tag == 'robot'
 
 
 def test_urdf_has_required_links(urdf_root: ET.Element) -> None:
-    """Test that the expanded URDF contains all required links."""
+    """
+    @brief Test that the expanded URDF contains all required links.
+    """
     link_names = {link.get('name') for link in urdf_root.findall('link')}
 
     required_links = {
@@ -29,7 +39,9 @@ def test_urdf_has_required_links(urdf_root: ET.Element) -> None:
 
 
 def test_urdf_has_required_joints(urdf_root: ET.Element) -> None:
-    """Test that the expanded URDF contains all required joints."""
+    """
+    @brief Test that the expanded URDF contains all required joints.
+    """
     joint_names = {joint.get('name') for joint in urdf_root.findall('joint')}
 
     required_joints = {
@@ -48,7 +60,9 @@ def test_urdf_has_required_joints(urdf_root: ET.Element) -> None:
 
 
 def test_wheel_joints_are_continuous(urdf_root: ET.Element) -> None:
-    """Test that driven wheel joints are continuous type."""
+    """
+    @brief Test that driven wheel joints are continuous type.
+    """
     for name in ('chassis_to_left_wheel_joint', 'chassis_to_right_wheel_joint'):
         joint = urdf_root.find(f".//joint[@name='{name}'][@type]")
         assert joint is not None, f'Joint not found: {name}'
@@ -56,7 +70,9 @@ def test_wheel_joints_are_continuous(urdf_root: ET.Element) -> None:
 
 
 def test_fixed_joints_are_fixed(urdf_root: ET.Element) -> None:
-    """Test that all non-driven joints are fixed type."""
+    """
+    @brief Test that all non-driven joints are fixed type.
+    """
     fixed_joints = {
         'robot_footprint_to_chassis_joint',
         'chassis_to_front_caster_joint',
@@ -72,7 +88,9 @@ def test_fixed_joints_are_fixed(urdf_root: ET.Element) -> None:
 
 
 def test_ros2_control_block_present(urdf_root: ET.Element) -> None:
-    """Test that the ros2_control block exists and references the correct joints."""
+    """
+    @brief Test that the ros2_control block exists and references the correct joints.
+    """
     rc = urdf_root.find('.//ros2_control')
     assert rc is not None, 'ros2_control block not found'
 
@@ -82,7 +100,9 @@ def test_ros2_control_block_present(urdf_root: ET.Element) -> None:
 
 
 def test_ros2_control_joints_have_velocity_interface(urdf_root: ET.Element) -> None:
-    """Test that ros2_control wheel joints expose a velocity command interface."""
+    """
+    @brief Test that ros2_control wheel joints expose a velocity command interface.
+    """
     rc = urdf_root.find('.//ros2_control')
     assert rc is not None
 

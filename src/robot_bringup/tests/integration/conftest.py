@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+@brief Shared pytest fixtures for robot_bringup integration tests.
+
+Provides session-scoped fixtures for resolving package paths, expanding
+the robot xacro file, and setting up a minimal ament index for testing.
+"""
 
 import os
 from pathlib import Path
@@ -10,16 +16,25 @@ import pytest
 
 @pytest.fixture(scope='session')
 def bringup_dir() -> Path:
+    """
+    @brief Return the root directory of the robot_bringup package.
+    """
     return Path(__file__).parent.parent.parent
 
 
 @pytest.fixture(scope='session')
 def description_dir(bringup_dir: Path) -> Path:
+    """
+    @brief Return the root directory of the robot_description package.
+    """
     return bringup_dir.parent / 'robot_description'
 
 
 @pytest.fixture(scope='session')
 def urdf_file(description_dir: Path) -> Path:
+    """
+    @brief Return the path to the robot xacro entry point.
+    """
     return description_dir / 'urdf' / 'robot.urdf.xacro'
 
 
@@ -36,6 +51,13 @@ def ament_prefix(description_dir: Path, tmp_path_factory: pytest.TempPathFactory
 
 @pytest.fixture(scope='session')
 def urdf_root(urdf_file: Path, ament_prefix: Path) -> ET.Element:
+    """
+    @brief Expand the xacro file and return the parsed URDF root element.
+
+    @param urdf_file Path to the robot xacro file.
+    @param ament_prefix Temporary ament prefix with robot_description registered.
+    @return Parsed root XML element of the expanded URDF.
+    """
     env = os.environ.copy()
     existing = env.get('AMENT_PREFIX_PATH', '')
     env['AMENT_PREFIX_PATH'] = str(ament_prefix) + (':' + existing if existing else '')

@@ -41,7 +41,7 @@ std::vector<uint8_t> makeImage(ImageDimensions dims, uint32_t whiteCol) {
  */
 class FindBallRegionTest : public ::testing::Test {
   protected:
-    /// 10-pixel wide image; thirds: left=[0,2], center=[3,5], right=[6,9].
+    /// 10-pixel wide image; thirds: left=[0,2], center=[3,6], right=[7,9].
     static constexpr ImageDimensions m_dims{10, 1, 10 * 3};
 
     /// Pure white threshold for all RGB channels.
@@ -64,14 +64,14 @@ TEST_F(FindBallRegionTest, BallInCenterThirdReturnsCenter) {
 }
 
 TEST_F(FindBallRegionTest, BallInRightThirdReturnsRight) {
-    auto data_ = makeImage(m_dims, 6);
+    auto data_ = makeImage(m_dims, 7);
     EXPECT_EQ(findBallRegion(data_.data(), m_dims, m_threshold), BallRegion::Right);
 }
 
 TEST_F(FindBallRegionTest, BallBelowThresholdIsIgnored) {
     auto data_ = makeImage(m_dims, 4);
     // Drop one channel below threshold — should not be detected
-    data_[1] = 254;
+    data_[(4 * 3) + 1] = 254; // corrupt green channel of the white pixel at col 4
     EXPECT_EQ(findBallRegion(data_.data(), m_dims, m_threshold), BallRegion::NotFound);
 }
 

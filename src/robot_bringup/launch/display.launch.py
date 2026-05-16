@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+@brief Display launch for visualizing the robot in RViz with mock hardware.
+
+Includes robot_core launch with mock_components/GenericSystem and starts RViz.
+"""
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -9,7 +14,11 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description() -> LaunchDescription:
-    """Launch robot with mock hardware and RViz (no simulator)."""
+    """
+    @brief Launch the robot with mock hardware and RViz (no simulator).
+
+    @return LaunchDescription with robot_core and RViz node.
+    """
     pkg_bringup_dir = get_package_share_directory('robot_bringup')
 
     declare_use_sim_time = DeclareLaunchArgument(

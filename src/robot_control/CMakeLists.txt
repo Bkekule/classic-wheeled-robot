@@ -9,92 +9,33 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(sensor_msgs REQUIRED)
-find_package(custom_interfaces REQUIRED)
+option(ENABLE_ASAN  "Enable AddressSanitizer (memory errors)"  OFF)
+option(ENABLE_UBSAN "Enable UndefinedBehaviorSanitizer"         ON)
+option(ENABLE_TSAN  "Enable ThreadSanitizer (race conditions)"  OFF)
 
-# --- ball_chaser_utils: pure domain logic, no ROS dependency ---
-add_library(ball_chaser_utils STATIC
-  src/ball_chaser/image_utils.cpp
-)
-target_include_directories(ball_chaser_utils PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/ball_chaser>
-  $<INSTALL_INTERFACE:include/ball_chaser>
-)
-
-# --- drive_bot node library (linked by both executable and tests) ---
-add_library(drive_bot_node OBJECT
-  src/servers/ball_chaser/drive_bot_node.cpp
-)
-target_include_directories(drive_bot_node PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/servers/ball_chaser>
-  $<INSTALL_INTERFACE:include/servers/ball_chaser>
-)
-ament_target_dependencies(drive_bot_node
-  rclcpp
-  geometry_msgs
-  custom_interfaces
-)
-
-# --- process_image node library ---
-add_library(process_image_node OBJECT
-  src/clients/ball_chaser/process_image_node.cpp
-)
-target_include_directories(process_image_node PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/clients/ball_chaser>
-  $<INSTALL_INTERFACE:include/clients/ball_chaser>
-)
-target_link_libraries(process_image_node ball_chaser_utils)
-ament_target_dependencies(process_image_node
-  rclcpp
-  sensor_msgs
-  custom_interfaces
-)
-
-# --- process_image_main executable ---
-add_executable(process_image_main
-  src/clients/ball_chaser/process_image_main.cpp
-)
-target_link_libraries(process_image_main process_image_node)
-
-install(TARGETS process_image_main
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-# --- drive_bot_main executable ---
-add_executable(drive_bot_main
-  src/servers/ball_chaser/drive_bot_main.cpp
-)
-target_link_libraries(drive_bot_main drive_bot_node)
-
-install(TARGETS drive_bot_main
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(DIRECTORY include/
-  DESTINATION include
-)
-
-# --- tests ---
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  set(ament_cmake_copyright_FOUND TRUE)
-  set(ament_cmake_cpplint_FOUND TRUE)
-  set(ament_cmake_uncrustify_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-
-  find_package(ament_cmake_gtest REQUIRED)
-
-  ament_add_gtest(test_image_utils
-    tests/unit/ball_chaser/test_image_utils.cpp
-  )
-  target_link_libraries(test_image_utils ball_chaser_utils)
-
-  ament_add_gtest(test_drive_bot
-    tests/integration/ball_chaser/test_drive_bot.cpp
-  )
-  target_link_libraries(test_drive_bot drive_bot_node)
+if(ENABLE_ASAN AND ENABLE_TSAN)
+    message(FATAL_ERROR "ASan and TSan are mutually exclusive — enable only one at a time.")
 endif()
+
+if(ENABLE_ASAN) # Limit to staging environments or production environments where timing and memory overhead is palatable
+    add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
+    add_link_options(-fsanitize=address)
+endif()
+
+if(ENABLE_UBSAN) # Just a tad slower. Can be used in production sparingly.
+    add_compile_options(-fsanitize=undefined)
+    add_link_options(-fsanitize=undefined)
+endif()
+
+if(ENABLE_TSAN) # Only when investigating race conditions, as it has significant performance overhead
+    add_compile_options(-fsanitize=thread)
+    add_link_options(-fsanitize=thread)
+endif()
+
+find_package(ament_cmake REQUIRED)
+set(ROBOT_CONTROL_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_subdirectory(src)
+add_subdirectory(tests)
 
 ament_package()

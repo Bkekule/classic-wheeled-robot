@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['m_5fclient_0',['m_client',['../class_drive_bot_test.html#a700642a9377f32a177e1d1e63c671870',1,'DriveBotTest']]],
-  ['m_5fdims_1',['m_dims',['../class_find_ball_region_test.html#a8568a13f286c345fd00f1621f40275fb',1,'FindBallRegionTest']]],
-  ['m_5fexecutor_2',['m_executor',['../class_drive_bot_test.html#af65d50d5660f35d3fcfd6011ba44bc57',1,'DriveBotTest']]],
-  ['m_5frequester_3',['m_requester',['../class_drive_bot_test.html#a5d44e488b592558ee2dfe60092215318',1,'DriveBotTest']]],
-  ['m_5fserver_4',['m_server',['../class_drive_bot_test.html#a46da8499721f7d5968949a76e9b31a31',1,'DriveBotTest']]],
-  ['m_5fthreshold_5',['m_threshold',['../class_find_ball_region_test.html#a62aa97ef982d289833c6a25bd4263f8a',1,'FindBallRegionTest']]]
+  ['g_0',['g',['../structrobot__control_1_1ball__chaser_1_1_rgb_threshold.html#a19f8ee450ba410aa96e0cb4fb4e06478',1,'robot_control::ball_chaser::RgbThreshold']]],
+  ['gazebo_1',['gazebo',['../namespacegazebo.html',1,'']]],
+  ['generate_5flaunch_5fdescription_2',['generate_launch_description',['../namespacedisplay.html#a1199a971008314845f42792ac40a73f6',1,'display.generate_launch_description()'],['../namespacegazebo.html#a31b93345029c7f312b8c61dfa99caeea',1,'gazebo.generate_launch_description()'],['../namespacerobot__core.html#a56ccf2bffe585eaea4321e9a9f73d960',1,'robot_core.generate_launch_description()']]]
 ];

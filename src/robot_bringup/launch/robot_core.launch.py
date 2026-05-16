@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+@brief Core robot bringup launch shared by display and Gazebo launches.
+
+Starts robot_state_publisher, controller_manager, and spawns
+joint_state_broadcaster and diff_drive_controller.
+"""
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -11,11 +17,13 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description() -> LaunchDescription:
     """
-    Core robot bringup shared by display and gazebo launches.
+    @brief Core robot bringup should eventually be shared by display and gazebo launches.
 
     Expected arguments (callers must forward or declare them):
         hardware_plugin  — xacro hardware_plugin value
         use_sim_time     — bool string, 'true' or 'false'
+
+    @return LaunchDescription with robot_state_publisher, controller_manager, and controller spawners.
     """
     pkg_description_dir = get_package_share_directory('robot_description')
 

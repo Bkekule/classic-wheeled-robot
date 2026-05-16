@@ -39,7 +39,7 @@ ros-jazzy-xacro = "*"
 pre-commit = "cd .. && pre-commit run --all-files"
 robo-bug-patch = "mkdir -p $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src && ln -sfn $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src/media"
 build = "cd .. && unset CMAKE_PREFIX_PATH && rm -rf build/ install/ logs/ && colcon build --cmake-args -DCMAKE_SUPPRESS_DEVELOPER_WARNINGS=ON"
-run-tests = { cmd = "colcon test && colcon test-result --verbose", depends-on = [
+run-tests = { cmd = "cd .. && colcon test && colcon test-result --verbose", depends-on = [
   "build",
 ] }
 rviz-launch = { cmd = "bash -c 'source ../install/setup.bash && ros2 launch robot_bringup display.launch.py'", depends-on = [

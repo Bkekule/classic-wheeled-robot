@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Validates that statically-detectable dependencies in launch/test files have
+"""
+@brief Validates that statically-detectable dependencies in launch/test files have
 corresponding exec_depend or test_depend entries in the package's package.xml.
 
 Launch mode detects:
@@ -21,6 +22,12 @@ STDLIB = frozenset(sys.stdlib_module_names)
 
 
 def _top_level_imports(filepath: Path) -> set[str]:
+    """
+    @brief Extract all top-level imported module names from a Python file.
+
+    @param filepath Path to the Python source file.
+    @return Set of top-level module names referenced by import statements.
+    """
     tree = ast.parse(filepath.read_text(), filename=str(filepath))
     modules: set[str] = set()
     for node in ast.walk(tree):
@@ -33,6 +40,12 @@ def _top_level_imports(filepath: Path) -> set[str]:
 
 
 def _node_packages(filepath: Path) -> set[str]:
+    """
+    @brief Extract all ROS package names referenced via Node(package='...') calls.
+
+    @param filepath Path to the Python source file.
+    @return Set of ROS package names found in Node() calls.
+    """
     tree = ast.parse(filepath.read_text(), filename=str(filepath))
     packages: set[str] = set()
     for node in ast.walk(tree):
@@ -55,11 +68,23 @@ def _node_packages(filepath: Path) -> set[str]:
 
 
 def _depends(package_xml: Path, tag: str) -> set[str]:
+    """
+    @brief Parse declared dependencies of a given tag from a package.xml file.
+
+    @param package_xml Path to the package.xml file.
+    @param tag XML tag to query (e.g. 'exec_depend' or 'test_depend').
+    @return Set of declared dependency names.
+    """
     root = ET.parse(package_xml).getroot()
     return {dep.text.strip() for dep in root.findall(tag) if dep.text}
 
 
 def main() -> int:
+    """
+    @brief Entry point for the dependency checker.
+
+    @return 0 if all dependencies are declared, 1 if any are missing.
+    """
     parser = argparse.ArgumentParser(
         description='Check that launch/test file dependencies are declared in package.xml'
     )
