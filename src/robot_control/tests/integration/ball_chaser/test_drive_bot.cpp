@@ -64,10 +64,10 @@ class DriveBotTest : public ::testing::Test {
         return true;
     }
 
-    std::shared_ptr<robot_control::ball_chaser::DriveBot> m_server;       ///< DriveBot service node being tested.
-    std::shared_ptr<rclcpp::Node> m_client;                               ///< Test client node.
-    rclcpp::Client<DriveToTarget>::SharedPtr m_requester;                 ///< Client to call the DriveToTarget service.
-    rclcpp::executors::SingleThreadedExecutor m_executor;                 ///< Executor to spin nodes during tests.
+    std::shared_ptr<robot_control::ball_chaser::DriveBot> m_server; ///< DriveBot service node being tested.
+    std::shared_ptr<rclcpp::Node> m_client;                         ///< Test client node.
+    rclcpp::Client<DriveToTarget>::SharedPtr m_requester;           ///< Client to call the DriveToTarget service.
+    rclcpp::executors::SingleThreadedExecutor m_executor;           ///< Executor to spin nodes during tests.
 };
 
 TEST_F(DriveBotTest, ServiceIsAdvertised) { EXPECT_TRUE(m_requester->wait_for_service(std::chrono::seconds(1))); }
