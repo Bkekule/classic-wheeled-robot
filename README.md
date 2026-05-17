@@ -8,90 +8,57 @@ on real hardware.
 
 - **`robot_description`**: URDF xacro files, ros2_control hardware interface, and shared properties
 - **`robot_bringup`**: Launch files and controller configuration for RViz, Gazebo, and shared core bringup
+- **`robot_control`**: Autonomous behaviour nodes (ball chaser, action clients/servers)
+- **`robot_world`**: SDF world files and models for Gazebo simulation
+- **`custom_interfaces`**: Custom ROS 2 message and service definitions
 
-## Requirements
+## Getting Started
 
-- ROS 2 Jazzy
-- Gazebo Harmonic
-- `ros2_control`, `ros2_controllers`, `gz_ros2_control`
-- `ros_gz_sim`, `ros_gz_bridge`
-- `xacro`, `robot_state_publisher`, `rviz2`
+Everything runs through [pixi](https://pixi.sh) + RoboStack. No system ROS installation is needed.
 
-A reproducible dev environment is provided via [pixi](https://pixi.sh) + RoboStack — see
-[ci/pixi.toml](ci/pixi.toml). CI uses the same environment.
-
-## Build
+### 1. Install pixi
 
 ```bash
-cd ~/workspace
-colcon build --packages-select robot_description robot_bringup
-source install/setup.bash
+curl -fsSL https://pixi.sh/install.sh | bash
 ```
 
-## Run
+Then add the pixi binary to your PATH as directed by the installer (restart your shell or source your profile).
 
-### Visualize in RViz (mock hardware)
-
-Spins up `ros2_control` with `mock_components/GenericSystem` so `/cmd_vel` drives the robot in RViz
-without a simulator.
+### 2. Clone and open in VSCode
 
 ```bash
-ros2 launch robot_bringup display.launch.py
+git clone <repo-url>
+cd classic-wheeled-robot
+code .
 ```
 
-### Simulate in Gazebo Harmonic
+When VSCode opens, accept the prompt to **Install Recommended Extensions** (defined in [.vscode/extensions.json](.vscode/extensions.json)).
 
-Spawns the robot in a Gazebo world, wires `gz_ros2_control` into the same controller graph, and
-bridges sensor topics (`/scan`, `/camera/rgb/image_raw`) into ROS. `/cmd_vel` and `/odom` are handled in
-ROS by `diff_drive_controller`.
+### 3. Create the robostack environment folder
 
 ```bash
-ros2 launch robot_bringup gazebo.launch.py
-# optional: world:=<name> selects $GZ_SIM_WORLD_PATH/<name>.sdf (default: empty)
+mkdir robostack
+cp ci/pixi.toml robostack/pixi.toml
 ```
 
-Both launches include [robot_core.launch.py](robot_bringup/launch/robot_core.launch.py), which
-brings up `robot_state_publisher`, `controller_manager`, the `joint_state_broadcaster`, and the
-`diff_drive_controller`.
+This folder is where pixi manages the ROS 2 Jazzy + Gazebo environment. The VSCode tasks all `cd robostack` before running pixi commands, so this layout is required.
 
-## Layout
+### 4. Run tasks from the VSCode Command Palette
 
-```
-robot_description/
-├── urdf/
-│   ├── robot.urdf.xacro             (top-level, includes everything)
-│   ├── common/
-│   │   └── robot_properties.xacro      (shared dimensions and masses)
-│   ├── base/
-│   │   ├── base.xacro                  (footprint, chassis, caster instances)
-│   │   ├── base.gazebo.xacro           (materials)
-│   │   └── base.ros2_control.xacro     (hardware interface, swappable plugin)
-│   ├── wheels/
-│   │   ├── wheel.xacro                 (driven-wheel macro, used L/R)
-│   │   ├── wheel.gazebo.xacro          (friction params)
-│   │   └── caster.xacro                (passive sphere macro, front/back)
-│   └── sensors/
-│       ├── lidar.xacro                 (link + joint)
-│       ├── lidar.gazebo.xacro          (gpu_lidar plugin)
-│       ├── camera.xacro                (link + optical frame)
-│       └── camera.gazebo.xacro         (camera sensor plugin)
-├── config/
-│   └── controllers.yaml                (diff_drive + joint_state_broadcaster)
-└── tests/
+Open the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`), choose **Tasks: Run Task**, and select from:
 
-robot_bringup/
-├── launch/
-│   ├── robot_core.launch.py            (shared: rsp + controller_manager + spawners)
-│   ├── display.launch.py               (mock hardware + RViz)
-│   ├── gazebo.launch.py         (gz sim + spawn + sensor bridge)
-│   └── display.rviz
-└── tests/
+| Task | What it does |
+|---|---|
+| **Build and Launch RViz** | Builds the workspace and launches the robot in RViz with mock hardware |
+| **Build and Launch Gazebo** | Builds the workspace and launches the robot in Gazebo Harmonic |
+| **Run Tests** | Builds and runs the full integration test suite |
+| **Run Pre-commit** | Runs all pre-commit hooks across the repo |
 
-```
+Pixi installs all dependencies automatically on first run — this will take a few minutes the first time.
 
-The `hardware_plugin` xacro arg in [base.ros2_control.xacro](robot_description/urdf/base/base.ros2_control.xacro)
-is what lets the same URDF target mock hardware, Gazebo (`gz_ros2_control/GazeboSimSystem`), or a
-real-hardware plugin without forking the description.
+### If you plan to contribute
+
+Run the **Run Pre-commit** task at least once before making changes. This installs the pre-commit hooks so formatting, XML/YAML validation, and linting run automatically on each commit.
 
 ## Robot Specification
 
@@ -103,18 +70,6 @@ real-hardware plugin without forking the description.
 
 Dimensional values are centralised in [robot_properties.xacro](robot_description/urdf/common/robot_properties.xacro).
 
-## Testing
+## CI
 
-Integration tests live in each package's `tests/integration/` folder:
-
-- `robot_description` — xacro expansion, required links/joints, joint types
-- `robot_bringup` — `controllers.yaml` geometry stays in sync with the URDF (wheel radius, separation)
-
-```bash
-colcon test --packages-select robot_description robot_bringup
-colcon test-result --verbose
-```
-
-`pre-commit` runs formatting, XML/YAML validation, `actionlint`, and `zizmor` on every change; CI
-([.github/workflows/ci.yml](.github/workflows/ci.yml)) runs pre-commit, the test suite, and a full
-`colcon build` against the RoboStack environment.
+CI ([.github/workflows/ci.yml](.github/workflows/ci.yml)) runs pre-commit, the integration test suite, and a full `colcon build` against the same RoboStack environment defined in [ci/pixi.toml](ci/pixi.toml).

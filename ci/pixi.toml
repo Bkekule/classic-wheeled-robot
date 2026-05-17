@@ -49,6 +49,3 @@ gz-launch = { cmd = "bash -c 'source ../install/setup.bash && ros2 launch robot_
   "robo-bug-patch",
   "build",
 ] }
-rqt-graph-launch = { cmd = "bash -c 'source ../install/setup.bash && ros2 run rqt_graph rqt_graph'", depends-on = [
-  "build",
-] }

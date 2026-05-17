@@ -38,16 +38,6 @@
             "problemMatcher": "$gcc"
         },
         {
-            "label": "Generate Robot Stack Graph",
-            "type": "shell",
-            "command": "cd robostack && pixi run -e jazzy rqt-graph-launch",
-            "group": "test",
-            "presentation": {
-                "reveal": "always"
-            },
-            "problemMatcher": "$gcc"
-        },
-        {
             "label": "Run Pre-commit",
             "type": "shell",
             "command": "cd robostack && pixi run -e jazzy pre-commit",
