@@ -1,8 +1,6 @@
 # classic_wheeled_robot
 
-A modular ROS 2 robot description for a differential-drive mobile robot with Lidar and camera sensors,
-driven through `ros2_control` so the same launch graph runs on mock hardware, in Gazebo Harmonic, or
-on real hardware.
+A modular ROS 2 robot description for a differential-drive mobile robot with Lidar and camera sensors.
 
 ## Packages
 
@@ -14,7 +12,7 @@ on real hardware.
 
 ## Getting Started
 
-Everything runs through [pixi](https://pixi.sh) + RoboStack. No system ROS installation is needed.
+Everything runs through [pixi](https://pixi.sh) for a controlled, self-sufficient environment — no system ROS installation needed.
 
 ### 1. Install pixi
 
@@ -22,17 +20,18 @@ Everything runs through [pixi](https://pixi.sh) + RoboStack. No system ROS insta
 curl -fsSL https://pixi.sh/install.sh | bash
 ```
 
-Then add the pixi binary to your PATH as directed by the installer (restart your shell or source your profile).
+Then export the pixi binary to your PATH:
 
-### 2. Clone and open in VSCode
+```bash
+export PATH="$HOME/.pixi/bin:$PATH"
+```
+
+### 2. Clone the repo
 
 ```bash
 git clone <repo-url>
 cd classic-wheeled-robot
-code .
 ```
-
-When VSCode opens, accept the prompt to **Install Recommended Extensions** (defined in [.vscode/extensions.json](.vscode/extensions.json)).
 
 ### 3. Create the robostack environment folder
 
@@ -41,24 +40,37 @@ mkdir robostack
 cp ci/pixi.toml robostack/pixi.toml
 ```
 
-This folder is where pixi manages the ROS 2 Jazzy + Gazebo environment. The VSCode tasks all `cd robostack` before running pixi commands, so this layout is required.
+This is where pixi manages the ROS 2 Jazzy + Gazebo environment.
 
-### 4. Run tasks from the VSCode Command Palette
+### 4. Run tasks
 
-Open the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`), choose **Tasks: Run Task**, and select from:
+Choose your preferred workflow:
+
+**Command line**
+
+```bash
+cd robostack
+pixi run -e jazzy <task-name>
+```
+
+Available tasks:
 
 | Task | What it does |
 |---|---|
-| **Build and Launch RViz** | Builds the workspace and launches the robot in RViz with mock hardware |
-| **Build and Launch Gazebo** | Builds the workspace and launches the robot in Gazebo Harmonic |
-| **Run Tests** | Builds and runs the full integration test suite |
-| **Run Pre-commit** | Runs all pre-commit hooks across the repo |
+| `gz-launch` | Builds and launches the robot in Gazebo Harmonic |
+| `rviz-launch` | Builds and launches the robot in RViz with mock hardware and eventual  true hardware |
+| `run-tests` | Builds and runs the full integration test suite |
+| `pre-commit` | Runs all pre-commit hooks across the repo |
 
-Pixi installs all dependencies automatically on first run — this will take a few minutes the first time.
+Pixi installs all dependencies automatically on first run — this will take a few minutes the first time. Details of what each of these tasks are running can be seen [here](ci/pixi.toml#L38)
 
-### If you plan to contribute
+**VSCode**
 
-Run the **Run Pre-commit** task at least once before making changes. This installs the pre-commit hooks so formatting, XML/YAML validation, and linting run automatically on each commit.
+Open the Command Palette (`Ctrl+Shift+P`), choose **Tasks: Run Task**, and select the task you want to run.
+
+## Contributing
+
+Run `pre-commit` at least once before making changes to install the git hooks, so formatting, XML/YAML validation, and linting run automatically on each commit.
 
 ## Robot Specification
 
