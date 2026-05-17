@@ -32,7 +32,7 @@ def generate_launch_description() -> LaunchDescription:
 
     declare_world = DeclareLaunchArgument(
         'world',
-        default_value='my-apartment.sdf',
+        default_value='my_apartment.sdf',
         description='World SDF filename, resolved via GZ_SIM_RESOURCE_PATH',
     )
 
