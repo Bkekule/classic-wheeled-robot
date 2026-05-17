@@ -21,9 +21,10 @@ def generate_launch_description() -> LaunchDescription:
 
     Expected arguments (callers must forward or declare them):
         hardware_plugin  — xacro hardware_plugin value
-        use_sim_time     — bool string, 'true' or 'false'
+        use_sim_time     — bool string, `true` or `false`
 
-    @return LaunchDescription with robot_state_publisher, controller_manager, and controller spawners.
+    @return LaunchDescription with robot_state_publisher, controller_manager,
+    and controller spawners.
     """
     pkg_description_dir = get_package_share_directory('robot_description')
 

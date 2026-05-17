@@ -16,25 +16,19 @@ import pytest
 
 @pytest.fixture(scope='session')
 def pkg_dir() -> Path:
-    """
-    @brief Return the root directory of the robot_description package.
-    """
+    """@brief Return the root directory of the robot_description package."""
     return Path(__file__).parent.parent.parent
 
 
 @pytest.fixture(scope='session')
 def urdf_file(pkg_dir: Path) -> Path:
-    """
-    @brief Return the path to the robot xacro entry point.
-    """
+    """@brief Return the path to the robot xacro entry point."""
     return pkg_dir / 'urdf' / 'robot.urdf.xacro'
 
 
 @pytest.fixture(scope='session')
 def ament_prefix(pkg_dir: Path, tmp_path_factory: pytest.TempPathFactory) -> Path:
-    """
-    @brief Create a minimal ament index so xacro can resolve $(find robot_description).
-    """
+    """@brief Create a minimal ament index so xacro can resolve $(find robot_description)."""
     prefix = tmp_path_factory.mktemp('ament_prefix')
     marker = prefix / 'share' / 'ament_index' / 'resource_index' / 'packages' / 'robot_description'
     marker.parent.mkdir(parents=True)

@@ -8,6 +8,7 @@ var hierarchy =
     [ "robot_control::ball_chaser::RgbThreshold", "structrobot__control_1_1ball__chaser_1_1_rgb_threshold.html", null ],
     [ "testing::Test", null, [
       [ "DriveBotTest", "class_drive_bot_test.html", null ],
-      [ "FindBallRegionTest", "class_find_ball_region_test.html", null ]
+      [ "FindBallRegionTest", "class_find_ball_region_test.html", null ],
+      [ "ProcessImageIntegrationTest", "class_process_image_integration_test.html", null ]
     ] ]
 ];

@@ -9,5 +9,6 @@ var annotated_dup =
       ] ]
     ] ],
     [ "DriveBotTest", "class_drive_bot_test.html", "class_drive_bot_test" ],
-    [ "FindBallRegionTest", "class_find_ball_region_test.html", null ]
+    [ "FindBallRegionTest", "class_find_ball_region_test.html", null ],
+    [ "ProcessImageIntegrationTest", "class_process_image_integration_test.html", "class_process_image_integration_test" ]
 ];

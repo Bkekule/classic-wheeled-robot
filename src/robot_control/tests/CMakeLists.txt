@@ -16,4 +16,9 @@ if(BUILD_TESTING)
     integration/ball_chaser/test_drive_bot.cpp
   )
   target_link_libraries(test_drive_bot drive_bot_node)
+
+  ament_add_gtest(test_process_image
+    integration/ball_chaser/test_process_image.cpp
+  )
+  target_link_libraries(test_process_image process_image_node)
 endif()
