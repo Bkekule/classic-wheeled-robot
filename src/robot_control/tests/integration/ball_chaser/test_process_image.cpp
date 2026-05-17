@@ -68,7 +68,7 @@ constexpr uint32_t k_width = 10;
  * - Sends a stop command exactly once when the ball disappears after movement
  * - Does not call the service when no ball is detected and the robot was already stopped
  */
-class ProcessImageIntegrationTest : public ::testing::Test {
+class ProcessImageTest : public ::testing::Test {
   protected:
     /**
      * @brief The SetUp function creates a stub service node, a publisher node, and a client node, and waits for
@@ -162,7 +162,7 @@ class ProcessImageIntegrationTest : public ::testing::Test {
     uint8_t m_callCount{0};               ///< Number of times the fake service has been called.
 };
 
-TEST_F(ProcessImageIntegrationTest, BallOnLeftCommandsTurnLeft) {
+TEST_F(ProcessImageTest, BallOnLeftCommandsTurnLeft) {
     publishAndWaitForCall(makeImage({k_width, 1}), 1);
 
     ASSERT_EQ(m_callCount, 1);
@@ -170,7 +170,7 @@ TEST_F(ProcessImageIntegrationTest, BallOnLeftCommandsTurnLeft) {
     EXPECT_GT(m_lastRequest.angular_z, 0.0);
 }
 
-TEST_F(ProcessImageIntegrationTest, BallInCenterCommandsDriveForward) {
+TEST_F(ProcessImageTest, BallInCenterCommandsDriveForward) {
     publishAndWaitForCall(makeImage({k_width, 4}), 1);
 
     ASSERT_EQ(m_callCount, 1);
@@ -178,7 +178,7 @@ TEST_F(ProcessImageIntegrationTest, BallInCenterCommandsDriveForward) {
     EXPECT_DOUBLE_EQ(m_lastRequest.angular_z, 0.0);
 }
 
-TEST_F(ProcessImageIntegrationTest, BallOnRightCommandsTurnRight) {
+TEST_F(ProcessImageTest, BallOnRightCommandsTurnRight) {
     publishAndWaitForCall(makeImage({k_width, 7}), 1);
 
     ASSERT_EQ(m_callCount, 1);
@@ -186,7 +186,7 @@ TEST_F(ProcessImageIntegrationTest, BallOnRightCommandsTurnRight) {
     EXPECT_LT(m_lastRequest.angular_z, 0.0);
 }
 
-TEST_F(ProcessImageIntegrationTest, NoBallAfterMovementCommandsStop) {
+TEST_F(ProcessImageTest, NoBallAfterMovementCommandsStop) {
     // First frame: ball detected — robot starts moving
     publishAndWaitForCall(makeImage({k_width, 4}), 1);
     ASSERT_EQ(m_callCount, 1);
@@ -198,7 +198,7 @@ TEST_F(ProcessImageIntegrationTest, NoBallAfterMovementCommandsStop) {
     EXPECT_DOUBLE_EQ(m_lastRequest.angular_z, 0.0);
 }
 
-TEST_F(ProcessImageIntegrationTest, NoBallWhileAlreadyStoppedDoesNotCallService) {
+TEST_F(ProcessImageTest, NoBallWhileAlreadyStoppedDoesNotCallService) {
     // Robot was never moving — two consecutive empty frames should produce no calls
     publishAndWaitForCall(makeBlackImage(k_width), 0);
     spinFor(std::chrono::milliseconds(200));

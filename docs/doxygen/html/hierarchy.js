@@ -9,6 +9,6 @@ var hierarchy =
     [ "testing::Test", null, [
       [ "DriveBotTest", "class_drive_bot_test.html", null ],
       [ "FindBallRegionTest", "class_find_ball_region_test.html", null ],
-      [ "ProcessImageIntegrationTest", "class_process_image_integration_test.html", null ]
+      [ "ProcessImageTest", "class_process_image_test.html", null ]
     ] ]
 ];
