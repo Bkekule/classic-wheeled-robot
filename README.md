@@ -1,6 +1,6 @@
 # classic_wheeled_robot
 
-A modular ROS 2 robot description for a differential-drive mobile robot with Lidar and camera sensors.
+Developed on MacOS Tahoe, tested on Ubuntu 26.04. A modular ROS 2 robot description for a differential-drive mobile robot with Lidar and camera sensors.
 
 ## Packages
 
