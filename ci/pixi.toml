@@ -37,6 +37,7 @@ ros-jazzy-xacro = "*"
 
 [feature.jazzy.tasks]
 pre-commit = "cd .. && pre-commit run --all-files"
+post-activation-setup = "bash $PIXI_PROJECT_ROOT/scripts/post-activation-jazzy.sh"
 robo-bug-patch = "mkdir -p $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src && ln -sfn $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media $PIXI_PROJECT_ROOT/.pixi/envs/jazzy/share/gz/gz-rendering8/ogre2/media/ogre2/src/media"
 build = "cd .. && unset CMAKE_PREFIX_PATH && rm -rf build/ install/ logs/ && colcon build --cmake-args -DCMAKE_SUPPRESS_DEVELOPER_WARNINGS=ON"
 run-tests = { cmd = "cd .. && colcon test && colcon test-result --verbose", depends-on = [
