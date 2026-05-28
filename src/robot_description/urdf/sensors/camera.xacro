@@ -51,5 +51,27 @@
     <child link="camera_optical_frame"/>
   </joint>
 
+  <!-- Gazebo RGB camera sensor -->
+  <gazebo reference="camera">
+    <sensor name="rgb_camera" type="camera">
+      <pose>0 0 0 0 0 0</pose>
+      <gz_frame_id>camera_optical_frame</gz_frame_id>
+      <topic>/camera/rgb/image_raw</topic>
+      <update_rate>30</update_rate>
+      <camera>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.01</near>
+          <far>100.0</far>
+        </clip>
+      </camera>
+    </sensor>
+
+    <material>Gazebo/Red</material>
+  </gazebo>
 
 </robot>
