@@ -1,34 +1,34 @@
 #!/usr/bin/env python3
 """
-@brief Gazebo Harmonic simulation launch using native Gazebo plugins.
+@brief Gazebo Harmonic simulation launch using gz_ros2_control.
 
-Starts the Gazebo server and GUI, spawns the robot, bridges ROS-Gz topics,
-and launches the ball chasing nodes and RViz.
+Starts the Gazebo server and GUI, includes robot_core for controller_manager
+and robot_state_publisher, spawns the robot, bridges sensor topics via
+ros_gz_bridge, and launches the ball chaser node and RViz.
 """
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess
-from launch.substitutions import (
-    Command,
-    LaunchConfiguration,
-    PathJoinSubstitution,
-)
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
-from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description() -> LaunchDescription:
     """
-    @brief Launch Gazebo Harmonic with the robot using native Gazebo plugins.
+    @brief Launch Gazebo Harmonic with the robot using gz_ros2_control.
 
-    Drives the robot via gz-sim-diff-drive and publishes joint states via
-    gz-sim-joint-state-publisher, avoiding gz_ros2_control entirely.
+    Uses robot_core.launch.py to start robot_state_publisher, controller_manager,
+    and controller spawners with the GazeboSimSystem hardware plugin. The
+    ros_gz_bridge only bridges sensor topics (/clock, /scan, /camera/*) since
+    /cmd_vel, /odom, and /joint_states are handled natively by ros2_control.
 
-    @return LaunchDescription with Gazebo server, GUI, robot nodes, ROS-Gz bridge, and RViz.
+    @return LaunchDescription with Gazebo server, GUI, robot_core, spawn,
+    ros_gz_bridge, ball_chaser, and RViz.
     """
-    pkg_description_dir = get_package_share_directory('robot_description')
+    pkg_bringup_dir = get_package_share_directory('robot_bringup')
 
     declare_world = DeclareLaunchArgument(
         'world',
@@ -46,24 +46,13 @@ def generate_launch_description() -> LaunchDescription:
         output='screen',
     )
 
-    robot_description_content = ParameterValue(
-        Command(
-            [
-                'xacro ',
-                PathJoinSubstitution([pkg_description_dir, 'urdf', 'robot.gazebo.urdf.xacro']),
-            ]
+    core = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([pkg_bringup_dir, 'launch', 'robot_core.launch.py'])
         ),
-        value_type=str,
-    )
-
-    robot_state_publisher_node = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        parameters=[
-            {
-                'robot_description': robot_description_content,
-                'use_sim_time': True,
-            }
+        launch_arguments=[
+            ('hardware_plugin', 'gz_ros2_control/GazeboSimSystem'),
+            ('use_sim_time', 'true'),
         ],
     )
 
@@ -78,26 +67,17 @@ def generate_launch_description() -> LaunchDescription:
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
-            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
-            '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
-            '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/camera/rgb/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
             '/camera/rgb/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
-            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
         ],
         output='screen',
     )
 
-    drive_bot_node = Node(
+    ball_chaser_node = Node(
         package='robot_control',
-        executable='drive_bot_main',
-        output='screen',
-    )
-
-    process_image_node = Node(
-        package='robot_control',
-        executable='process_image_main',
+        executable='ball_chaser_main',
         output='screen',
     )
 
@@ -122,11 +102,10 @@ def generate_launch_description() -> LaunchDescription:
             declare_world,
             gazebo_server,
             gazebo_gui,
-            robot_state_publisher_node,
+            core,
             gz_spawn_entity,
             ros_gz_bridge_node,
-            drive_bot_node,
-            process_image_node,
+            ball_chaser_node,
             rviz_node,
         ]
     )

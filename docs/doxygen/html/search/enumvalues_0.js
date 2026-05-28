@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['center_0',['Center',['../namespacerobot__control_1_1ball__chaser.html#abaa07b61ee66ff6b5e3f9412b751bad4a4f1f6016fc9f3f2353c0cc7c67b292bd',1,'robot_control::ball_chaser']]]
+  ['idle_0',['Idle',['../namespacerobot__control_1_1ball__chaser.html#adae5583ee1fd0a44bc7418215e9a8d03ae599161956d626eda4cb0a5ffb85271c',1,'robot_control::ball_chaser']]]
 ];

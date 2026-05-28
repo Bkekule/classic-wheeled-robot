@@ -50,3 +50,16 @@ jobs:
       - name: Run tests
         working-directory: robostack
         run: pixi run -e jazzy run-tests
+
+  docker-test:
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Build and test in Docker
+        run: docker compose up --build --exit-code-from test

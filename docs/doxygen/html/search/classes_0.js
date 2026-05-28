@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['drivebot_0',['DriveBot',['../classrobot__control_1_1ball__chaser_1_1_drive_bot.html',1,'robot_control::ball_chaser']]],
-  ['drivebottest_1',['DriveBotTest',['../class_drive_bot_test.html',1,'']]]
+  ['ballchasernode_0',['BallChaserNode',['../classrobot__control_1_1ball__chaser_1_1_ball_chaser_node.html',1,'robot_control::ball_chaser']]],
+  ['ballchasernodetest_1',['BallChaserNodeTest',['../class_ball_chaser_node_test.html',1,'']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['processimage_0',['ProcessImage',['../classrobot__control_1_1ball__chaser_1_1_process_image.html',1,'robot_control::ball_chaser']]],
-  ['processimagetest_1',['ProcessImageTest',['../class_process_image_test.html',1,'']]]
+  ['imagedimensions_0',['ImageDimensions',['../structrobot__control_1_1ball__chaser_1_1_image_dimensions.html',1,'robot_control::ball_chaser']]],
+  ['intentservicetest_1',['IntentServiceTest',['../class_intent_service_test.html',1,'']]]
 ];

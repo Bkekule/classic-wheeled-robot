@@ -1,5 +1,5 @@
 # ROS build artifacts
-robostack/
+robostack*/
 build/
 install/
 devel/
@@ -26,6 +26,7 @@ dist/
 *.swo
 *~
 .#*
+.kiro
 
 # OS
 .DS_Store

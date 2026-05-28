@@ -1,0 +1,5 @@
+# Request
+string command    # STOP | TURN_LEFT | TURN_RIGHT | FORWARD
+---
+# Response
+bool accepted

@@ -2,7 +2,7 @@
 name = "robostack"
 description = "RoboStack ROS 2 Jazzy environment"
 channels = ["https://prefix.dev/conda-forge"]
-platforms = ["linux-64"]
+platforms = ["osx-arm64", "linux-64"]
 
 [target.unix.activation]
 env = { RMW_IMPLEMENTATION = "rmw_cyclonedds_cpp", ROS_SETUP_SOURCED = "1", CMAKE_GENERATOR = "Ninja", OGRE2_RESOURCE_PATH = "$CONDA_PREFIX/lib/OGRE-Next", GZ_RENDERING_RESOURCE_PATH = "$CONDA_PREFIX/share/gz/gz-rendering8/ogre2/media", GZ_RENDER_PLUGIN_PATH = "$CONDA_PREFIX/lib/gz-rendering-8/engine-plugins", GZ_SIM_RENDER_ENGINE_PATH = "$CONDA_PREFIX/lib/gz-rendering-8/engine-plugins", GZ_SIM_RESOURCE_PATH = "$AMENT_PREFIX_PATH:$GZ_SIM_RESOURCE_PATH:$PIXI_PROJECT_ROOT/../install/robot_description/share:$PIXI_PROJECT_ROOT/../install/robot_world/share/robot_world:$PIXI_PROJECT_ROOT/../install/robot_world/share/robot_world/models", GZ_SIM_SYSTEM_PLUGIN_PATH = "$CONDA_PREFIX/lib:$GZ_SIM_SYSTEM_PLUGIN_PATH" }
@@ -12,6 +12,7 @@ env = { RMW_IMPLEMENTATION = "rmw_cyclonedds_cpp", ROS_SETUP_SOURCED = "1", CMAK
 pre-commit = "*"
 doxygen = "*"
 python = "*"
+rapidcheck = "*"
 # Compilers
 compilers = "*"
 cmake = "*"
