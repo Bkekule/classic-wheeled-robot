@@ -13,7 +13,7 @@ from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.substitutions import LaunchConfiguration
 
 
-# @brief ROS 2 topics recorded for behavioral regression testing and debugging.
+## @brief ROS 2 topics recorded for behavioral regression testing and debugging.
 TOPICS = [
     '/camera/rgb/image_raw',  # Raw camera frames for replay and vision debugging
     '/cmd_vel',  # Velocity commands sent to the robot

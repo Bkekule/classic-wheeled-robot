@@ -1,0 +1,42 @@
+##
+# @brief Docker Compose for interactive Gazebo simulation with GPU passthrough.
+#
+# Usage:
+#   docker compose -f docker-compose.gazebo.yml up --build
+#
+# Prerequisites (Ubuntu host):
+#   - NVIDIA GPU with drivers installed
+#   - nvidia-container-toolkit installed
+#   - Run: xhost +local:docker (allows GUI display)
+#
+# To run without GUI (headless):
+#   docker compose -f docker-compose.gazebo.yml run --rm gazebo \
+#     ros2 launch robot_bringup gazebo.launch.py gui:=false
+##
+
+services:
+  gazebo:
+    build:
+      context: .
+      dockerfile: Dockerfile.gazebo
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      # Gazebo resource paths for world/model discovery
+      - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
+    network_mode: host
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    stdin_open: true
+    tty: true

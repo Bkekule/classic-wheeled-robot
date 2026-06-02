@@ -71,14 +71,20 @@ def generate_launch_description() -> LaunchDescription:
     joint_state_broadcaster_spawner = Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['joint_state_broadcaster'],
+        arguments=['joint_state_broadcaster', '--controller-manager-timeout', '30'],
         output='screen',
     )
 
     diff_drive_controller_spawner = Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['diff_drive_controller', '--param-file', diff_drive_controller_yaml],
+        arguments=[
+            'diff_drive_controller',
+            '--param-file',
+            diff_drive_controller_yaml,
+            '--controller-manager-timeout',
+            '30',
+        ],
         output='screen',
     )
 
