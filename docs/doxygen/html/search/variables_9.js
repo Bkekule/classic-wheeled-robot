@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['new_5fstate_0',['new_state',['../structrobot__control_1_1ball__chaser_1_1_transition_result.html#ae6fd6dddb80cb5015237b63d9b57b31d',1,'robot_control::ball_chaser::TransitionResult']]]
+  ['step_0',['step',['../structrobot__control_1_1ball__chaser_1_1_image_dimensions.html#ac230eaf97839c0945bd282e2d0186300',1,'robot_control::ball_chaser::ImageDimensions']]]
 ];

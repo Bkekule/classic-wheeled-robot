@@ -3,6 +3,7 @@ PROJECT_BRIEF          = "Comprehensive Production Grade Repository For Apartmen
 OUTPUT_DIRECTORY       = docs/doxygen
 INPUT                  = src/
 RECURSIVE              = YES
+EXCLUDE_PATTERNS       = */tests/*
 FILE_PATTERNS          = *.cpp *.hpp *.h *.hh *.py
 GENERATE_HTML          = YES
 GENERATE_LATEX         = NO
@@ -12,3 +13,6 @@ WARN_AS_ERROR          = YES
 EXTRACT_PRIVATE        = NO
 ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = YES
+PREDEFINED             = RC_GTEST_PROP(suite,name,args)= \
+                         TEST_F(suite,name)= \
+                         TEST(suite,name)=

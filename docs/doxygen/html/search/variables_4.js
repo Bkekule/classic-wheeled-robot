@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['frames_5fprocessed_0',['frames_processed',['../structrobot__control_1_1ball__chaser_1_1_diagnostic_data.html#a692b8f044c97fefa68397bbdf83e1f33',1,'robot_control::ball_chaser::DiagnosticData']]]
+  ['g_0',['g',['../structrobot__control_1_1ball__chaser_1_1_rgb_threshold.html#a19f8ee450ba410aa96e0cb4fb4e06478',1,'robot_control::ball_chaser::RgbThreshold']]]
 ];

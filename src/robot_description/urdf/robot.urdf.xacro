@@ -23,7 +23,7 @@
 
   <!-- gz_ros2_control plugin for Gazebo simulation with ros2_control -->
   <gazebo>
-    <plugin filename="gz_ros2_control" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find robot_description)/config/controllers.yaml</parameters>
       <parameters>$(find robot_description)/config/diff_drive_controller.yaml</parameters>
     </plugin>

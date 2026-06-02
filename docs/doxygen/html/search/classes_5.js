@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['statemachine_0',['StateMachine',['../classrobot__control_1_1ball__chaser_1_1_state_machine.html',1,'robot_control::ball_chaser']]]
+  ['transitionresult_0',['TransitionResult',['../structrobot__control_1_1ball__chaser_1_1_transition_result.html',1,'robot_control::ball_chaser']]]
 ];

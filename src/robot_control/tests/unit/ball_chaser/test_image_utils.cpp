@@ -1,8 +1,12 @@
 #include "image_utils.hpp"
 
 #include <gtest/gtest.h>
+#include <rapidcheck.h>
+#include <rapidcheck/gtest.h>
 
+#include <cmath>
 #include <cstddef>
+#include <cstdint>
 
 using namespace robot_control::ball_chaser;
 
@@ -83,6 +87,90 @@ TEST_F(FindBallRegionTest, AveragedCentroidDeterminesRegion) {
         data_[idx] = data_[idx + 1] = data_[idx + 2] = 255;
     }
     EXPECT_EQ(findBallRegion(data_.data(), m_dims, m_threshold), BallRegion::Center);
+}
+
+/** @brief Property 6: Zone ratio boundary computation (Task 1.3).
+ *
+ * For any image width > 0 and valid zone ratios, findBallRegion classifies a white pixel at column C
+ * as Left if C < floor(left_zone_ratio * width), Right if C >= floor(right_zone_ratio * width),
+ * and Center otherwise.
+ */
+RC_GTEST_PROP(FindBallRegionProperty, ZoneRatioBoundaryComputation, ()) {
+    const auto width_ = *rc::gen::inRange<uint32_t>(3, 1001);
+    const auto leftRatio_ = *rc::gen::map(rc::gen::inRange(1, 49), [](int val) { return val / 100.0; });
+    const auto rightRatio_ = *rc::gen::map(rc::gen::inRange(static_cast<int>(leftRatio_ * 100) + 1, 99), [](int val) {
+        return val / 100.0;
+    });
+    const auto col_ = *rc::gen::inRange<uint32_t>(0, width_);
+
+    const uint8_t bpp_ = 3;
+    const uint32_t step_ = width_ * bpp_;
+    const ImageDimensions dims_{width_, 1, step_, bpp_};
+    const RgbThreshold threshold_{255, 255, 255};
+    const ZoneRatios zones_{leftRatio_, rightRatio_};
+
+    // Build a 1-row image with a single white pixel at column col_
+    std::vector<uint8_t> data_(static_cast<size_t>(step_), 0);
+    const size_t pixelIdx_ = static_cast<size_t>(col_) * bpp_;
+    data_[pixelIdx_] = 255;
+    data_[pixelIdx_ + 1] = 255;
+    data_[pixelIdx_ + 2] = 255;
+
+    const auto result_ = findBallRegion(data_.data(), dims_, threshold_, zones_);
+
+    const auto leftBound_ = static_cast<uint32_t>(std::floor(leftRatio_ * width_));
+    const auto rightBound_ = static_cast<uint32_t>(std::floor(rightRatio_ * width_));
+
+    if (col_ < leftBound_) {
+        RC_ASSERT(result_ == BallRegion::Left);
+    } else if (col_ >= rightBound_) {
+        RC_ASSERT(result_ == BallRegion::Right);
+    } else {
+        RC_ASSERT(result_ == BallRegion::Center);
+    }
+}
+
+/** @brief Property 7: Bytes-per-pixel indexing (Task 1.4).
+ *
+ * For any valid image with bytes_per_pixel in {3, 4} and a white pixel at a known column,
+ * findBallRegion correctly detects the ball regardless of the bytes_per_pixel value by using
+ * it for pixel stride calculation.
+ */
+RC_GTEST_PROP(FindBallRegionProperty, BytesPerPixelIndexing, ()) {
+    const auto bpp_ = *rc::gen::element<uint8_t>(3, 4);
+    const auto width_ = *rc::gen::inRange<uint32_t>(3, 101);
+    const auto col_ = *rc::gen::inRange<uint32_t>(0, width_);
+
+    const uint32_t step_ = width_ * bpp_;
+    const ImageDimensions dims_{width_, 1, step_, bpp_};
+    const RgbThreshold threshold_{255, 255, 255};
+    const ZoneRatios zones_{}; // default 1/3, 2/3
+
+    // Build a 1-row image buffer of size width * bpp, all zeros
+    std::vector<uint8_t> data_(static_cast<size_t>(step_), 0);
+
+    // Place white pixel (255,255,255) at offset col_ * bpp (first 3 bytes)
+    const size_t pixelIdx_ = static_cast<size_t>(col_) * bpp_;
+    data_[pixelIdx_] = 255;
+    data_[pixelIdx_ + 1] = 255;
+    data_[pixelIdx_ + 2] = 255;
+
+    const auto result_ = findBallRegion(data_.data(), dims_, threshold_, zones_);
+
+    // The ball was placed, it should be detected
+    RC_ASSERT(result_ != BallRegion::NotFound);
+
+    // Verify the region matches expected based on default 1/3, 2/3 boundaries
+    const auto leftBound_ = static_cast<uint32_t>(std::floor(width_ / 3.0));
+    const auto rightBound_ = static_cast<uint32_t>(std::floor(width_ * 2.0 / 3.0));
+
+    if (col_ < leftBound_) {
+        RC_ASSERT(result_ == BallRegion::Left);
+    } else if (col_ >= rightBound_) {
+        RC_ASSERT(result_ == BallRegion::Right);
+    } else {
+        RC_ASSERT(result_ == BallRegion::Center);
+    }
 }
 
 /** @brief Test entry point. Runs all GTest cases for image utilities. */

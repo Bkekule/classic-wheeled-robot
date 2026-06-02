@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['imagedimensions_0',['ImageDimensions',['../structrobot__control_1_1ball__chaser_1_1_image_dimensions.html',1,'robot_control::ball_chaser']]],
-  ['intentservicetest_1',['IntentServiceTest',['../class_intent_service_test.html',1,'']]]
+  ['rgbthreshold_0',['RgbThreshold',['../structrobot__control_1_1ball__chaser_1_1_rgb_threshold.html',1,'robot_control::ball_chaser']]]
 ];
