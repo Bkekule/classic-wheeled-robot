@@ -24,13 +24,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /ros2_ws
 COPY src/ src/
 
-# Install any remaining dependencies via rosdep
+# Install any remaining dependencies via rosdep (skip unavailable keys)
 RUN rosdep update && \
-    rosdep install --from-paths src --ignore-src -r -y
+    rosdep install --from-paths src --ignore-src -r -y \
+    --skip-keys "rapidcheck pytest irobot_create_description irobot_create_msgs slam_toolbox nav2_bringup nav2_simple_commander joint_state_publisher" \
+    || true
 
-# Build the workspace
+# Build only the packages needed for Gazebo simulation
 RUN . /opt/ros/jazzy/setup.sh && \
-    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release \
+    --packages-up-to robot_bringup robot_control robot_world
 
 # Entrypoint: source workspace and launch Gazebo simulation
 COPY docker-entrypoint.sh /docker-entrypoint.sh

@@ -10,6 +10,7 @@ BehaviorState StateMachine::currentState() const { return m_state; }
 
 TransitionResult StateMachine::onBallDetected(BallRegion region) {
     assert(region != BallRegion::NotFound && "onBallDetected called with NotFound region");
+    (void)region; // Used only in debug assert
 
     switch (m_state) {
     case BehaviorState::Idle:
@@ -19,6 +20,9 @@ TransitionResult StateMachine::onBallDetected(BallRegion region) {
     case BehaviorState::Tracking:
         return {m_state, false};
     }
+
+    // Unreachable — satisfies -Wreturn-type
+    return {m_state, false};
 }
 
 TransitionResult StateMachine::onBallLost() {
