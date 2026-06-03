@@ -88,6 +88,11 @@ def generate_launch_description() -> LaunchDescription:
     # initialize the hardware interface.
     # Using ExecuteProcess instead of Node to avoid automatic --ros-args
     # injection which triggers a bug in gz_ros2_control's argument forwarding.
+    #
+    # --param-file passes controller-specific parameters (wheel names, etc.)
+    # since we patch the CM to NOT forward its --params-file to controllers.
+
+    controllers_yaml = PathJoinSubstitution([pkg_description_dir, 'config', 'controllers.yaml'])
 
     joint_state_broadcaster_spawner = TimerAction(
         period=8.0,
@@ -95,6 +100,7 @@ def generate_launch_description() -> LaunchDescription:
             ExecuteProcess(
                 cmd=['ros2', 'run', 'controller_manager', 'spawner',
                      'joint_state_broadcaster',
+                     '--param-file', controllers_yaml,
                      '--controller-manager-timeout', '30'],
                 output='screen',
             ),
@@ -107,6 +113,7 @@ def generate_launch_description() -> LaunchDescription:
             ExecuteProcess(
                 cmd=['ros2', 'run', 'controller_manager', 'spawner',
                      'diff_drive_controller',
+                     '--param-file', controllers_yaml,
                      '--controller-manager-timeout', '30'],
                 output='screen',
             ),
