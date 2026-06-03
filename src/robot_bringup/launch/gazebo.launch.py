@@ -93,6 +93,7 @@ def generate_launch_description() -> LaunchDescription:
     # since we patch the CM to NOT forward its --params-file to controllers.
 
     controllers_yaml = PathJoinSubstitution([pkg_description_dir, 'config', 'controllers.yaml'])
+    diff_drive_controller_yaml = PathJoinSubstitution([pkg_description_dir, 'config', 'diff_drive_controller.yaml'])
 
     joint_state_broadcaster_spawner = TimerAction(
         period=8.0,
@@ -113,7 +114,7 @@ def generate_launch_description() -> LaunchDescription:
             ExecuteProcess(
                 cmd=['ros2', 'run', 'controller_manager', 'spawner',
                      'diff_drive_controller',
-                     '--param-file', controllers_yaml,
+                     '--param-file', diff_drive_controller_yaml,
                      '--controller-manager-timeout', '30'],
                 output='screen',
             ),
