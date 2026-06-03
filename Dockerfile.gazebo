@@ -1,41 +1,72 @@
 ##
 # @brief Gazebo simulation Dockerfile using official ROS2 Jazzy apt packages.
 #
-# Uses apt-installed gz_ros2_control (not RoboStack) to avoid the broken
-# --params-file injection bug in the conda build. Supports GPU passthrough
-# for interactive Gazebo GUI usage.
+# Builds gz_ros2_control from source with a patch that removes the broken
+# use_sim_time argument injection that causes controller initialization to fail.
+# Supports GPU passthrough for interactive Gazebo GUI usage.
 ##
 
 FROM ros:jazzy-ros-base
 
-# Install Gazebo, ros2_control, and simulation dependencies via apt
+# Install Gazebo, ros2_control, simulation dependencies, and build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-jazzy-gz-ros2-control \
     ros-jazzy-ros2-controllers \
+    ros-jazzy-gz-ros2-control \
+    ros-jazzy-ros2-control-cmake \
     ros-jazzy-ros-gz \
     ros-jazzy-xacro \
     ros-jazzy-robot-state-publisher \
     ros-jazzy-rviz2 \
+    ros-jazzy-controller-manager \
+    ros-jazzy-hardware-interface \
+    ros-jazzy-example-interfaces \
     python3-colcon-common-extensions \
     python3-rosdep \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
-# Create workspace
+# ─── Build patched ros2_control from source ───────────────────────────────────
+WORKDIR /ros2_control_ws
+COPY docker /tmp
+RUN git clone --branch jazzy --depth 1 \
+    https://github.com/ros-controls/ros2_control.git src/ros2_control && \
+    python3 /tmp/ros2_control_params_file_patch.py \
+    src/ros2_control/controller_manager/src/controller_manager.cpp && \
+    . /opt/ros/jazzy/setup.sh && \
+    rosdep update && \
+    rosdep install --from-paths src --ignore-src -r -y \
+    --skip-keys "ros2controlcli" || true && \
+    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+# Build gz_ros2_control from source with use_sim_time injection removed
+# WORKDIR /gz_ros2_control_ws
+# RUN git clone --branch jazzy --depth 1 \
+#     https://github.com/ros-controls/gz_ros2_control.git src/gz_ros2_control && \
+#     python3 /tmp/gz_ros2_control_patch.py \
+#     src/gz_ros2_control/gz_ros2_control/src/gz_ros2_control_plugin.cpp && \
+#     # Build
+#     . /opt/ros/jazzy/setup.sh && \
+#     rosdep update && \
+#     rosdep install --from-paths src --ignore-src -r -y \
+#     --skip-keys "ros2_control ros2controlcli" || true && \
+#     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+# Create robot workspace
 WORKDIR /ros2_ws
 COPY src/ src/
 
-# Install any remaining dependencies via rosdep (skip unavailable keys)
-RUN rosdep update && \
-    rosdep install --from-paths src --ignore-src -r -y \
-    --skip-keys "rapidcheck pytest irobot_create_description irobot_create_msgs slam_toolbox nav2_bringup nav2_simple_commander joint_state_publisher" \
+# Install robot workspace dependencies
+RUN rosdep install --from-paths src --ignore-src -r -y \
+    --skip-keys "rapidcheck pytest irobot_create_description irobot_create_msgs slam_toolbox nav2_bringup nav2_simple_commander joint_state_publisher gz_ros2_control ros_gz_sim ros2_control" \
     || true
 
-# Build only the packages needed for Gazebo simulation
+# Build robot packages (source patched gz_ros2_control overlay first)
 RUN . /opt/ros/jazzy/setup.sh && \
+    . /ros2_control_ws/install/setup.sh && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release \
     --packages-up-to robot_bringup robot_control robot_world
 
-# Entrypoint: source workspace and launch Gazebo simulation
+# Entrypoint: source all workspaces and launch
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]

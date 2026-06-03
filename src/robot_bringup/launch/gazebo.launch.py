@@ -36,9 +36,6 @@ def generate_launch_description() -> LaunchDescription:
     pkg_description_dir = get_package_share_directory('robot_description')
 
     urdf_file = PathJoinSubstitution([pkg_description_dir, 'urdf', 'robot.urdf.xacro'])
-    diff_drive_controller_yaml = PathJoinSubstitution(
-        [pkg_description_dir, 'config', 'diff_drive_controller.yaml']
-    )
 
     declare_world = DeclareLaunchArgument(
         'world',
@@ -89,36 +86,28 @@ def generate_launch_description() -> LaunchDescription:
     # These connect to the controller_manager created by gz_ros2_control inside
     # Gazebo. We delay them to give Gazebo time to spawn the entity and
     # initialize the hardware interface.
+    # Using ExecuteProcess instead of Node to avoid automatic --ros-args
+    # injection which triggers a bug in gz_ros2_control's argument forwarding.
 
     joint_state_broadcaster_spawner = TimerAction(
-        period=5.0,
+        period=8.0,
         actions=[
-            Node(
-                package='controller_manager',
-                executable='spawner',
-                arguments=[
-                    'joint_state_broadcaster',
-                    '--controller-manager-timeout',
-                    '30',
-                ],
+            ExecuteProcess(
+                cmd=['ros2', 'run', 'controller_manager', 'spawner',
+                     'joint_state_broadcaster',
+                     '--controller-manager-timeout', '30'],
                 output='screen',
             ),
         ],
     )
 
     diff_drive_controller_spawner = TimerAction(
-        period=5.0,
+        period=8.0,
         actions=[
-            Node(
-                package='controller_manager',
-                executable='spawner',
-                arguments=[
-                    'diff_drive_controller',
-                    '--param-file',
-                    diff_drive_controller_yaml,
-                    '--controller-manager-timeout',
-                    '30',
-                ],
+            ExecuteProcess(
+                cmd=['ros2', 'run', 'controller_manager', 'spawner',
+                     'diff_drive_controller',
+                     '--controller-manager-timeout', '30'],
                 output='screen',
             ),
         ],

@@ -27,7 +27,7 @@ services:
       # Gazebo resource paths for world/model discovery
       - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models:/ros2_ws/install/robot_world/share/robot_world/worlds
       # Gazebo system plugin path for gz_ros2_control
-      - GZ_SIM_SYSTEM_PLUGIN_PATH=/opt/ros/jazzy/lib
+      - GZ_SIM_SYSTEM_PLUGIN_PATH=/gz_ros2_control_ws/install/gz_ros2_control/lib:/opt/ros/jazzy/lib
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
