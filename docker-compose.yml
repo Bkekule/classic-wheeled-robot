@@ -1,33 +1,57 @@
 ##
-# @brief Docker Compose for robot launch (mock hardware) and testing.
+# @brief Docker Compose for all robot modes.
 #
 # Usage:
-#   docker compose up --build              # launch robot with mock hardware + RViz
-#   docker compose run --rm test           # run colcon tests
+#   docker compose up robot                          # mock hardware + RViz
+#   docker compose --profile gazebo up gazebo        # Gazebo simulation
+#   docker compose --profile test run --rm test      # run tests
+#
+# Prerequisites for GUI (Ubuntu host):
+#   - NVIDIA GPU with drivers + nvidia-container-toolkit
+#   - Run: xhost +local:docker
 ##
+
+x-gpu-config: &gpu-config
+  environment: &gpu-env
+    - DISPLAY=${DISPLAY}
+    - QT_X11_NO_MITSHM=1
+    - NVIDIA_VISIBLE_DEVICES=all
+    - NVIDIA_DRIVER_CAPABILITIES=all
+  volumes: &gpu-volumes
+    - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
+  network_mode: host
+  ipc: host
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+  stdin_open: true
+  tty: true
 
 services:
   robot:
     build: .
+    <<: *gpu-config
+
+  gazebo:
+    build:
+      context: .
+      args:
+        GAZEBO: "true"
+    <<: *gpu-config
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
-    network_mode: host
-    ipc: host
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-    stdin_open: true
-    tty: true
+      - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models:/ros2_ws/install/robot_world/share/robot_world/worlds
+      - GZ_SIM_SYSTEM_PLUGIN_PATH=/opt/ros/jazzy/lib
+    profiles: ["gazebo"]
+    command: ["ros2", "launch", "robot_bringup", "gazebo.launch.py"]
 
   test:
     build: .
@@ -36,7 +60,8 @@ services:
       /bin/bash -c
       ". /opt/ros/jazzy/setup.sh &&
        . /ros2_control_ws/install/setup.sh &&
+       . /turtlebot4_ws/install/setup.sh &&
        . install/setup.sh &&
-       colcon test &&
+       colcon test --packages-up-to robot_bringup robot_control &&
        colcon test-result --verbose"
     working_dir: /ros2_ws
