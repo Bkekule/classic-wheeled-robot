@@ -1,4 +1,27 @@
+##
+# @brief Docker Compose for robot launch (mock hardware) and testing.
+#
+# Usage:
+#   docker compose up --build              # launch robot with mock hardware + RViz
+#   docker compose run --rm test           # run colcon tests
+##
+
 services:
+  robot:
+    build: .
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
   test:
     build: .
-    command: /bin/bash -c ". /opt/ros/jazzy/setup.sh && . install/setup.sh && colcon test && colcon test-result --verbose"
+    command: >
+      /bin/bash -c
+      ". /opt/ros/jazzy/setup.sh &&
+       . /ros2_control_ws/install/setup.sh &&
+       . install/setup.sh &&
+       colcon test &&
+       colcon test-result --verbose"
+    working_dir: /ros2_ws
