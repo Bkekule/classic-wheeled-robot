@@ -47,7 +47,7 @@ build = "cd .. && unset CMAKE_PREFIX_PATH && rm -rf build/ install/ logs/ && col
 run-tests = { cmd = "cd .. && colcon test && colcon test-result --verbose", depends-on = [
   "build",
 ] }
-rviz-launch = { cmd = "bash -c 'source ../install/setup.bash && ros2 launch robot_bringup display.launch.py'", depends-on = [
+rviz-launch = { cmd = "bash -c 'source ../install/setup.bash && ros2 launch robot_bringup robot.launch.py'", depends-on = [
   "build",
 ] }
 gz-launch = { cmd = "bash -c 'source ../install/setup.bash && ros2 launch robot_bringup gazebo.launch.py'", depends-on = [

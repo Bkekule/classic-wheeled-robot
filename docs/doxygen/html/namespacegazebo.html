@@ -100,12 +100,14 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">@brief Gazebo Harmonic simulation launch using gz_ros2_control.
 
-Starts the Gazebo server and GUI, publishes the robot description, spawns the
-robot entity (which activates gz_ros2_control inside Gazebo), spawns controllers,
-bridges sensor topics, and launches the ball chaser node and RViz.
+Wraps robot_core.launch.py with Gazebo-specific additions:
+- Gazebo server and GUI
+- Entity spawning into the sim world
+- ROS-Gz bridge for sensor topics
+- RViz visualization
 
-Note: The controller_manager runs INSIDE Gazebo via the gz_ros2_control plugin.
-We do NOT launch a standalone ros2_control_node here — only the spawners.
+The controller_manager runs INSIDE Gazebo via the gz_ros2_control plugin
+(declared in robot.urdf.xacro). We do NOT launch a standalone ros2_control_node.
 </pre> </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a31b93345029c7f312b8c61dfa99caeea" name="a31b93345029c7f312b8c61dfa99caeea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a31b93345029c7f312b8c61dfa99caeea">&#9670;&#160;</a></span>generate_launch_description()</h2>
@@ -123,13 +125,11 @@ We do NOT launch a standalone ros2_control_node here — only the spawners.
 </div><div class="memdoc">
 <pre class="fragment">@brief Launch Gazebo Harmonic with gz_ros2_control managing the diff-drive.
 
-The gz_ros2_control plugin (declared in robot.urdf.xacro) creates the
-controller_manager inside Gazebo's process. We only need to:
-1. Start Gazebo
-2. Publish robot_description (robot_state_publisher)
+1. Include robot_core (RSP + spawners + ball_chaser)
+2. Start Gazebo server and GUI
 3. Spawn the robot entity into Gazebo
-4. Spawn controllers (they connect to gz_ros2_control's controller_manager)
-5. Bridge sensor topics that ros2_control doesn't handle
+4. Bridge sensor topics (clock, lidar, camera)
+5. Launch RViz
 
 @return LaunchDescription.
 </pre> 

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Apartment Navigation By Classic Wheeled Robot: robot_core Namespace Reference</title>
+<title>Apartment Navigation By Classic Wheeled Robot: robot Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('namespacerobot__core.html','',''); });
+$(function(){initNavTree('namespacerobot.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -89,51 +89,45 @@ $(function(){initNavTree('namespacerobot__core.html','',''); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">robot_core Namespace Reference</div></div>
+  <div class="headertitle"><div class="title">robot Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a56ccf2bffe585eaea4321e9a9f73d960" id="r_a56ccf2bffe585eaea4321e9a9f73d960"><td class="memItemLeft">LaunchDescription&#160;</td><td class="memItemRight"><a class="el" href="#a56ccf2bffe585eaea4321e9a9f73d960">generate_launch_description</a> ()</td></tr>
+<tr class="memitem:a50d67a58c94f3d5aa138ca6249840756" id="r_a50d67a58c94f3d5aa138ca6249840756"><td class="memItemLeft">LaunchDescription&#160;</td><td class="memItemRight"><a class="el" href="#a50d67a58c94f3d5aa138ca6249840756">generate_launch_description</a> ()</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><pre class="fragment">@brief Shared robot core launch: RSP, controller spawners, and application nodes.
+<div class="textblock"><pre class="fragment">@brief Main robot launch for real or mock hardware with RViz.
 
-This is the hardware-agnostic core included by both gazebo.launch.py and
-robot.launch.py. It does NOT start a controller_manager — that's the caller's
-responsibility (Gazebo creates it via gz_ros2_control, robot.launch.py
-launches ros2_control_node).
+Wraps robot_core.launch.py with a standalone ros2_control_node and RViz.
+The hardware_plugin argument selects the ros2_control hardware interface:
 
-Expected arguments (callers must declare and forward):
-    hardware_plugin  — xacro hardware_plugin value
-    use_sim_time     — bool string, 'true' or 'false'
+    # Mock hardware (visualization only):
+    ros2 launch robot_bringup robot.launch.py
+
+    # Real hardware:
+    ros2 launch robot_bringup robot.launch.py hardware_plugin:=my_robot_hw/RealSystem
+
+For Gazebo simulation, use gazebo.launch.py instead (the CM lives inside Gazebo).
 </pre> </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a56ccf2bffe585eaea4321e9a9f73d960" name="a56ccf2bffe585eaea4321e9a9f73d960"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56ccf2bffe585eaea4321e9a9f73d960">&#9670;&#160;</a></span>generate_launch_description()</h2>
+<a id="a50d67a58c94f3d5aa138ca6249840756" name="a50d67a58c94f3d5aa138ca6249840756"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50d67a58c94f3d5aa138ca6249840756">&#9670;&#160;</a></span>generate_launch_description()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> LaunchDescription robot_core.generate_launch_description </td>
+          <td class="memname"> LaunchDescription robot.generate_launch_description </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">@brief Shared robot bringup core.
+<pre class="fragment">@brief Launch the robot with a standalone controller_manager and RViz.
 
-Launches:
-- robot_state_publisher (with xacro hardware_plugin substitution)
-- Controller spawners (joint_state_broadcaster, diff_drive_controller)
-- ball_chaser application node
-
-The controller spawners use ExecuteProcess + TimerAction to avoid
---ros-args injection issues and give the CM time to initialize.
-
-@return LaunchDescription.
+@return LaunchDescription with robot_core, ros2_control_node, and RViz.
 </pre> 
 </div>
 </div>
@@ -150,7 +144,7 @@ The controller spawners use ExecuteProcess + TimerAction to avoid
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="namespacerobot__core.html">robot_core</a></li>
+    <li class="navelem"><a href="namespacerobot.html">robot</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>
