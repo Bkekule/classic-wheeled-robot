@@ -20,7 +20,6 @@ services:
     command: >
       /bin/bash -c
       ". /opt/ros/jazzy/setup.sh &&
-       . /ros2_control_ws/install/setup.sh &&
        . install/setup.sh &&
        colcon test &&
        colcon test-result --verbose"
