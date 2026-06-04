@@ -41,7 +41,7 @@ RUN git clone --branch jazzy --depth 1 \
     . /opt/ros/jazzy/setup.sh && \
     rosdep update && \
     rosdep install --from-paths src --ignore-src -r -y \
-    --skip-keys "ros2controlcli" || true && \
+    --skip-keys "ros-jazzy-rqt-gui ros-jazzy-rqt-gui-py python3-coverage" || true && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # ─── Build robot workspace ────────────────────────────────────────────────────
@@ -49,8 +49,7 @@ WORKDIR /ros2_ws
 COPY src/ src/
 
 RUN rosdep install --from-paths src --ignore-src -r -y \
-    --skip-keys "rapidcheck pytest irobot_create_description irobot_create_msgs slam_toolbox nav2_bringup nav2_simple_commander joint_state_publisher gz_ros2_control ros_gz_sim ros2_control" \
-    || true
+    --skip-keys "rapidcheck pytest joint_state_publisher gz_ros2_control ros_gz_sim ros2_control ros-jazzy-ros-gz-bridge" || true
 
 RUN . /opt/ros/jazzy/setup.sh && \
     . /ros2_control_ws/install/setup.sh && \

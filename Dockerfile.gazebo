@@ -83,7 +83,7 @@ WORKDIR /ros2_ws
 COPY src/ src/
 
 RUN rosdep install --from-paths src --ignore-src -r -y \
-    --skip-keys "rapidcheck pytest irobot_create_description irobot_create_msgs slam_toolbox nav2_bringup nav2_simple_commander gz_ros2_control ros_gz_sim ros2_control" \
+    --skip-keys "rapidcheck pytest gz_ros2_control ros_gz_sim ros2_control ros-jazzy-ros-gz-bridge" \
     || true
 
 RUN . /opt/ros/jazzy/setup.sh && \
