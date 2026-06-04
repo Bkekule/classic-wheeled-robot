@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-xacro \
     ros-jazzy-robot-state-publisher \
     ros-jazzy-rviz2 \
+    ros-jazzy-example-interfaces \
     python3-colcon-common-extensions \
     python3-rosdep \
     git \
