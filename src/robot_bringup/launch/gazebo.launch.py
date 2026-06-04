@@ -92,17 +92,28 @@ def generate_launch_description() -> LaunchDescription:
     # --param-file passes controller-specific parameters (wheel names, etc.)
     # since we patch the CM to NOT forward its --params-file to controllers.
 
-    controllers_yaml = PathJoinSubstitution([pkg_description_dir, 'config', 'controllers.yaml'])
-    diff_drive_controller_yaml = PathJoinSubstitution([pkg_description_dir, 'config', 'diff_drive_controller.yaml'])
+    joint_state_broadcaster_yaml = PathJoinSubstitution(
+        [pkg_description_dir, 'config', 'joint_state_broadcaster.yaml']
+    )
+    diff_drive_controller_yaml = PathJoinSubstitution(
+        [pkg_description_dir, 'config', 'diff_drive_controller.yaml']
+    )
 
     joint_state_broadcaster_spawner = TimerAction(
         period=8.0,
         actions=[
             ExecuteProcess(
-                cmd=['ros2', 'run', 'controller_manager', 'spawner',
-                     'joint_state_broadcaster',
-                     '--param-file', controllers_yaml,
-                     '--controller-manager-timeout', '30'],
+                cmd=[
+                    'ros2',
+                    'run',
+                    'controller_manager',
+                    'spawner',
+                    'joint_state_broadcaster',
+                    '--param-file',
+                    joint_state_broadcaster_yaml,
+                    '--controller-manager-timeout',
+                    '30',
+                ],
                 output='screen',
             ),
         ],
@@ -112,10 +123,17 @@ def generate_launch_description() -> LaunchDescription:
         period=8.0,
         actions=[
             ExecuteProcess(
-                cmd=['ros2', 'run', 'controller_manager', 'spawner',
-                     'diff_drive_controller',
-                     '--param-file', diff_drive_controller_yaml,
-                     '--controller-manager-timeout', '30'],
+                cmd=[
+                    'ros2',
+                    'run',
+                    'controller_manager',
+                    'spawner',
+                    'diff_drive_controller',
+                    '--param-file',
+                    diff_drive_controller_yaml,
+                    '--controller-manager-timeout',
+                    '30',
+                ],
                 output='screen',
             ),
         ],

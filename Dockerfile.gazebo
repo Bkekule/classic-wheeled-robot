@@ -1,72 +1,95 @@
 ##
-# @brief Gazebo simulation Dockerfile using official ROS2 Jazzy apt packages.
+# @brief Gazebo Harmonic simulation Dockerfile (ROS 2 Jazzy).
 #
-# Builds gz_ros2_control from source with a patch that removes the broken
-# use_sim_time argument injection that causes controller initialization to fail.
-# Supports GPU passthrough for interactive Gazebo GUI usage.
+# Builds ros2_control from source with a single surgical patch to
+# ControllerManager::determine_controller_node_options() that prevents the CM
+# from forwarding its --params-file CLI arguments to individual controller nodes.
+#
+# ─── Why this patch is needed ─────────────────────────────────────────────────
+#
+# gz_ros2_control reads <parameters> elements from the robot's URDF/SDF and
+# injects them as --params-file arguments into the controller_manager's node
+# options. This is correct — the CM needs those files to learn controller types
+# (e.g. diff_drive_controller/DiffDriveController) and its own update_rate.
+#
+# The bug is in ros2_control's determine_controller_node_options(): it copies
+# ALL of the CM's node arguments (including --params-file) into each controller
+# it spawns. Controllers then try to parse the full CM YAML and crash with
+# "parameter not declared" or "Couldn't parse trailing --params-file flag"
+# errors because the YAML contains parameters for OTHER controllers.
+#
+# The patch filters out RCL_PARAM_FILE_FLAG ("--params-file") and its following
+# filename argument before forwarding CM args to controllers. Controllers still
+# receive their own parameters via the spawner's --param-file service call.
+#
+# ─── Data flow (after patch) ──────────────────────────────────────────────────
+#
+#   URDF <parameters> tags
+#     │
+#     ▼
+#   gz_ros2_control plugin (unpatched, apt package)
+#     │  injects --params-file into CM node options
+#     ▼
+#   controller_manager (patched from source)
+#     │  knows controller types ✓  (from --params-file)
+#     │  does NOT forward --params-file to controllers ✓
+#     ▼
+#   spawner --param-file <yaml>
+#     │  loads controller-specific params via service call
+#     ▼
+#   individual controllers
+#     receive only their own namespaced parameters ✓
+#
+# ─── Build strategy ───────────────────────────────────────────────────────────
+#
+#   Layer 1: apt install ros-jazzy-gz-ros2-control (unpatched)
+#   Layer 2: build ros2_control from source (patched controller_manager)
+#            → overlays the apt ros2_control at runtime via workspace sourcing
+#   Layer 3: build robot workspace against the patched overlay
+#
+# See docker/ros2_control_params_file_patch.py for the patch implementation.
 ##
 
 FROM ros:jazzy-ros-base
 
-# Install Gazebo, ros2_control, simulation dependencies, and build tools
+# Install simulation stack and build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-ros2-controllers \
     ros-jazzy-gz-ros2-control \
-    ros-jazzy-ros2-control-cmake \
     ros-jazzy-ros-gz \
     ros-jazzy-xacro \
     ros-jazzy-robot-state-publisher \
     ros-jazzy-rviz2 \
-    ros-jazzy-controller-manager \
-    ros-jazzy-hardware-interface \
-    ros-jazzy-example-interfaces \
     python3-colcon-common-extensions \
     python3-rosdep \
     git \
     && rm -rf /var/lib/apt/lists/*
 
 # ─── Build patched ros2_control from source ───────────────────────────────────
+# Only the controller_manager package is functionally changed; the rest of
+# ros2_control is built to satisfy internal dependencies.
 WORKDIR /ros2_control_ws
-COPY docker /tmp
+COPY docker/ros2_control_params_file_patch.py /tmp/ros2_control_patch.py
 RUN git clone --branch jazzy --depth 1 \
     https://github.com/ros-controls/ros2_control.git src/ros2_control && \
-    python3 /tmp/ros2_control_params_file_patch.py \
+    python3 /tmp/ros2_control_patch.py \
     src/ros2_control/controller_manager/src/controller_manager.cpp && \
     . /opt/ros/jazzy/setup.sh && \
-    rosdep update && \
-    rosdep install --from-paths src --ignore-src -r -y \
-    --skip-keys "ros2controlcli" || true && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-# Build gz_ros2_control from source with use_sim_time injection removed
-# WORKDIR /gz_ros2_control_ws
-# RUN git clone --branch jazzy --depth 1 \
-#     https://github.com/ros-controls/gz_ros2_control.git src/gz_ros2_control && \
-#     python3 /tmp/gz_ros2_control_patch.py \
-#     src/gz_ros2_control/gz_ros2_control/src/gz_ros2_control_plugin.cpp && \
-#     # Build
-#     . /opt/ros/jazzy/setup.sh && \
-#     rosdep update && \
-#     rosdep install --from-paths src --ignore-src -r -y \
-#     --skip-keys "ros2_control ros2controlcli" || true && \
-#     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
-
-# Create robot workspace
+# ─── Build robot workspace ────────────────────────────────────────────────────
 WORKDIR /ros2_ws
 COPY src/ src/
 
-# Install robot workspace dependencies
 RUN rosdep install --from-paths src --ignore-src -r -y \
-    --skip-keys "rapidcheck pytest irobot_create_description irobot_create_msgs slam_toolbox nav2_bringup nav2_simple_commander joint_state_publisher gz_ros2_control ros_gz_sim ros2_control" \
+    --skip-keys "rapidcheck pytest irobot_create_description irobot_create_msgs slam_toolbox nav2_bringup nav2_simple_commander gz_ros2_control ros_gz_sim ros2_control" \
     || true
 
-# Build robot packages (source patched gz_ros2_control overlay first)
 RUN . /opt/ros/jazzy/setup.sh && \
     . /ros2_control_ws/install/setup.sh && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release \
     --packages-up-to robot_bringup robot_control robot_world
 
-# Entrypoint: source all workspaces and launch
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
