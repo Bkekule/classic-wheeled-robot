@@ -18,6 +18,7 @@ FROM ros:jazzy-ros-base
 # Install ros2_control stack, RViz, and build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-ros2-controllers \
+    ros-jazzy-ros2-control-cmake \
     ros-jazzy-xacro \
     ros-jazzy-robot-state-publisher \
     ros-jazzy-rviz2 \
