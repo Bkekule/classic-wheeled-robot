@@ -14,12 +14,12 @@
 # Without this patch, the CM passes its own parameter files to each controller
 # node, causing "parameter not declared" or parse errors.
 #
+# See docker/ros2_control_params_file_patch.py for patch details.
+#
 # ─── turtlebot4 ───────────────────────────────────────────────────────────────
 #
 # Builds turtlebot4 from source so that turtlebot4 launch files and messages
 # are available for integration (e.g. ros2 launch turtlebot4_gz_bringup).
-#
-# See docker/ros2_control_params_file_patch.py for patch details.
 ##
 
 FROM ros:jazzy-ros-base

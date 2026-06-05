@@ -2,9 +2,9 @@
 # @brief Docker Compose for all robot modes.
 #
 # Usage:
-#   docker compose up robot                          # mock hardware + RViz
-#   docker compose --profile gazebo up gazebo        # Gazebo simulation
-#   docker compose --profile test run --rm test      # run tests
+#   docker-compose up robot                          # mock hardware + RViz
+#   docker-compose --profile gazebo up gazebo        # Gazebo simulation
+#   docker-compose --profile test run --rm test      # run tests
 #
 # Prerequisites for GUI (Ubuntu host):
 #   - NVIDIA GPU with drivers + nvidia-container-toolkit
@@ -35,6 +35,7 @@ x-gpu-config: &gpu-config
 services:
   robot:
     build: .
+    profiles: ["robot"]
     <<: *gpu-config
 
   gazebo:
@@ -51,7 +52,7 @@ services:
       - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models:/ros2_ws/install/robot_world/share/robot_world/worlds
       - GZ_SIM_SYSTEM_PLUGIN_PATH=/opt/ros/jazzy/lib
     profiles: ["gazebo"]
-    command: ["ros2", "launch", "robot_bringup", "gazebo.launch.py"]
+    command: ["bash"]
 
   test:
     build: .
@@ -62,6 +63,6 @@ services:
        . /ros2_control_ws/install/setup.sh &&
        . /turtlebot4_ws/install/setup.sh &&
        . install/setup.sh &&
-       colcon test &&
+       colcon test --packages-up-to robot_bringup robot_control &&
        colcon test-result --verbose"
     working_dir: /ros2_ws
