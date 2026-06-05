@@ -12,18 +12,14 @@ Developed on MacOS Tahoe, tested on Ubuntu 26.04. A modular ROS 2 robot descript
 
 ## Getting Started
 
-Everything runs through [pixi](https://pixi.sh) for a controlled, self-sufficient environment — no system ROS installation needed.
+Everything runs inside Docker — no system ROS installation needed.
 
-### 1. Install pixi
-
-```bash
-curl -fsSL https://pixi.sh/install.sh | bash
-```
-
-Then export the pixi binary to your PATH:
+### 1. Install Docker
 
 ```bash
-export PATH="$HOME/.pixi/bin:$PATH"
+sudo apt-get update && sudo apt-get install -y docker.io docker-compose
+sudo usermod -aG docker $USER
+newgrp docker
 ```
 
 ### 2. Clone the repo
@@ -33,40 +29,21 @@ git clone <repo-url>
 cd classic-wheeled-robot
 ```
 
-### 3. Create the robostack environment folder
+### 3. Run
 
 ```bash
-mkdir robostack
-cp ci/pixi.toml robostack/pixi.toml
+docker-compose up robot                        # mock hardware + RViz
+docker-compose --profile gazebo up gazebo      # Gazebo sim
+docker-compose --profile test run --rm test    # tests
 ```
 
-This is where pixi manages the ROS 2 Jazzy + Gazebo environment.
-
-### 4. Run tasks
-
-Choose your preferred workflow:
-
-**Command line**
+To open a shell inside a running container:
 
 ```bash
-cd robostack
-pixi run -e jazzy <task-name>
+docker exec -it classic-wheeled-robot_gazebo_1 /docker-entrypoint.sh bash
 ```
 
-Available tasks:
-
-| Task | What it does |
-|---|---|
-| `gz-launch` | Builds and launches the robot in Gazebo Harmonic |
-| `rviz-launch` | Builds and launches the robot in RViz with mock hardware and eventual  true hardware |
-| `run-tests` | Builds and runs the full integration test suite |
-| `pre-commit` | Runs all pre-commit hooks across the repo |
-
-Pixi installs all dependencies automatically on first run — this will take a few minutes the first time. Details of what each of these tasks are running can be seen [here](ci/pixi.toml#L38)
-
-**VSCode**
-
-Open the Command Palette (`Ctrl+Shift+P`), choose **Tasks: Run Task**, and select the task you want to run.
+The container name follows the pattern `{project}_{service}_{replica}` — replace `gazebo` with the service name and `1` with the replica number shown in `docker ps`.
 
 ## Contributing
 
