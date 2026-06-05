@@ -41,29 +41,27 @@ REPLACE = """\
 
 def main() -> int:
     if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} <controller_manager.cpp>", file=sys.stderr)
+        print(f'Usage: {sys.argv[0]} <controller_manager.cpp>', file=sys.stderr)
         return 1
 
     path = Path(sys.argv[1])
     content = path.read_text()
 
     if SEARCH not in content:
-        print("ERROR: Could not find target code block in controller_manager.cpp", file=sys.stderr)
-        print("The ros2_control source may have changed. Patch needs updating.", file=sys.stderr)
+        print('ERROR: Could not find target code block in controller_manager.cpp', file=sys.stderr)
+        print('The ros2_control source may have changed. Patch needs updating.', file=sys.stderr)
         return 1
 
     count = content.count(SEARCH)
     if count != 1:
-        print(
-            f"ERROR: Found {count} occurrences of target block (expected 1)", file=sys.stderr
-        )
+        print(f'ERROR: Found {count} occurrences of target block (expected 1)', file=sys.stderr)
         return 1
 
     patched = content.replace(SEARCH, REPLACE, 1)
     path.write_text(patched)
-    print(f"Successfully patched {path}")
+    print(f'Successfully patched {path}')
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())
