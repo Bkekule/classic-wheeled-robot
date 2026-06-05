@@ -2,8 +2,8 @@
 # @brief Docker Compose for all robot modes.
 #
 # Usage:
-#   docker-compose up robot                          # mock hardware + RViz
-#   docker-compose --profile gazebo up gazebo        # Gazebo simulation
+#   docker compose --profile robot up                # mock hardware + RViz
+#   docker compose --profile gazebo run --rm gazebo bash       # Gazebo simulation
 #   docker-compose --profile test run --rm test      # run tests
 #
 # Prerequisites for GUI (Ubuntu host):
