@@ -62,13 +62,18 @@ RUN git clone --branch jazzy --depth 1 \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # ─── Build turtlebot4 from source ────────────────────────────────────────────
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-jazzy-irobot-create-description \
+    ros-jazzy-irobot-create-msgs \
+    ros-jazzy-turtlebot4-simulator \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /turtlebot4_ws
 RUN git clone --branch jazzy --depth 1 \
     https://github.com/turtlebot/turtlebot4.git src/turtlebot4 && \
     . /opt/ros/jazzy/setup.sh && \
     . /ros2_control_ws/install/setup.sh && \
-    rosdep install --from-paths src --ignore-src -r -y \
-    --skip-keys "irobot_create_description irobot_create_msgs" || true && \
+    rosdep install --from-paths src --ignore-src -r -y || true && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # ─── Build robot workspace ────────────────────────────────────────────────────
