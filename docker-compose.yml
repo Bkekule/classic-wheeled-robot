@@ -62,6 +62,6 @@ services:
        . /ros2_control_ws/install/setup.sh &&
        . /turtlebot4_ws/install/setup.sh &&
        . install/setup.sh &&
-       colcon test --packages-up-to robot_bringup robot_control &&
+       colcon test &&
        colcon test-result --verbose"
     working_dir: /ros2_ws
