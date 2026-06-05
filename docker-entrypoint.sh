@@ -9,11 +9,6 @@ if [ -f /ros2_control_ws/install/setup.bash ]; then
     source /ros2_control_ws/install/setup.bash
 fi
 
-# Source turtlebot4 overlay
-if [ -f /turtlebot4_ws/install/setup.bash ]; then
-    source /turtlebot4_ws/install/setup.bash
-fi
-
 source /ros2_ws/install/setup.bash
 
 exec "$@"

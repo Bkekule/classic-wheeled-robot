@@ -15,11 +15,6 @@
 # node, causing "parameter not declared" or parse errors.
 #
 # See docker/ros2_control_params_file_patch.py for patch details.
-#
-# ─── turtlebot4 ───────────────────────────────────────────────────────────────
-#
-# Builds turtlebot4 from source so that turtlebot4 launch files and messages
-# are available for integration (e.g. ros2 launch turtlebot4_gz_bringup).
 ##
 
 FROM ros:jazzy-ros-base
@@ -61,20 +56,11 @@ RUN git clone --branch jazzy --depth 1 \
     --skip-keys "ros2controlcli" || true && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-# ─── Build turtlebot4 from source ────────────────────────────────────────────
+# ─── Install turtlebot4 (apt) ─────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-jazzy-irobot-create-description \
-    ros-jazzy-irobot-create-msgs \
     ros-jazzy-turtlebot4-simulator \
+    ros-jazzy-irobot-create-nodes \
     && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /turtlebot4_ws
-RUN git clone --branch jazzy --depth 1 \
-    https://github.com/turtlebot/turtlebot4.git src/turtlebot4 && \
-    . /opt/ros/jazzy/setup.sh && \
-    . /ros2_control_ws/install/setup.sh && \
-    rosdep install --from-paths src --ignore-src -r -y || true && \
-    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # ─── Build robot workspace ────────────────────────────────────────────────────
 WORKDIR /ros2_ws
@@ -86,7 +72,6 @@ RUN rosdep install --from-paths src --ignore-src -r -y \
 
 RUN . /opt/ros/jazzy/setup.sh && \
     . /ros2_control_ws/install/setup.sh && \
-    . /turtlebot4_ws/install/setup.sh && \
     if [ "$GAZEBO" = "true" ]; then \
         colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release \
             --packages-up-to robot_bringup robot_control robot_world; \
