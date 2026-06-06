@@ -1,9 +1,8 @@
 ##
-# @brief Unified robot Dockerfile (ROS 2 Jazzy Desktop).
+# @brief Unified robot Dockerfile (ROS 2 Jazzy + Gazebo Harmonic).
 #
-# Supports two modes via the GAZEBO build arg:
-#   GAZEBO=false (default) — robot.launch.py with standalone ros2_control_node
-#   GAZEBO=true            — gazebo.launch.py with gz_ros2_control plugin
+# Based on osrf/ros:jazzy-simulation which includes desktop + Gazebo Harmonic.
+# Supports all modes: robot.launch.py (mock/real HW), gazebo.launch.py, turtlebot4.
 #
 # ─── ros2_control patch ───────────────────────────────────────────────────────
 #
@@ -17,27 +16,18 @@
 # See docker/ros2_control_params_file_patch.py for patch details.
 ##
 
-FROM ros:jazzy-desktop
+FROM osrf/ros:jazzy-simulation
 
-ARG GAZEBO=false
-
-# ─── Install additional dependencies not in desktop ───────────────────────────
+# ─── Install additional dependencies ──────────────────────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-ros2-control \
     ros-jazzy-ros2-controllers \
+    ros-jazzy-gz-ros2-control \
     ros-jazzy-turtlebot4-simulator \
     ros-jazzy-irobot-create-nodes \
     python3-colcon-common-extensions \
     git \
     && rm -rf /var/lib/apt/lists/*
-
-# ─── Install Gazebo packages (only when GAZEBO=true) ──────────────────────────
-RUN if [ "$GAZEBO" = "true" ]; then \
-        apt-get update && apt-get install -y --no-install-recommends \
-            ros-jazzy-gz-ros2-control \
-            ros-jazzy-ros-gz \
-        && rm -rf /var/lib/apt/lists/*; \
-    fi
 
 # ─── Build patched ros2_control from source ───────────────────────────────────
 WORKDIR /ros2_control_ws
@@ -62,13 +52,8 @@ RUN rosdep install --from-paths src --ignore-src -r -y \
 
 RUN . /opt/ros/jazzy/setup.sh && \
     . /ros2_control_ws/install/setup.sh && \
-    if [ "$GAZEBO" = "true" ]; then \
-        colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release \
-            --packages-up-to robot_bringup robot_control robot_world; \
-    else \
-        colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release \
-            --packages-up-to robot_bringup robot_control; \
-    fi
+    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release \
+        --packages-up-to robot_bringup robot_control robot_world
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh

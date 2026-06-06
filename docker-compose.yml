@@ -1,23 +1,29 @@
 ##
-# @brief Docker Compose for all robot modes.
+# @brief Docker Compose for robot development.
 #
 # Usage:
-#   docker compose --profile robot up                # mock hardware + RViz
-#   docker compose --profile gazebo run --rm gazebo bash       # Gazebo simulation
-#   docker-compose --profile test run --rm test      # run tests
+#   docker compose run --rm dev               # interactive shell
+#   docker compose --profile test run --rm test   # run tests
 #
-# Prerequisites for GUI (Ubuntu host):
+# From the interactive shell, run whatever you need:
+#   ros2 launch robot_bringup robot.launch.py
+#   ros2 launch robot_bringup gazebo.launch.py
+#   ros2 launch turtlebot4_gz_bringup ...
+#
+# Prerequisites (Ubuntu host):
 #   - NVIDIA GPU with drivers + nvidia-container-toolkit
 #   - Run: xhost +local:docker
 ##
 
 x-gpu-config: &gpu-config
-  environment: &gpu-env
+  environment:
     - DISPLAY=${DISPLAY}
     - QT_X11_NO_MITSHM=1
     - NVIDIA_VISIBLE_DEVICES=all
     - NVIDIA_DRIVER_CAPABILITIES=all
-  volumes: &gpu-volumes
+    - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models:/ros2_ws/install/robot_world/share/robot_world/worlds
+    - GZ_SIM_SYSTEM_PLUGIN_PATH=/opt/ros/jazzy/lib
+  volumes:
     - /tmp/.X11-unix:/tmp/.X11-unix:rw
     - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
   network_mode: host
@@ -33,26 +39,10 @@ x-gpu-config: &gpu-config
   tty: true
 
 services:
-  robot:
+  dev:
     build: .
-    profiles: ["robot"]
     <<: *gpu-config
-
-  gazebo:
-    build:
-      context: .
-      args:
-        GAZEBO: "true"
-    <<: *gpu-config
-    environment:
-      - DISPLAY=${DISPLAY}
-      - QT_X11_NO_MITSHM=1
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=all
-      - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models:/ros2_ws/install/robot_world/share/robot_world/worlds
-      - GZ_SIM_SYSTEM_PLUGIN_PATH=/opt/ros/jazzy/lib
-    profiles: ["gazebo"]
-    command: ["bash"]
+    command: bash
 
   test:
     build: .
