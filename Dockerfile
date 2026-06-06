@@ -1,5 +1,5 @@
 ##
-# @brief Unified robot Dockerfile (ROS 2 Jazzy).
+# @brief Unified robot Dockerfile (ROS 2 Jazzy Desktop).
 #
 # Supports two modes via the GAZEBO build arg:
 #   GAZEBO=false (default) — robot.launch.py with standalone ros2_control_node
@@ -17,21 +17,17 @@
 # See docker/ros2_control_params_file_patch.py for patch details.
 ##
 
-FROM ros:jazzy-ros-base
+FROM ros:jazzy-desktop
 
 ARG GAZEBO=false
 
-# ─── Install base dependencies ────────────────────────────────────────────────
+# ─── Install additional dependencies not in desktop ───────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-ros2-control \
     ros-jazzy-ros2-controllers \
-    ros-jazzy-ros2-control-cmake \
-    ros-jazzy-xacro \
-    ros-jazzy-robot-state-publisher \
-    ros-jazzy-rviz2 \
-    ros-jazzy-example-interfaces \
+    ros-jazzy-turtlebot4-simulator \
+    ros-jazzy-irobot-create-nodes \
     python3-colcon-common-extensions \
-    python3-rosdep \
     git \
     && rm -rf /var/lib/apt/lists/*
 
@@ -55,12 +51,6 @@ RUN git clone --branch jazzy --depth 1 \
     rosdep install --from-paths src --ignore-src -r -y \
     --skip-keys "ros2controlcli" || true && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
-
-# ─── Install turtlebot4 (apt) ─────────────────────────────────────────────────
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-jazzy-turtlebot4-simulator \
-    ros-jazzy-irobot-create-nodes \
-    && rm -rf /var/lib/apt/lists/*
 
 # ─── Build robot workspace ────────────────────────────────────────────────────
 WORKDIR /ros2_ws
