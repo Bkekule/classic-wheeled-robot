@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-ros2-controllers \
     ros-jazzy-gz-ros2-control \
     ros-jazzy-turtlebot4-simulator \
-    ros-jazzy-irobot-create-nodes \
+    ros-jazzy-example-interfaces \
     python3-colcon-common-extensions \
     git \
     && rm -rf /var/lib/apt/lists/*
@@ -47,8 +47,7 @@ WORKDIR /ros2_ws
 COPY src/ src/
 
 RUN rosdep install --from-paths src --ignore-src -r -y \
-    --skip-keys "rapidcheck pytest irobot_create_description irobot_create_msgs slam_toolbox nav2_bringup nav2_simple_commander joint_state_publisher gz_ros2_control ros_gz_sim ros2_control turtlebot4_msgs turtlebot4_description turtlebot4_navigation turtlebot4_node" \
-    || true
+    --skip-keys "rapidcheck pytest ros2_control" || true
 
 RUN . /opt/ros/jazzy/setup.sh && \
     . /ros2_control_ws/install/setup.sh && \
@@ -58,4 +57,3 @@ RUN . /opt/ros/jazzy/setup.sh && \
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["ros2", "launch", "robot_bringup", "robot.launch.py"]
