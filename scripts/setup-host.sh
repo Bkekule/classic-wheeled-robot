@@ -14,6 +14,14 @@ require_ubuntu() {
 }
 
 # ── 1. base apt hygiene ────────────────────────────────────────────────────
+# The Open Robotics signing key (F42ED6FBAB17C654) periodically expires on
+# older Focal installs. Refresh it before apt-get update to avoid the
+# "no longer signed" error that blocks all subsequent apt operations.
+if apt-key list 2>/dev/null | grep -q "F42ED6FBAB17C654"; then
+  info "Refreshing expired Open Robotics apt key..."
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys F42ED6FBAB17C654
+fi
+
 info "Updating apt..."
 sudo apt-get update -y
 sudo apt-get autoremove -y
