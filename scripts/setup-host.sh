@@ -52,13 +52,13 @@ else
 fi
 
 # ── 3. current user → docker group ────────────────────────────────────────
+ADDED_TO_DOCKER_GROUP=false
 if groups "$USER" | grep -qw docker; then
   info "User '$USER' already in docker group, skipping."
 else
   info "Adding '$USER' to docker group..."
   sudo usermod -aG docker "$USER"
-  warn "Group membership takes effect in a new shell session."
-  warn "After this script finishes, run: newgrp docker  (or log out/in)."
+  ADDED_TO_DOCKER_GROUP=true
 fi
 
 # ── 4. nvidia-container-toolkit ────────────────────────────────────────────
@@ -91,20 +91,31 @@ fi
 info "Restarting Docker daemon..."
 sudo systemctl restart docker
 
-# ── 7. smoke test ──────────────────────────────────────────────────────────
-info "Smoke-testing GPU access inside Docker..."
-if docker run --rm --gpus all ubuntu nvidia-smi &>/dev/null; then
-  info "GPU smoke test passed."
+# ── 7. smoke test + final instructions ────────────────────────────────────
+echo ""
+if [[ "$ADDED_TO_DOCKER_GROUP" == true ]]; then
+  # Group membership isn't active yet in this shell, so apply it now and
+  # run the smoke test inside the new group context rather than skipping it.
+  info "Applying docker group membership and running smoke test..."
+  if sg docker -c "docker run --rm --gpus all ubuntu nvidia-smi" &>/dev/null; then
+    info "GPU smoke test passed."
+  else
+    warn "GPU smoke test failed. Verify that NVIDIA drivers are installed: run 'nvidia-smi' on the host."
+  fi
+  echo ""
+  echo "Setup complete. Start the dev container with:"
+  echo "  newgrp docker"
+  echo "  docker compose run --rm dev"
+  echo ""
+  echo "Or log out and back in, then: docker compose run --rm dev"
 else
-  warn "GPU smoke test failed. Check that NVIDIA drivers are installed on the host (nvidia-smi should work outside Docker)."
+  info "Smoke-testing GPU access inside Docker..."
+  if docker run --rm --gpus all ubuntu nvidia-smi &>/dev/null; then
+    info "GPU smoke test passed."
+  else
+    warn "GPU smoke test failed. Verify that NVIDIA drivers are installed: run 'nvidia-smi' on the host."
+  fi
+  echo ""
+  echo "Setup complete. Start the dev container:"
+  echo "  docker compose run --rm dev"
 fi
-
-# ── done ───────────────────────────────────────────────────────────────────
-echo ""
-echo "Setup complete."
-echo ""
-echo "If you were just added to the docker group, run:"
-echo "  newgrp docker"
-echo ""
-echo "Then start the dev container:"
-echo "  docker compose run --rm dev"
