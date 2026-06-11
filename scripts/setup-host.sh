@@ -15,11 +15,20 @@ require_ubuntu() {
 
 # ── 1. base apt hygiene ────────────────────────────────────────────────────
 # The Open Robotics signing key (F42ED6FBAB17C654) periodically expires on
-# older Focal installs. Refresh it before apt-get update to avoid the
-# "no longer signed" error that blocks all subsequent apt operations.
-if apt-key list 2>/dev/null | grep -q "F42ED6FBAB17C654"; then
-  info "Refreshing expired Open Robotics apt key..."
-  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys F42ED6FBAB17C654
+# Focal installs. Replace the legacy apt-key entry with a modern signed-by
+# keyring so apt-get update succeeds.
+ROS_KEYRING=/usr/share/keyrings/ros-archive-keyring.gpg
+ROS_LIST=/etc/apt/sources.list.d/ros-latest.list
+if [[ -f "$ROS_LIST" ]]; then
+  info "Refreshing Open Robotics apt key..."
+  sudo apt-key del F42ED6FBAB17C654 2>/dev/null || true
+  curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc \
+    | sudo gpg --dearmor -o "$ROS_KEYRING"
+  # Rewrite the source list to use the signed-by keyring
+  sudo sed -i \
+    "s|deb http|deb [signed-by=${ROS_KEYRING}] http|g" \
+    "$ROS_LIST"
+  info "Open Robotics key refreshed."
 fi
 
 info "Updating apt..."
