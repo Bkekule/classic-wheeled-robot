@@ -42,6 +42,20 @@ RUN git clone --branch jazzy --depth 1 \
     --skip-keys "ros2controlcli" || true && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
+# ─── Build pgm map creator from source ───────────────────────────────────
+WORKDIR /pgm_map_creator_ws/src
+RUN git clone https://github.com/Bkekule/pgm_map_creator.git
+
+WORKDIR /pgm_map_creator_ws
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libprotobuf-dev \
+    protobuf-compiler \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN . /opt/ros/jazzy/setup.sh && \
+    . /ros2_control_ws/install/setup.sh && \
+    colcon build --packages-select pgm_map_creator
+
 # ─── Build robot workspace ────────────────────────────────────────────────────
 WORKDIR /ros2_ws
 COPY src/ src/

@@ -9,6 +9,11 @@ if [ -f /ros2_control_ws/install/setup.bash ]; then
     source /ros2_control_ws/install/setup.bash
 fi
 
+# Source patched pgm_map_creator_ws overlay
+if [ -f /pgm_map_creator_ws/install/setup.bash ]; then
+    source /pgm_map_creator_ws/install/setup.bash
+fi
+
 source /ros2_ws/install/setup.bash
 
 exec "$@"
