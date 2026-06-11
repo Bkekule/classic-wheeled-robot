@@ -102,12 +102,6 @@ if [[ "$ADDED_TO_DOCKER_GROUP" == true ]]; then
   else
     warn "GPU smoke test failed. Verify that NVIDIA drivers are installed: run 'nvidia-smi' on the host."
   fi
-  echo ""
-  echo "Setup complete. Start the dev container with:"
-  echo "  newgrp docker"
-  echo "  docker compose run --rm dev"
-  echo ""
-  echo "Or log out and back in, then: docker compose run --rm dev"
 else
   info "Smoke-testing GPU access inside Docker..."
   if docker run --rm --gpus all ubuntu nvidia-smi &>/dev/null; then
@@ -115,7 +109,11 @@ else
   else
     warn "GPU smoke test failed. Verify that NVIDIA drivers are installed: run 'nvidia-smi' on the host."
   fi
-  echo ""
-  echo "Setup complete. Start the dev container:"
-  echo "  docker compose run --rm dev"
 fi
+
+# ── done ───────────────────────────────────────────────────────────────────
+echo ""
+echo "Setup complete. Run the following to start the dev container:"
+echo ""
+echo "  newgrp docker"
+echo "  docker compose run --rm dev"
