@@ -21,8 +21,8 @@ x-gpu-config: &gpu-config
     - QT_X11_NO_MITSHM=1
     - NVIDIA_VISIBLE_DEVICES=all
     - NVIDIA_DRIVER_CAPABILITIES=all
-    - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models:/ros2_ws/install/robot_world/share/robot_world/worlds
-    - GZ_SIM_SYSTEM_PLUGIN_PATH=/opt/ros/jazzy/lib
+    - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models:/ros2_ws/install/robot_world/share/robot_world
+    - GZ_SIM_SYSTEM_PLUGIN_PATH=/opt/ros/jazzy/lib:/pgm_map_creator_ws/install/lib/pgm_map_creator
   volumes:
     - /tmp/.X11-unix:/tmp/.X11-unix:rw
     - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
