@@ -1,5 +1,6 @@
 # ROS build artifacts
 robostack*/
+compile_commands.json
 build/
 install/
 devel/

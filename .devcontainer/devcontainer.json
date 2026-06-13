@@ -1,0 +1,10 @@
+{
+  "name": "Classic Wheeled Robot",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/ros2_ws",
+
+  // Build workspace and merge per-package compile_commands.json so clangd
+  // resolves all includes without squiggles.
+  "postCreateCommand": "bash -c 'python3 -c \"import json, pathlib; files=list(pathlib.Path(\\\"build\\\").rglob(\\\"compile_commands.json\\\")); merged=[]; [merged.extend(json.loads(f.read_text())) for f in files]; pathlib.Path(\\\"compile_commands.json\\\").write_text(json.dumps(merged, indent=2))\"'"
+}

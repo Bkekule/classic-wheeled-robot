@@ -4,6 +4,16 @@
 # Based on osrf/ros:jazzy-simulation which includes desktop + Gazebo Harmonic.
 # Supports all modes: robot.launch.py (mock/real HW), gazebo.launch.py, turtlebot4.
 #
+# ─── Stages ───────────────────────────────────────────────────────────────────
+#
+#   dev-base  All ROS/Gazebo deps + patched ros2_control + pgm_map_creator.
+#             No source code. Used by Dev Containers for IDE development.
+#
+#   dev       Extends dev-base with source copied in and workspace built.
+#             Used by docker-compose for interactive development and testing.
+#
+#   prod      (future) Slimmer runtime image without simulation tooling.
+#
 # ─── ros2_control patch ───────────────────────────────────────────────────────
 #
 # Builds ros2_control from source with a patch to
@@ -16,7 +26,8 @@
 # See docker/ros2_control_params_file_patch.py for patch details.
 ##
 
-FROM osrf/ros:jazzy-simulation
+# ─── dev-base: all deps, no source ────────────────────────────────────────────
+FROM osrf/ros:jazzy-simulation AS dev-base
 
 # ─── Install additional dependencies ──────────────────────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -42,7 +53,7 @@ RUN git clone --branch jazzy --depth 1 \
     --skip-keys "ros2controlcli" || true && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-# ─── Build pgm map creator from source ───────────────────────────────────
+# ─── Build pgm map creator from source ───────────────────────────────────────
 WORKDIR /pgm_map_creator_ws/src
 RUN git clone https://github.com/Bkekule/pgm_map_creator.git
 
@@ -56,7 +67,6 @@ RUN . /opt/ros/jazzy/setup.sh && \
     . /ros2_control_ws/install/setup.sh && \
     colcon build --packages-select pgm_map_creator
 
-# ─── Build robot workspace ────────────────────────────────────────────────────
 WORKDIR /ros2_ws
 COPY src/ src/
 
