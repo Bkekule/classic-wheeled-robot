@@ -128,7 +128,7 @@ fi
 
 # ── done ───────────────────────────────────────────────────────────────────
 echo ""
-echo "Setup complete. Run the following to start the dev container:"
+echo "Setup complete. Run the following to start the chase-it service container:"
 echo ""
 echo "  newgrp docker"
-echo "  docker compose run --rm dev"
+echo "  docker compose --profile chase-it run --rm chase-it"
