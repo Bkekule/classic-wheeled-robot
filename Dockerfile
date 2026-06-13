@@ -67,6 +67,20 @@ RUN . /opt/ros/jazzy/setup.sh && \
     . /ros2_control_ws/install/setup.sh && \
     colcon build --packages-select pgm_map_creator
 
+# ─── For CI/CD purposes ───────────────────────────────────────
+FROM dev-base AS cli
+
+WORKDIR /ros2_ws
+COPY src/ src/
+
+RUN rosdep install --from-paths src --ignore-src -r -y \
+    --skip-keys "rapidcheck pytest ros2_control" || true
+
+RUN . /opt/ros/jazzy/setup.sh && \
+    . /ros2_control_ws/install/setup.sh && \
+    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release \
+        --packages-up-to robot_bringup robot_control robot_world
+
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]

@@ -58,10 +58,20 @@ services:
     <<: *gpu-config
     command: sleep infinity
 
+  chase-it:
+    build:
+      context: .
+      target: cli
+    profiles: ["chase-it"]
+    <<: *gpu-config
+    command: >
+      /bin/bash -c
+      "ros2 launch robot_bringup gazebo.launch.py"
+
   test:
     build:
       context: .
-      target: dev-base
+      target: cli
     profiles: ["test"]
     command: >
       /bin/bash -c
