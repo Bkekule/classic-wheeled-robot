@@ -87,11 +87,26 @@ else
   sudo nvidia-ctk runtime configure --runtime=docker
 fi
 
-# ── 6. restart docker ──────────────────────────────────────────────────────
+# ── 6. vscode ──────────────────────────────────────────────────────────────
+VSCODE_KEYRING=/usr/share/keyrings/microsoft-archive-keyring.gpg
+if command -v code &>/dev/null; then
+  info "VS Code already installed ($(code --version | head -1)), skipping."
+else
+  info "Adding Microsoft apt repository..."
+  curl -fsSL https://packages.microsoft.com/keys/microsoft.asc \
+    | sudo gpg --dearmor -o "$VSCODE_KEYRING"
+  echo "deb [arch=amd64 signed-by=${VSCODE_KEYRING}] https://packages.microsoft.com/repos/code stable main" \
+    | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+  sudo apt-get update -y
+  info "Installing VS Code..."
+  sudo apt-get install -y code
+fi
+
+# ── 8. restart docker ──────────────────────────────────────────────────────
 info "Restarting Docker daemon..."
 sudo systemctl restart docker
 
-# ── 7. smoke test + final instructions ────────────────────────────────────
+# ── 9. smoke test + final instructions ────────────────────────────────────
 echo ""
 if [[ "$ADDED_TO_DOCKER_GROUP" == true ]]; then
   # Group membership isn't active yet in this shell, so apply it now and

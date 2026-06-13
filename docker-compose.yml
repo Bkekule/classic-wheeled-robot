@@ -29,6 +29,7 @@ x-gpu-config: &gpu-config
   volumes:
     - /tmp/.X11-unix:/tmp/.X11-unix:rw
     - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
+    - .:/ros2_ws:cached
   network_mode: host
   ipc: host
   deploy:
@@ -42,30 +43,25 @@ x-gpu-config: &gpu-config
   tty: true
 
 services:
-  devcontainer:
-    build:
-      context: .
-      target: dev-base
-    environment:
-      - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models
-      - GZ_SIM_SYSTEM_PLUGIN_PATH=/opt/ros/jazzy/lib:/pgm_map_creator_ws/install/lib/pgm_map_creator
-    volumes:
-      - .:/ros2_ws:cached
-    working_dir: /ros2_ws
-    command: sleep infinity
-
   dev:
     build:
       context: .
       target: dev-base
-    profiles: ["simulation"]
+    volumes:
+      - .:/ros2_ws:cached
+    command: sleep infinity
+
+  sim:
+    build:
+      context: .
+      target: dev-base
     <<: *gpu-config
     command: sleep infinity
 
   test:
     build:
       context: .
-      target: dev
+      target: dev-base
     profiles: ["test"]
     command: >
       /bin/bash -c
