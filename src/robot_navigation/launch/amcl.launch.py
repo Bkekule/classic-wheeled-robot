@@ -154,6 +154,16 @@ def generate_launch_description() -> LaunchDescription:
         parameters=[LaunchConfiguration('params_file')],
     )
 
+    # ─── Behavior Server (recovery behaviors: spin, backup, wait) ─────────────
+
+    behavior_server_node = Node(
+        package='nav2_behaviors',
+        executable='behavior_server',
+        name='behavior_server',
+        output='screen',
+        parameters=[LaunchConfiguration('params_file')],
+    )
+
     # ─── Lifecycle Manager (localization: map_server + amcl) ──────────────────
 
     lifecycle_manager_localization = Node(
@@ -180,6 +190,7 @@ def generate_launch_description() -> LaunchDescription:
                 'node_names': [
                     'planner_server',
                     'controller_server',
+                    'behavior_server',
                     'velocity_smoother',
                     'collision_monitor',
                     'bt_navigator',
@@ -199,6 +210,7 @@ def generate_launch_description() -> LaunchDescription:
             planner_server_node,
             controller_server_node,
             bt_navigator_node,
+            behavior_server_node,
             velocity_smoother_node,
             collision_monitor_node,
             lifecycle_manager_localization,
