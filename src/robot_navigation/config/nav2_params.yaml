@@ -107,7 +107,7 @@ planner_server:
 
     GridBased:
       plugin: "nav2_navfn_planner::NavfnPlanner"
-      tolerance: 0.5
+      tolerance: 0.9
       use_astar: false
       allow_unknown: true
 
@@ -142,7 +142,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.2
       always_send_full_costmap: true
 
 global_costmap:
@@ -177,7 +177,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.2
       always_send_full_costmap: true
 
 map_server:
