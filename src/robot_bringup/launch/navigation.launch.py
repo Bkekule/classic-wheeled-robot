@@ -40,6 +40,7 @@ def generate_launch_description() -> LaunchDescription:
 
     declare_map_name = DeclareLaunchArgument(
         'map_name',
+        default_value='my_apartment.yaml',
         description='Map YAML filename (expected in robot_navigation/maps/, e.g. my_world.yaml)',
     )
 

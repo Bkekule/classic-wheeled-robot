@@ -115,6 +115,7 @@ def generate_launch_description() -> LaunchDescription:
 
     declare_world_name = DeclareLaunchArgument(
         'world_name',
+        default_value='my_apartment.sdf',
         description='Filename of the Gazebo .sdf world (e.g. my_apartment.sdf)',
     )
 
