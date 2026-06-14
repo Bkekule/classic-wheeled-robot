@@ -28,7 +28,7 @@ import sys
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import DeclareLaunchArgument, OpaqueFunction, TimerAction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
@@ -199,6 +199,16 @@ def generate_launch_description() -> LaunchDescription:
         ],
     )
 
+    # ─── Lifecycle Managers (delayed to allow controllers to start) ─────────
+
+    delayed_lifecycle_managers = TimerAction(
+        period=12.0,
+        actions=[
+            lifecycle_manager_localization,
+            lifecycle_manager_navigation,
+        ],
+    )
+
     return LaunchDescription(
         [
             declare_map_name,
@@ -213,7 +223,6 @@ def generate_launch_description() -> LaunchDescription:
             behavior_server_node,
             velocity_smoother_node,
             collision_monitor_node,
-            lifecycle_manager_localization,
-            lifecycle_manager_navigation,
+            delayed_lifecycle_managers,
         ]
     )
