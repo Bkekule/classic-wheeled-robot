@@ -185,13 +185,10 @@ map_server:
     use_sim_time: true
     yaml_filename: ""
 
-lifecycle_manager:
+lifecycle_manager_localization:
   ros__parameters:
     use_sim_time: true
     autostart: true
     node_names:
       - "map_server"
       - "amcl"
-      - "controller_server"
-      - "planner_server"
-      - "bt_navigator"
