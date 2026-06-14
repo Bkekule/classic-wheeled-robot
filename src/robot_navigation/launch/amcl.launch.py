@@ -2,10 +2,14 @@
 """
 @brief Localization and navigation launch file.
 
-Launches the full Nav2 stack for map-based localization and autonomous navigation:
+Launches the Nav2 stack for map-based localization and autonomous navigation:
   1. Map Server — serves the pre-built occupancy grid
   2. AMCL — adaptive Monte Carlo localization
-  3. Nav2 Navigation — planner, controller, costmaps, behavior tree navigator
+  3. Planner Server — global path planning
+  4. Controller Server — local trajectory following
+  5. BT Navigator — behavior tree orchestration
+  6. Velocity Smoother — smooth cmd_vel output
+  7. Collision Monitor — safety stop layer
 
 Usage:
     ros2 launch robot_navigation amcl.launch.py map_name:=my_world.yaml
@@ -24,8 +28,7 @@ import sys
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
@@ -45,12 +48,11 @@ def _validate_map_file(context, *_args, **_kwargs):
 
 def generate_launch_description() -> LaunchDescription:
     """
-    @brief Launch map_server, AMCL, and the Nav2 navigation stack.
+    @brief Launch map_server, AMCL, and Nav2 navigation nodes directly.
 
     @return LaunchDescription with full localization and navigation.
     """
     pkg_dir = get_package_share_directory('robot_navigation')
-    nav2_bringup_dir = get_package_share_directory('nav2_bringup')
 
     default_params_file = os.path.join(pkg_dir, 'config', 'nav2_params.yaml')
 
@@ -102,21 +104,59 @@ def generate_launch_description() -> LaunchDescription:
         parameters=[LaunchConfiguration('params_file')],
     )
 
-    # ─── Nav2 Navigation Stack ────────────────────────────────────────────────
+    # ─── Planner Server ───────────────────────────────────────────────────────
 
-    nav2_navigation = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(nav2_bringup_dir, 'launch', 'navigation_launch.py')
-        ),
-        launch_arguments=[
-            ('use_sim_time', LaunchConfiguration('use_sim_time')),
-            ('params_file', LaunchConfiguration('params_file')),
-        ],
+    planner_server_node = Node(
+        package='nav2_planner',
+        executable='planner_server',
+        name='planner_server',
+        output='screen',
+        parameters=[LaunchConfiguration('params_file')],
     )
 
-    # ─── Lifecycle Manager (map_server + amcl) ────────────────────────────────
+    # ─── Controller Server ────────────────────────────────────────────────────
 
-    lifecycle_manager_node = Node(
+    controller_server_node = Node(
+        package='nav2_controller',
+        executable='controller_server',
+        name='controller_server',
+        output='screen',
+        parameters=[LaunchConfiguration('params_file')],
+    )
+
+    # ─── BT Navigator ─────────────────────────────────────────────────────────
+
+    bt_navigator_node = Node(
+        package='nav2_bt_navigator',
+        executable='bt_navigator',
+        name='bt_navigator',
+        output='screen',
+        parameters=[LaunchConfiguration('params_file')],
+    )
+
+    # ─── Velocity Smoother ────────────────────────────────────────────────────
+
+    velocity_smoother_node = Node(
+        package='nav2_velocity_smoother',
+        executable='velocity_smoother',
+        name='velocity_smoother',
+        output='screen',
+        parameters=[LaunchConfiguration('params_file')],
+    )
+
+    # ─── Collision Monitor ────────────────────────────────────────────────────
+
+    collision_monitor_node = Node(
+        package='nav2_collision_monitor',
+        executable='collision_monitor',
+        name='collision_monitor',
+        output='screen',
+        parameters=[LaunchConfiguration('params_file')],
+    )
+
+    # ─── Lifecycle Manager (localization: map_server + amcl) ──────────────────
+
+    lifecycle_manager_localization = Node(
         package='nav2_lifecycle_manager',
         executable='lifecycle_manager',
         name='lifecycle_manager_localization',
@@ -124,6 +164,27 @@ def generate_launch_description() -> LaunchDescription:
         parameters=[
             LaunchConfiguration('params_file'),
             {'node_names': ['map_server', 'amcl']},
+        ],
+    )
+
+    # ─── Lifecycle Manager (navigation) ───────────────────────────────────────
+
+    lifecycle_manager_navigation = Node(
+        package='nav2_lifecycle_manager',
+        executable='lifecycle_manager',
+        name='lifecycle_manager_navigation',
+        output='screen',
+        parameters=[
+            LaunchConfiguration('params_file'),
+            {
+                'node_names': [
+                    'planner_server',
+                    'controller_server',
+                    'velocity_smoother',
+                    'collision_monitor',
+                    'bt_navigator',
+                ]
+            },
         ],
     )
 
@@ -135,7 +196,12 @@ def generate_launch_description() -> LaunchDescription:
             validate_map,
             map_server_node,
             amcl_node,
-            lifecycle_manager_node,
-            nav2_navigation,
+            planner_server_node,
+            controller_server_node,
+            bt_navigator_node,
+            velocity_smoother_node,
+            collision_monitor_node,
+            lifecycle_manager_localization,
+            lifecycle_manager_navigation,
         ]
     )
