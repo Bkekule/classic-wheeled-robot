@@ -20,9 +20,9 @@ diff_drive_controller:
     # Body Level Limits
     linear:  # m/s
       x:
-        min_velocity: -1.0
+        min_velocity: 0.0
         max_velocity: 1.0
     angular:  # rad/s
       z:
-        min_velocity: -1.0
+        min_velocity: 0.0
         max_velocity: 1.0

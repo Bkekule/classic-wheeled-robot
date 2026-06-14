@@ -41,6 +41,12 @@ def generate_launch_description() -> LaunchDescription:
         description='World SDF filename, resolved via GZ_SIM_RESOURCE_PATH',
     )
 
+    declare_launch_ball_chaser = DeclareLaunchArgument(
+        'launch_ball_chaser',
+        default_value='true',
+        description='Whether to launch the ball_chaser node',
+    )
+
     # ─── Shared core (RSP + spawners + ball_chaser) ───────────────────────────
 
     core = IncludeLaunchDescription(
@@ -50,6 +56,7 @@ def generate_launch_description() -> LaunchDescription:
         launch_arguments=[
             ('hardware_plugin', 'gz_ros2_control/GazeboSimSystem'),
             ('use_sim_time', 'true'),
+            ('launch_ball_chaser', LaunchConfiguration('launch_ball_chaser')),
         ],
     )
 
@@ -103,6 +110,7 @@ def generate_launch_description() -> LaunchDescription:
     return LaunchDescription(
         [
             declare_world,
+            declare_launch_ball_chaser,
             core,
             gazebo_server,
             gazebo_gui,

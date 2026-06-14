@@ -15,6 +15,7 @@ Expected arguments (callers must declare and forward):
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, TimerAction
+from launch.conditions import IfCondition
 from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
@@ -111,6 +112,7 @@ def generate_launch_description() -> LaunchDescription:
         executable='ball_chaser_main',
         output='screen',
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        condition=IfCondition(LaunchConfiguration('launch_ball_chaser')),
     )
 
     return LaunchDescription(
@@ -123,6 +125,11 @@ def generate_launch_description() -> LaunchDescription:
                 'use_sim_time',
                 default_value='false',
                 description='Use simulation clock',
+            ),
+            DeclareLaunchArgument(
+                'launch_ball_chaser',
+                default_value='true',
+                description='Whether to launch the ball_chaser node',
             ),
             robot_state_publisher_node,
             joint_state_broadcaster_spawner,
