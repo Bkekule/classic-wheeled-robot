@@ -6,10 +6,10 @@
     <link name="frame">
       <pose>0 0 0.175 0 0 0</pose>
       <collision name="collision">
-        <geometry><box><size>1.60 2.00 0.35</size></box></geometry>
+        <geometry><box><size>3.20 4.00 0.35</size></box></geometry>
       </collision>
       <visual name="visual">
-        <geometry><box><size>1.60 2.00 0.35</size></box></geometry>
+        <geometry><box><size>3.20 4.00 0.35</size></box></geometry>
         <material>
           <ambient>0.55 0.38 0.25 1</ambient>
           <diffuse>0.55 0.38 0.25 1</diffuse>
@@ -21,10 +21,10 @@
     <link name="mattress">
       <pose>0 0 0.45 0 0 0</pose>
       <collision name="collision">
-        <geometry><box><size>1.50 1.90 0.20</size></box></geometry>
+        <geometry><box><size>3.00 3.80 0.20</size></box></geometry>
       </collision>
       <visual name="visual">
-        <geometry><box><size>1.50 1.90 0.20</size></box></geometry>
+        <geometry><box><size>3.00 3.80 0.20</size></box></geometry>
         <material>
           <ambient>0.95 0.93 0.90 1</ambient>
           <diffuse>0.95 0.93 0.90 1</diffuse>
