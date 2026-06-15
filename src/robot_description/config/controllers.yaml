@@ -5,3 +5,7 @@ controller_manager:
       type: diff_drive_controller/DiffDriveController
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
+
+diff_drive_controller:
+  ros__parameters:
+    use_stamped_vel: false

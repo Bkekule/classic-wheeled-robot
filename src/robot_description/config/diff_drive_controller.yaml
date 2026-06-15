@@ -9,7 +9,6 @@ diff_drive_controller:
     odom_frame_id: odom
     base_frame_id: robot_footprint
     enable_odom_tf: true
-    use_stamped_vel: false
 
     pose_covariance_diagonal:
       [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
