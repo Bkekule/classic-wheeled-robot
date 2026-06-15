@@ -158,7 +158,8 @@ def generate_launch_description() -> LaunchDescription:
     declare_negate = DeclareLaunchArgument(
         'negate',
         default_value='0',
-        description='Whether to negate the image colors (0 or 1)',
+        description='Whether to negate the image colors (0 or 1). '
+        'Use 0 for standard pgm_map_creator output (white=free, black=occupied)',
     )
 
     # ─── Generate map + write YAML (resolved at runtime) ─────────────────────
