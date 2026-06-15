@@ -202,7 +202,7 @@ def generate_launch_description() -> LaunchDescription:
     # ─── Lifecycle Managers (delayed to allow controllers to start) ─────────
 
     delayed_lifecycle_managers = TimerAction(
-        period=12.0,
+        period=20.0,
         actions=[
             lifecycle_manager_localization,
             lifecycle_manager_navigation,
