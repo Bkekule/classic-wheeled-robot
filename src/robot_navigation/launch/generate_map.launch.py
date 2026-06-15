@@ -120,23 +120,23 @@ def generate_launch_description() -> LaunchDescription:
     )
 
     declare_xmin = DeclareLaunchArgument(
-        'xmin', default_value='-15', description='Minimum X bound of the map area'
+        'xmin', default_value='-30', description='Minimum X bound of the map area'
     )
 
     declare_xmax = DeclareLaunchArgument(
-        'xmax', default_value='15', description='Maximum X bound of the map area'
+        'xmax', default_value='30', description='Maximum X bound of the map area'
     )
 
     declare_ymin = DeclareLaunchArgument(
-        'ymin', default_value='-15', description='Minimum Y bound of the map area'
+        'ymin', default_value='-30', description='Minimum Y bound of the map area'
     )
 
     declare_ymax = DeclareLaunchArgument(
-        'ymax', default_value='15', description='Maximum Y bound of the map area'
+        'ymax', default_value='30', description='Maximum Y bound of the map area'
     )
 
     declare_scan_height = DeclareLaunchArgument(
-        'scan_height', default_value='5', description='Height at which to scan the world'
+        'scan_height', default_value='1', description='Height at which to scan the world'
     )
 
     declare_resolution = DeclareLaunchArgument(
