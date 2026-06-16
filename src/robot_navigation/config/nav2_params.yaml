@@ -10,8 +10,8 @@ amcl:
     min_particles: 500
 
     # Filter update thresholds (a - rotate, d - drive)
-    update_min_a: 0.2 # radians (~11°)
-    update_min_d: 0.25 # meters
+    update_min_a: 0.1 # radians (~6°) — update more frequently during turns
+    update_min_d: 0.1 # meters — update more frequently while driving
 
     # Laser model parameters
     laser_model_type: "likelihood_field"
@@ -21,11 +21,11 @@ amcl:
     z_hit: 0.95
     z_rand: 0.05
 
-    # Odometry noise (Gazebo provides ground truth, so keep low)
-    alpha1: 0.2
-    alpha2: 0.2
-    alpha3: 0.2
-    alpha4: 0.2
+    # Odometry noise — slightly higher lets particles spread and recover
+    alpha1: 0.5
+    alpha2: 0.5
+    alpha3: 0.5
+    alpha4: 0.5
 
 bt_navigator:
   ros__parameters:
