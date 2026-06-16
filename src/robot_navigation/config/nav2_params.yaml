@@ -6,8 +6,8 @@ amcl:
     global_frame_id: map
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
     set_initial_pose: true
-    max_particles: 2000
-    min_particles: 500
+    max_particles: 5000
+    min_particles: 1000
 
     # Filter update thresholds (a - rotate, d - drive)
     update_min_a: 0.1 # radians (~6°) — update more frequently during turns
@@ -17,7 +17,7 @@ amcl:
     laser_model_type: "likelihood_field"
     laser_max_range: -1.0 # use sensor's own max and min
     laser_min_range: -1.0
-    max_beams: 60
+    max_beams: 120
     z_hit: 0.95
     z_rand: 0.05
 
