@@ -17,6 +17,7 @@ diff_drive_controller:
 
     publish_rate: 50.0  # Cannot be higher than controller_manager's update_rate
     cmd_vel_timeout: 2.0  # Increased from default 0.5s to tolerate sim time lag under CPU load
+    use_stamped_vel: true
 
     # Body Level Limits
     linear:  # m/s
