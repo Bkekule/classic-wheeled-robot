@@ -22,7 +22,7 @@ diff_drive_controller:
     linear:  # m/s
       x:
         min_velocity: 0.0
-        max_velocity: 0.26
+        max_velocity: 0.20
     angular:  # rad/s
       z:
         min_velocity: 0.0
