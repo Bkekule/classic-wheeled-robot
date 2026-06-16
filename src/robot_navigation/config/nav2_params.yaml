@@ -6,8 +6,8 @@ amcl:
     global_frame_id: map
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
     set_initial_pose: true
-    max_particles: 5000
-    min_particles: 1000
+    max_particles: 3000
+    min_particles: 500
 
     # Filter update thresholds (a - rotate, d - drive)
     update_min_a: 0.1 # radians (~6°) — update more frequently during turns
@@ -21,11 +21,11 @@ amcl:
     z_hit: 0.95
     z_rand: 0.05
 
-    # Odometry noise — slightly higher lets particles spread and recover
-    alpha1: 0.5
-    alpha2: 0.5
-    alpha3: 0.5
-    alpha4: 0.5
+    # Odometry noise — Gazebo odom is near-perfect, keep low
+    alpha1: 0.2
+    alpha2: 0.2
+    alpha3: 0.2
+    alpha4: 0.2
     alpha5: 0.1
 
     # Recovery — inject random particles to escape wrong convergence
