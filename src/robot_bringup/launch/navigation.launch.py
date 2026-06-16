@@ -50,6 +50,10 @@ def generate_launch_description() -> LaunchDescription:
         description='Full path to the Nav2 parameters YAML file',
     )
 
+    declare_x = DeclareLaunchArgument('x', default_value='0.0', description='Robot spawn/initial pose X')
+    declare_y = DeclareLaunchArgument('y', default_value='1.0', description='Robot spawn/initial pose Y')
+    declare_yaw = DeclareLaunchArgument('yaw', default_value='0.0', description='Robot spawn/initial pose yaw')
+
     # ─── Gazebo simulation ────────────────────────────────────────────────────
 
     gazebo = IncludeLaunchDescription(
@@ -59,6 +63,9 @@ def generate_launch_description() -> LaunchDescription:
         launch_arguments=[
             ('world', LaunchConfiguration('world')),
             ('launch_ball_chaser', 'false'),
+            ('x', LaunchConfiguration('x')),
+            ('y', LaunchConfiguration('y')),
+            ('yaw', LaunchConfiguration('yaw')),
         ],
     )
 
@@ -66,12 +73,15 @@ def generate_launch_description() -> LaunchDescription:
 
     navigation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([pkg_navigation_dir, 'launch', 'amcl.launch.py'])
+            PathJoinSubstitution([pkg_navigation_dir, 'launch', 'navigation.launch.py'])
         ),
         launch_arguments=[
             ('map_name', LaunchConfiguration('map_name')),
             ('use_sim_time', 'true'),
             ('params_file', LaunchConfiguration('params_file')),
+            ('x', LaunchConfiguration('x')),
+            ('y', LaunchConfiguration('y')),
+            ('yaw', LaunchConfiguration('yaw')),
         ],
     )
 
@@ -80,6 +90,9 @@ def generate_launch_description() -> LaunchDescription:
             declare_world,
             declare_map_name,
             declare_params_file,
+            declare_x,
+            declare_y,
+            declare_yaw,
             gazebo,
             navigation,
         ]

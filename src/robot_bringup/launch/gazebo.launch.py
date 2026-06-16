@@ -47,6 +47,10 @@ def generate_launch_description() -> LaunchDescription:
         description='Whether to launch the ball_chaser node',
     )
 
+    declare_x = DeclareLaunchArgument('x', default_value='0.0', description='Robot spawn X position')
+    declare_y = DeclareLaunchArgument('y', default_value='1.0', description='Robot spawn Y position')
+    declare_yaw = DeclareLaunchArgument('yaw', default_value='0.0', description='Robot spawn yaw')
+
     # ─── Shared core (RSP + spawners + ball_chaser) ───────────────────────────
 
     core = IncludeLaunchDescription(
@@ -77,7 +81,12 @@ def generate_launch_description() -> LaunchDescription:
     gz_spawn_entity = Node(
         package='ros_gz_sim',
         executable='create',
-        arguments=['-topic', 'robot_description', '-name', 'robot', '-y', '1.0'],
+        arguments=[
+            '-topic', 'robot_description', '-name', 'robot',
+            '-x', LaunchConfiguration('x'),
+            '-y', LaunchConfiguration('y'),
+            '-Y', LaunchConfiguration('yaw'),
+        ],
         output='screen',
     )
 
@@ -111,6 +120,9 @@ def generate_launch_description() -> LaunchDescription:
         [
             declare_world,
             declare_launch_ball_chaser,
+            declare_x,
+            declare_y,
+            declare_yaw,
             core,
             gazebo_server,
             gazebo_gui,

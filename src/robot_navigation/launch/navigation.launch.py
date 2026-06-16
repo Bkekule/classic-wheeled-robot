@@ -75,6 +75,10 @@ def generate_launch_description() -> LaunchDescription:
         description='Full path to the Nav2 parameters YAML file',
     )
 
+    declare_x = DeclareLaunchArgument('x', default_value='0.0', description='Initial pose X')
+    declare_y = DeclareLaunchArgument('y', default_value='1.0', description='Initial pose Y')
+    declare_yaw = DeclareLaunchArgument('yaw', default_value='0.0', description='Initial pose yaw')
+
     # ─── Validate map file exists ─────────────────────────────────────────────
 
     validate_map = OpaqueFunction(function=_validate_map_file)
@@ -101,7 +105,14 @@ def generate_launch_description() -> LaunchDescription:
         executable='amcl',
         name='amcl',
         output='screen',
-        parameters=[LaunchConfiguration('params_file')],
+        parameters=[
+            LaunchConfiguration('params_file'),
+            {
+                'initial_pose.x': LaunchConfiguration('x'),
+                'initial_pose.y': LaunchConfiguration('y'),
+                'initial_pose.yaw': LaunchConfiguration('yaw'),
+            },
+        ],
     )
 
     # ─── Planner Server ───────────────────────────────────────────────────────
@@ -214,6 +225,9 @@ def generate_launch_description() -> LaunchDescription:
             declare_map_name,
             declare_use_sim_time,
             declare_params_file,
+            declare_x,
+            declare_y,
+            declare_yaw,
             validate_map,
             map_server_node,
             amcl_node,
