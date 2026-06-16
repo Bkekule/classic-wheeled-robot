@@ -26,6 +26,11 @@ amcl:
     alpha2: 0.5
     alpha3: 0.5
     alpha4: 0.5
+    alpha5: 0.1
+
+    # Recovery — inject random particles to escape wrong convergence
+    recovery_alpha_slow: 0.001
+    recovery_alpha_fast: 0.1
 
 bt_navigator:
   ros__parameters:
