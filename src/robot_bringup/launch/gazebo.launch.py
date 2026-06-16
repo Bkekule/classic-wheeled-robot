@@ -43,8 +43,8 @@ def generate_launch_description() -> LaunchDescription:
 
     declare_launch_ball_chaser = DeclareLaunchArgument(
         'launch_ball_chaser',
-        default_value='false',
-        description='Whether to launch the ball_chaser node (publishes Twist on /cmd_vel, conflicts with Nav2 TwistStamped pipeline)',
+        default_value='true',
+        description='Whether to launch the ball_chaser node',
     )
 
     declare_x = DeclareLaunchArgument('x', default_value='0.0', description='Robot spawn X position')
