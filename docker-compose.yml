@@ -75,6 +75,6 @@ services:
     profiles: ["test"]
     command: >
       /bin/bash -c
-      "colcon test --packages-up-to robot_bringup robot_control &&
+      "colcon test --packages-up-to robot_bringup robot_control robot_navigation &&
        colcon test-result --verbose"
     working_dir: /ros2_ws
