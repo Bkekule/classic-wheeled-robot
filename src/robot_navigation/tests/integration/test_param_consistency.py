@@ -16,7 +16,7 @@ class TestVelocityLimitsConsistency:
     def test_max_linear_velocity_smoother(
         self, diff_drive_params: dict, nav2_params: dict
     ) -> None:
-        """@brief velocity_smoother max linear velocity must match diff_drive max linear velocity."""
+        """Verify smoother linear velocity matches the diff drive linear velocity."""
         diff_drive_max_vel_x = diff_drive_params['diff_drive_controller']['ros__parameters'][
             'linear'
         ]['x']['max_velocity']
@@ -30,7 +30,7 @@ class TestVelocityLimitsConsistency:
     def test_max_angular_velocity_smoother(
         self, diff_drive_params: dict, nav2_params: dict
     ) -> None:
-        """@brief velocity_smoother max angular velocity must match diff_drive max angular velocity."""
+        """Verify smoother angular velocity matches the diff drive angular velocity."""
         diff_drive_max_vel_theta = diff_drive_params['diff_drive_controller']['ros__parameters'][
             'angular'
         ]['z']['max_velocity']

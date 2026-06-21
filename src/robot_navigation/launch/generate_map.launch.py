@@ -38,11 +38,11 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def _generate_map_and_yaml(context, *_args, **_kwargs):
     """
-    OpaqueFunction that:
-    1. Ensures the maps/ directory exists at runtime.
-    2. Returns the IncludeLaunchDescription for pgm_map_creator with the correct
-       output_path (full file path prefix, not just the directory).
-    3. Writes the companion .yaml metadata file.
+    Generate the map artifacts for the configured world.
+
+    This opaque function ensures the maps directory exists at runtime,
+    returns the launch description for ``pgm_map_creator`` with the correct
+    ``output_path``, and writes the companion YAML metadata file.
     """
     world_name = context.launch_configurations['world_name']
     resolution = context.launch_configurations['resolution']

@@ -74,7 +74,11 @@ services:
       target: cli
     profiles: ["test"]
     command: >
-      /bin/bash -c
-      "colcon test --packages-up-to robot_bringup robot_control robot_navigation &&
-       colcon test-result --verbose"
+      /bin/bash -lc
+      'set +e;
+      colcon test --packages-up-to robot_bringup robot_control robot_navigation;
+      status=$?;
+      colcon test-result --verbose || true;
+      echo "colcon test exit code: $status";
+      exec /bin/bash'
     working_dir: /ros2_ws

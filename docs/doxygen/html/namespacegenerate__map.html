@@ -145,11 +145,11 @@ Optional threshold overrides:
   </tr>
 </table>
 </div><div class="memdoc">
-<pre class="fragment">OpaqueFunction that:
-1. Ensures the maps/ directory exists at runtime.
-2. Returns the IncludeLaunchDescription for pgm_map_creator with the correct
-   output_path (full file path prefix, not just the directory).
-3. Writes the companion .yaml metadata file.
+<pre class="fragment">Generate the map artifacts for the configured world.
+
+This opaque function ensures the maps directory exists at runtime,
+returns the launch description for ``pgm_map_creator`` with the correct
+``output_path``, and writes the companion YAML metadata file.
 </pre> 
 </div>
 </div>
