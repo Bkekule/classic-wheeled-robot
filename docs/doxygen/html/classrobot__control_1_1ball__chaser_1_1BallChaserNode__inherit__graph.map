@@ -1,0 +1,5 @@
+<map id="robot_control::ball_chaser::BallChaserNode" name="robot_control::ball_chaser::BallChaserNode">
+<area shape="rect" id="Node000001" title="Unified ball chaser ROS 2 node." alt="" coords="5,79,189,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="46,5,149,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,44,100,79,95,79,95,44"/>
+</map>

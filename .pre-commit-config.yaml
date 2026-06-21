@@ -11,6 +11,7 @@ repos:
       - id: check-yaml
       - id: check-xml
       - id: check-executables-have-shebangs
+        files: ^(bin/|scripts/|.*\.(sh|py))$
       - id: check-added-large-files
         args: ['--maxkb=500']
       - id: check-case-conflict

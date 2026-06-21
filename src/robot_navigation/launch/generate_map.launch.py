@@ -34,7 +34,6 @@ from launch.actions import (
     OpaqueFunction,
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 
 
 def _generate_map_and_yaml(context, *_args, **_kwargs):

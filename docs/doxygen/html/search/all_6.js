@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['idle_0',['Idle',['../namespacerobot__control_1_1ball__chaser.html#adae5583ee1fd0a44bc7418215e9a8d03ae599161956d626eda4cb0a5ffb85271c',1,'robot_control::ball_chaser']]],
-  ['imagedimensions_1',['ImageDimensions',['../structrobot__control_1_1ball__chaser_1_1_image_dimensions.html',1,'robot_control::ball_chaser']]]
+  ['height_0',['height',['../structrobot__control_1_1ball__chaser_1_1ImageDimensions.html#a82c85688c5b1b78fedd6c9c0e7c4c675',1,'robot_control::ball_chaser::ImageDimensions']]]
 ];

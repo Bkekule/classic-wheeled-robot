@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['g_0',['g',['../structrobot__control_1_1ball__chaser_1_1_rgb_threshold.html#a19f8ee450ba410aa96e0cb4fb4e06478',1,'robot_control::ball_chaser::RgbThreshold']]],
-  ['gazebo_1',['gazebo',['../namespacegazebo.html',1,'']]],
-  ['generate_5flaunch_5fdescription_2',['generate_launch_description',['../namespacegazebo.html#a31b93345029c7f312b8c61dfa99caeea',1,'gazebo.generate_launch_description()'],['../namespacerecord.html#a4e05f81f855397e925e4879f4f140dd5',1,'record.generate_launch_description()'],['../namespacerobot.html#a50d67a58c94f3d5aa138ca6249840756',1,'robot.generate_launch_description()'],['../namespacerobot__core.html#a56ccf2bffe585eaea4321e9a9f73d960',1,'robot_core.generate_launch_description()']]]
+  ['findballregion_0',['findBallRegion',['../namespacerobot__control_1_1ball__chaser.html#ab496c2742fb7997f613e2ee782ba6b44',1,'robot_control::ball_chaser']]],
+  ['frames_5fprocessed_1',['frames_processed',['../structrobot__control_1_1ball__chaser_1_1DiagnosticData.html#a692b8f044c97fefa68397bbdf83e1f33',1,'robot_control::ball_chaser::DiagnosticData']]]
 ];

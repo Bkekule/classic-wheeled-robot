@@ -50,9 +50,15 @@ def generate_launch_description() -> LaunchDescription:
         description='Full path to the Nav2 parameters YAML file',
     )
 
-    declare_x = DeclareLaunchArgument('x', default_value='0.0', description='Robot spawn/initial pose X')
-    declare_y = DeclareLaunchArgument('y', default_value='1.0', description='Robot spawn/initial pose Y')
-    declare_yaw = DeclareLaunchArgument('yaw', default_value='0.0', description='Robot spawn/initial pose yaw')
+    declare_x = DeclareLaunchArgument(
+        'x', default_value='0.0', description='Robot spawn/initial pose X'
+    )
+    declare_y = DeclareLaunchArgument(
+        'y', default_value='1.0', description='Robot spawn/initial pose Y'
+    )
+    declare_yaw = DeclareLaunchArgument(
+        'yaw', default_value='0.0', description='Robot spawn/initial pose yaw'
+    )
 
     # ─── Gazebo simulation ────────────────────────────────────────────────────
 

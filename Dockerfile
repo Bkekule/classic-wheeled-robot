@@ -37,7 +37,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-turtlebot4-simulator \
     ros-jazzy-example-interfaces \
     python3-colcon-common-extensions \
+    pre-commit \
     git \
+    doxygen \
     && rm -rf /var/lib/apt/lists/*
 
 # ─── Build patched ros2_control from source ───────────────────────────────────
@@ -79,7 +81,7 @@ RUN rosdep install --from-paths src --ignore-src -r -y \
 RUN . /opt/ros/jazzy/setup.sh && \
     . /ros2_control_ws/install/setup.sh && \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release \
-        --packages-up-to robot_bringup robot_control robot_world
+        --packages-up-to robot_bringup robot_control robot_world robot_navigation
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh

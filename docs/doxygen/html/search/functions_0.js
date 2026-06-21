@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ballchasernode_0',['BallChaserNode',['../classrobot__control_1_1ball__chaser_1_1_ball_chaser_node.html#ac4008202d034dbd5096b2f76d16c28c3',1,'robot_control::ball_chaser::BallChaserNode::BallChaserNode()'],['../classrobot__control_1_1ball__chaser_1_1_ball_chaser_node.html#a4982773b8f120db121833ed92667d7f7',1,'robot_control::ball_chaser::BallChaserNode::BallChaserNode(const rclcpp::NodeOptions &amp;options)']]]
+  ['_5fgenerate_5fmap_5fand_5fyaml_0',['_generate_map_and_yaml',['../namespacegenerate__map.html#a12aa037f55a90bc9b5974b66ccd0a71a',1,'generate_map']]],
+  ['_5fvalidate_5fmap_5ffile_1',['_validate_map_file',['../namespacenavigation.html#a09a76f0e0d8fed7d7989df6738384247',1,'navigation']]]
 ];

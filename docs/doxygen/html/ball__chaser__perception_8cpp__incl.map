@@ -1,0 +1,31 @@
+<map id="src/robot_control/src/ball_chaser/ball_chaser_perception.cpp" name="src/robot_control/src/ball_chaser/ball_chaser_perception.cpp">
+<area shape="rect" id="Node000001" title="Image processing pipeline: camera callback, ball detection, and state machine driving based on detect..." alt="" coords="533,5,712,60"/>
+<area shape="rect" id="Node000002" href="$ball__chaser__node_8hpp_source.html" title=" " alt="" coords="541,108,704,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="625,60,625,94,620,94,620,60"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,189,72,214"/>
+<area shape="poly" id="edge15_Node000001_Node000006" title=" " alt="" coords="534,59,331,113,91,184,83,187,81,182,90,179,329,108,532,54"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="728,108,787,133"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="665,58,729,98,726,103,662,62"/>
+<area shape="rect" id="Node000003" href="$image__utils_8hpp_source.html" title=" " alt="" coords="227,269,354,295"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="704,130,716,131,879,132,1152,132,1293,135,1419,143,1515,157,1547,167,1567,179,1575,190,1577,201,1575,213,1567,223,1549,232,1513,239,1399,251,1052,269,663,278,368,283,368,277,663,273,1052,263,1398,246,1513,234,1547,227,1564,219,1570,210,1572,201,1570,192,1564,183,1545,172,1513,162,1418,149,1293,141,1152,137,879,137,716,136,704,135"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="156,343,223,368"/>
+<area shape="poly" id="edge8_Node000002_Node000004" title=" " alt="" coords="541,129,299,148,191,164,155,173,137,183,126,200,123,218,124,238,130,258,150,298,172,330,168,333,145,300,125,260,119,239,117,218,121,198,133,179,153,168,190,159,298,143,541,123"/>
+<area shape="rect" id="Node000005" href="$state__machine_8hpp_source.html" title=" " alt="" coords="147,189,293,214"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="559,136,306,184,285,188,284,183,305,179,558,131"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="541,128,335,144,213,161,91,184,81,187,79,182,90,179,212,155,335,139,541,123"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="317,181,517,221"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="594,136,481,179,479,174,592,131"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="541,181,704,221"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="625,134,625,168,620,168,620,134"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="729,189,951,214"/>
+<area shape="poly" id="edge11_Node000002_Node000009" title=" " alt="" coords="655,131,796,182,795,187,653,136"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="975,189,1107,214"/>
+<area shape="poly" id="edge12_Node000002_Node000010" title=" " alt="" coords="697,131,965,179,984,183,983,188,963,184,696,136"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="1131,189,1343,214"/>
+<area shape="poly" id="edge13_Node000002_Node000011" title=" " alt="" coords="704,129,716,131,918,153,1120,179,1156,184,1155,189,1120,184,918,159,716,136,704,135"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="1367,189,1553,214"/>
+<area shape="poly" id="edge14_Node000002_Node000012" title=" " alt="" coords="704,129,716,131,896,145,1036,152,1177,160,1356,179,1389,184,1389,189,1356,184,1176,165,1036,157,896,150,716,136,704,135"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="276,297,219,337,216,332,273,292"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="232,212,273,257,269,261,228,216"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="220,215,197,330,192,329,215,214"/>
+</map>

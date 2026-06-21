@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['zoneratios_0',['ZoneRatios',['../structrobot__control_1_1ball__chaser_1_1_zone_ratios.html',1,'robot_control::ball_chaser']]]
+  ['width_0',['width',['../structrobot__control_1_1ball__chaser_1_1ImageDimensions.html#a844275f145184a39f42de6ce8b736325',1,'robot_control::ball_chaser::ImageDimensions']]]
 ];

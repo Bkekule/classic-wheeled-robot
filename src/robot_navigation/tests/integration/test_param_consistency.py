@@ -45,9 +45,7 @@ class TestVelocityLimitsConsistency:
 class TestAccelerationLimitsConsistency:
     """@brief Verify acceleration params are consistent across config files."""
 
-    def test_max_angular_accel_follow_path_matches_smoother(
-        self, nav2_params: dict
-    ) -> None:
+    def test_max_angular_accel_follow_path_matches_smoother(self, nav2_params: dict) -> None:
         """@brief FollowPath max_angular_accel must match velocity_smoother angular accel limit."""
         follow_path_max_angular_accel = nav2_params['controller_server']['ros__parameters'][
             'FollowPath'
