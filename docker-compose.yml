@@ -26,10 +26,6 @@ x-gpu-config: &gpu-config
     - NVIDIA_DRIVER_CAPABILITIES=all
     - GZ_SIM_RESOURCE_PATH=/ros2_ws/install/robot_description/share:/ros2_ws/install/robot_world/share/robot_world:/ros2_ws/install/robot_world/share/robot_world/models
     - GZ_SIM_SYSTEM_PLUGIN_PATH=/opt/ros/jazzy/lib:/pgm_map_creator_ws/install/lib/pgm_map_creator
-  volumes:
-    - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
-    - .:/ros2_ws:cached
   network_mode: host
   ipc: host
   deploy:
@@ -56,6 +52,10 @@ services:
       context: .
       target: dev-base
     <<: *gpu-config
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
+      - .:/ros2_ws:cached
     command: sleep infinity
 
   chase-it:
@@ -64,10 +64,12 @@ services:
       target: cli
     profiles: ["chase-it"]
     <<: *gpu-config
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
     command: >
       /bin/bash -c
       "ros2 launch robot_bringup gazebo.launch.py"
-    working_dir: /ros2_ws
 
   where-am-i:
     build:
@@ -75,10 +77,12 @@ services:
       target: cli
     profiles: ["where-am-i"]
     <<: *gpu-config
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
     command: >
       /bin/bash -c
       "ros2 launch robot_navigation navigation.launch.py"
-    working_dir: /ros2_ws
 
   test:
     build:
@@ -93,4 +97,3 @@ services:
       colcon test-result --verbose || true;
       echo "colcon test exit code: $status";
       exec /bin/bash'
-    working_dir: /ros2_ws
