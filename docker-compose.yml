@@ -67,6 +67,7 @@ services:
     command: >
       /bin/bash -c
       "ros2 launch robot_bringup gazebo.launch.py"
+    working_dir: /ros2_ws
 
   where-am-i:
     build:
@@ -77,6 +78,7 @@ services:
     command: >
       /bin/bash -c
       "ros2 launch robot_navigation navigation.launch.py"
+    working_dir: /ros2_ws
 
   test:
     build:
