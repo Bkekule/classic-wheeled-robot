@@ -198,6 +198,7 @@ def generate_launch_description() -> LaunchDescription:
         parameters=[
             LaunchConfiguration('params_file'),
             {
+                'autostart': True,
                 'node_names': [
                     'planner_server',
                     'controller_server',
@@ -205,7 +206,7 @@ def generate_launch_description() -> LaunchDescription:
                     'velocity_smoother',
                     'collision_monitor',
                     'bt_navigator',
-                ]
+                ],
             },
         ],
     )
