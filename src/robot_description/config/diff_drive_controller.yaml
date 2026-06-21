@@ -1,5 +1,7 @@
 diff_drive_controller:
   ros__parameters:
+    cmd_vel_topic: /cmd_vel
+
     left_wheel_names: ["chassis_to_left_wheel_joint"]
     right_wheel_names: ["chassis_to_right_wheel_joint"]
 
