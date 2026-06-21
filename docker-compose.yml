@@ -82,7 +82,7 @@ services:
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:ro
     command: >
       /bin/bash -c
-      "ros2 launch robot_navigation navigation.launch.py"
+      "ros2 launch robot_bringup navigation.launch.py"
 
   test:
     build:
