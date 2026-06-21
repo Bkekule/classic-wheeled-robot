@@ -112,6 +112,7 @@ def generate_launch_description() -> LaunchDescription:
         executable='ball_chaser_main',
         output='screen',
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        remappings=[('/cmd_vel', '/diff_drive_controller/cmd_vel')],
         condition=IfCondition(LaunchConfiguration('launch_ball_chaser')),
     )
 
