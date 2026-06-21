@@ -2,8 +2,8 @@
 # @brief Docker Compose for robot development.
 #
 # Usage (Linux host with NVIDIA GPU):
-#   docker compose --profile linux run --rm dev          # interactive shell
-#   docker compose --profile linux --profile test run --rm test  # run tests
+#   docker compose --profile dev run --rm dev    # interactive shell
+#   docker compose --profile test run --rm test  # run tests
 #
 # Dev Container (Mac or Linux, no GPU required):
 #   VS Code → "Reopen in Container"  (uses devcontainer service)
@@ -67,6 +67,16 @@ services:
     command: >
       /bin/bash -c
       "ros2 launch robot_bringup gazebo.launch.py"
+
+  where-am-i:
+    build:
+      context: .
+      target: cli
+    profiles: ["where-am-i"]
+    <<: *gpu-config
+    command: >
+      /bin/bash -c
+      "ros2 launch robot_navigation navigation.launch.py"
 
   test:
     build:
